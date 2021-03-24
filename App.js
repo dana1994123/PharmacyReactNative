@@ -49,7 +49,7 @@ export default class App extends Component {
             <>
               <Stack.Screen
                 name="Login"
-                component={PatientEntry}
+                component={LogIn}
                 options={{
                   title: R.strings.appName,
                   headerStyle: {
