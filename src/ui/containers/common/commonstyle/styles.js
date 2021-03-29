@@ -1,10 +1,10 @@
-import { StyleSheet } from "react-native";
-import R from "../../../../res/R";
+import {StyleSheet} from 'react-native';
+import R from '../../../../res/R';
 
 export default styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
     color: R.colors.white,
   },
   title: {},
@@ -13,15 +13,15 @@ export default styles = StyleSheet.create({
     flex: 1,
     height: 120,
     width: 120,
-    alignSelf: "center",
+    alignSelf: 'center',
     margin: 30,
   },
   input: {
     width: 330,
     height: 48,
     borderRadius: 5,
-    overflow: "hidden",
-    backgroundColor: "white",
+    overflow: 'hidden',
+    backgroundColor: 'white',
     marginTop: 10,
     marginLeft: 30,
     marginRight: 30,
@@ -33,29 +33,29 @@ export default styles = StyleSheet.create({
     marginRight: 30,
     marginTop: 20,
     height: 48,
-    width: "50%",
+    width: '50%',
     borderRadius: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   buttonTitle: {
-    color: "white",
+    color: 'white',
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   footerView: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 20,
   },
   footerText: {
     fontSize: 16,
-    color: "black",
+    color: 'black',
   },
   footerLink: {
     color: R.colors.primary,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 16,
   },
   subTitle: {
@@ -68,7 +68,7 @@ export default styles = StyleSheet.create({
   error: {
     fontSize: 10,
     color: R.colors.red,
-    fontWeight: "bold",
-    marginStart: "10%",
+    fontWeight: 'bold',
+    marginStart: '10%',
   },
 });

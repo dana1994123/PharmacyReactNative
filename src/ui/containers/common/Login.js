@@ -1,41 +1,41 @@
-import React, { useState } from "react";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
-import styles from "../common/commonstyle/styles";
-import SignUp from "./SignUp";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import React, {useState} from 'react';
+import {Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import styles from '../common/commonstyle/styles';
+import SignUp from './SignUp';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("vvvvvv");
-  const [eError, seteError] = useState("");
+export default function LoginScreen({navigation}) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('vvvvvv');
+  const [eError, seteError] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
-  const [pError, setpError] = useState("");
+  const [pError, setpError] = useState('');
 
   const onSignUp = () => {
-    navigation.navigate("Sign Up");
-    console.log("navigate to the sign up ");
+    navigation.navigate('Sign Up');
+    console.log('navigate to the sign up ');
   };
 
   const validateEmail = () => {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (email === "") {
-      seteError("Email cannot be empty");
+    if (email === '') {
+      seteError('Email cannot be empty');
       setErrorStatus(true);
     } else if (reg.test(email) === false) {
-      seteError("Email format INVALID");
+      seteError('Email format INVALID');
       setErrorStatus(true);
     } else {
-      seteError("");
+      seteError('');
       setErrorStatus(false);
     }
   };
   const validatePass = () => {
-    if (password == "") {
-      setpError("Password cannot be empty");
+    if (password === '') {
+      setpError('Password cannot be empty');
       setErrorStatus(true);
     } else {
-      setpError("");
+      setpError('');
       setErrorStatus(false);
     }
   };
@@ -53,7 +53,7 @@ export default function LoginScreen({ navigation }) {
         //there is no error in the validation and we
         //navigate to the home page
       } else {
-        alert("Invalid input! Please try again");
+        alert('Invalid input! Please try again');
       }
     } catch (error) {
       alert(error);
@@ -63,18 +63,17 @@ export default function LoginScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView
-        style={{ flex: 1, width: "100%" }}
-        keyboardShouldPersistTaps="always"
-      >
+        style={{flex: 1, width: '100%'}}
+        keyboardShouldPersistTaps="always">
         <Image
           style={styles.logo}
-          source={require("../../../../assets/images/circleLogo.png")}
+          source={require('../../../../assets/images/circleLogo.png')}
         />
         <TextInput
           style={styles.input}
           placeholder="E-mail"
           placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setEmail(text)}
+          onChangeText={text => setEmail(text)}
           value={email}
           onBlur={() => validateEmail()}
           underlineColorAndroid="transparent"
@@ -87,7 +86,7 @@ export default function LoginScreen({ navigation }) {
           secureTextEntry={true}
           onBlur={() => onLoginPress}
           placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={text => setPassword(text)}
           value={password}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
@@ -98,7 +97,7 @@ export default function LoginScreen({ navigation }) {
         </TouchableOpacity>
         <View style={styles.footerView}>
           <Text style={styles.footerText}>
-            Don't have an account?{" "}
+            Don't have an account?{' '}
             <Text onPress={onSignUp} style={styles.footerLink}>
               Sign up
             </Text>

@@ -1,33 +1,23 @@
 import 'react-native-gesture-handler';
-import {StatusBar} from 'expo-status-bar';
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import Entry from './src/ui/containers/pharmacy/Entry';
 import R from './src/res/R';
 import {Dimensions} from 'react-native';
 import SignUp from './src/ui/containers/common/SignUp';
 import LogIn from './src/ui/containers/common/Login';
-import News from './src/ui/containers/common/news/News';
-import {AppButton} from './src/ui/components/AppButton';
-import Home from './src/ui/containers/pharmacy/Home';
-import MainPage from './src/ui/containers/patient/PatientEntry';
 import PatientEntry from './src/ui/containers/patient/PatientEntry';
 import LogoLoad from './src/ui/containers/common/LogoLoad';
-import DrugReminder from './src/ui/containers/patient/drug_reminder/DrugReminder';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import NavPatient from './src/ui/containers/patient/NavPatient';
-import Clock from './src/ui/containers/patient/drug_reminder/Clock';
-import RenderdrugReminder from './src/ui/containers/patient/drug_reminder/DrugReminder';
-import Support from './src/ui/containers/patient/Support';
-import AddPrescription from './src/ui/containers/patient/AddPrescription';
 const Stack = createStackNavigator();
 
 export default class App extends Component {
   state = {
     appReady: false,
     userToken: null,
-    isSignout: false,
+    pharmToken: 'abc',
+    isSignedIn: true,
   };
 
   constructor() {
@@ -40,12 +30,12 @@ export default class App extends Component {
 
   render() {
     if (!this.state.appReady) {
-      return <LogoLoad></LogoLoad>;
+      return <LogoLoad />;
     }
     return (
       <NavigationContainer style={styles.root} mode="modal">
         <Stack.Navigator>
-          {this.state.userToken == null ? (
+          {this.state.isSignedIn === null ? (
             <>
               <Stack.Screen
                 name="Login"
@@ -59,7 +49,8 @@ export default class App extends Component {
                   headerTitleStyle: {
                     fontWeight: 'bold',
                   },
-                }}></Stack.Screen>
+                }}
+              />
               <Stack.Screen
                 name="Sign Up"
                 component={SignUp}
@@ -75,28 +66,28 @@ export default class App extends Component {
                   headerTitleStyle: {
                     fontWeight: 'bold',
                   },
-                }}></Stack.Screen>
+                }}
+              />
             </>
+          ) : this.state.userToken ? (
+            <Stack.Screen
+              name="User"
+              component={PatientEntry}
+              options={{headerShown: false}}
+            />
           ) : (
             <Stack.Screen
               name="Pharmacy"
-              component={PatientEntry}
-              options={{
-                title: R.strings.appName,
-                headerStyle: {
-                  backgroundColor: R.colors.primary,
-                },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                },
-              }}></Stack.Screen>
+              component={Entry}
+              options={{headerShown: false}}
+            />
           )}
         </Stack.Navigator>
       </NavigationContainer>
     );
   }
 }
+
 const styles = StyleSheet.create({
   root: {
     flex: 1,
