@@ -1,5 +1,5 @@
-import React, { Component, cloneElement } from "react";
-import { StyleSheet, View, Image, Animated, StatusBar } from "react-native";
+import React, {Component, cloneElement} from 'react';
+import {StyleSheet, View, Image, Animated, StatusBar} from 'react-native';
 
 class LogoLoadPage extends Component {
   state = {
@@ -32,11 +32,10 @@ class LogoLoadPage extends Component {
             {
               opacity: this.state.fadeAnim,
             },
-          ]}
-        >
+          ]}>
           <Image
             style={styles.logo}
-            source={require("../../../../assets/images/Logo_10.png")}
+            source={require('../../../../assets/images/Logo_10.png')}
           />
         </Animated.View>
       </View>
@@ -47,9 +46,9 @@ class LogoLoadPage extends Component {
 const styles = StyleSheet.create({
   centeredFullScreen: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
   },
   maskImageStyle: {
     height: 100,
@@ -58,7 +57,7 @@ const styles = StyleSheet.create({
   fadingContainer: {
     paddingVertical: 8,
     paddingHorizontal: 16,
-    backgroundColor: "powderblue",
+    backgroundColor: 'powderblue',
   },
 });
 export default LogoLoadPage;

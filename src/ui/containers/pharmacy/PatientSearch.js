@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
-import { form, layout, button } from "../../../res/styles/global";
-import { AppButton } from "../../components/AppButton";
-import R from "../../../res/R";
+import React, {useState} from 'react';
+import {StyleSheet, TextInput, View} from 'react-native';
+import {form, layout, button} from '../../../res/styles/global';
+import {AppButton} from '../../components/AppButton';
+import R from '../../../res/R';
 
-export default function PatientSearch({ navigation }) {
-  const [patientName, setPatientName] = useState("");
-  const [healthCard, setHealthCardNumber] = useState("");
+export default function PatientSearch({navigation}) {
+  const [patientName, setPatientName] = useState('');
+  const [healthCard, setHealthCardNumber] = useState('');
   const [isFound, setIsFound] = useState(false);
-  search = () => {
+
+  const search = () => {
     //call the database
     setIsFound(true);
   };
@@ -17,13 +18,13 @@ export default function PatientSearch({ navigation }) {
       <TextInput
         style={form.textInput}
         selectionColor={R.colors.primary}
-        onChangeText={(text) => setPatientName(text)}
+        onChangeText={text => setPatientName(text)}
         placeholder="Patient Name"
       />
       <TextInput
         style={form.textInput}
         selectionColor={R.colors.primary}
-        onChangeText={(text) => setHealthCardNumber(text)}
+        onChangeText={text => setHealthCardNumber(text)}
         placeholder="Health Card"
       />
       <AppButton
@@ -31,21 +32,21 @@ export default function PatientSearch({ navigation }) {
         buttonStyle={button.appButtonContainer}
         textStyle={button.appButtonText}
         onPress={this.search}
-      ></AppButton>
+      />
       {isFound ? (
         <AppButton
           title="Enter Order"
           buttonStyle={button.appButtonContainer}
           textStyle={button.appButtonText}
-          onPress={navigation.navigate("EnterOrder")}
-        ></AppButton>
+          onPress={navigation.navigate('EnterOrder')}
+        />
       ) : (
         <AppButton
           title="Add Patient"
           buttonStyle={button.appButtonContainer}
           textStyle={button.appButtonText}
           //onPress={navigation.navigate("AddRecord")}
-        ></AppButton>
+        />
       )}
     </View>
   );

@@ -1,7 +1,7 @@
-import React from "react";
-import { StyleSheet, Text, View, TextInput } from "react-native";
-import { AppButton } from "../../components/AppButton";
-import R from "../../../res/R";
+import React from 'react';
+import {StyleSheet, View, TextInput} from 'react-native';
+import {AppButton} from '../../components/AppButton';
+import R from '../../../res/R';
 
 export default function CheckOrder() {
   return (
@@ -21,7 +21,7 @@ export default function CheckOrder() {
         title="Check Order"
         buttonStyle={styles.appButtonContainer}
         textStyle={styles.appButtonText}
-      ></AppButton>
+      />
     </View>
   );
 }
@@ -29,11 +29,11 @@ export default function CheckOrder() {
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    flexDirection: "column",
+    flexDirection: 'column',
     backgroundColor: R.colors.white,
-    alignSelf: "stretch",
-    alignItems: "center",
-    justifyContent: "center",
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   appButtonContainer: {
     width: 200,
@@ -45,17 +45,17 @@ const styles = StyleSheet.create({
   },
   appButtonText: {
     fontSize: 18,
-    color: "#fff",
-    fontWeight: "bold",
-    alignSelf: "center",
-    textTransform: "uppercase",
+    color: '#fff',
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
   },
   textInput: {
-    color: "#000",
+    color: '#000',
     height: 50,
     fontSize: 20,
-    backgroundColor: "#EEEEEE",
-    alignSelf: "stretch",
+    backgroundColor: '#EEEEEE',
+    alignSelf: 'stretch',
     borderRadius: 5,
     margin: 5,
   },

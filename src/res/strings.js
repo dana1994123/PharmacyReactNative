@@ -1,5 +1,5 @@
 const strings = {
-  appName: "Pharmacy App",
+  appName: 'Pharmacy App',
 };
 
 export default strings;
