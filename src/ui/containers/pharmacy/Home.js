@@ -29,19 +29,19 @@ export default function Home() {
 }
 
 const HomeScreen = ({navigation}) => {
-  const userName = 'Joh';
+  const userName = 'John';
   return (
     <View style={layout.fullScreen}>
       <View style={header.bk}>
-        <Image
-          style={header.avatar}
-          source={require('../../../../assets/images/default.png')}
-        />
-        <View style={layout.centeredFullScreen}>
+        <View style={styles.box1}>
+          <Image
+            style={header.avatar}
+            source={require('../../../../assets/images/default.png')}
+          />
           <Text style={header.userName}>{'Welcome, ' + userName + '!'}</Text>
         </View>
       </View>
-      <View style={layout.centeredFullScreen}>
+      <View style={styles.box}>
         <View style={styles.row}>
           <AppButton
             title="Fill Order"
@@ -87,20 +87,38 @@ const styles = StyleSheet.create({
   optionTxt: {
     fontWeight: '600',
     fontSize: 18,
+    color: R.colors.white,
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
   },
   buttonContainer: {
-    backgroundColor: R.colors.lightGrey,
+    backgroundColor: R.colors.primary,
     height: 60,
     width: 160,
     margin: 5,
     borderWidth: 1,
-    borderColor: R.colors.white,
+    borderColor: '#00000000',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    elevation: 10,
+    borderRadius: 5,
+  },
+  box: {
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: -90,
+    backgroundColor: R.colors.white,
+    elevation: 8,
+    borderRadius: 10,
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  box1: {
+    //backgroundColor: R.colors.blue,
+    height: '80%',
+    margin: 30,
   },
 });

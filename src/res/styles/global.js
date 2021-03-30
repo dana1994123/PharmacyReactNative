@@ -4,6 +4,7 @@ import R from '../R';
 export const layout = StyleSheet.create({
   fullScreen: {
     flex: 1,
+    backgroundColor: '#E7E7E7',
   },
   centeredFullScreen: {
     flex: 1,
@@ -23,11 +24,10 @@ export const layout = StyleSheet.create({
     alignItems: 'center',
   },
   row: {
-    width: 400,
+    width: 320,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: R.colors.white,
   },
 });
 
@@ -38,6 +38,16 @@ export const form = StyleSheet.create({
     borderRadius: 5,
     overflow: 'hidden',
     backgroundColor: R.colors.white,
+    marginTop: 10,
+    paddingLeft: 16,
+    alignSelf: 'center',
+  },
+  inputGrey: {
+    width: 320,
+    height: 48,
+    borderRadius: 5,
+    overflow: 'hidden',
+    backgroundColor: '#EEEEEE',
     marginTop: 10,
     paddingLeft: 16,
     alignSelf: 'center',
@@ -103,8 +113,8 @@ export const text = StyleSheet.create({
 
 export const header = StyleSheet.create({
   bk: {
-    backgroundColor: R.colors.blueGrey,
-    height: '38%',
+    backgroundColor: R.colors.primary,
+    height: '60%',
     alignContent: 'center',
     alignItems: 'center',
   },
@@ -122,10 +132,10 @@ export const header = StyleSheet.create({
     marginTop: '5%',
   },
   userName: {
-    marginTop: '28%',
+    marginTop: '38%',
     fontSize: 30,
     fontWeight: '600',
-    color: R.colors.black,
+    color: R.colors.white,
   },
 });
 

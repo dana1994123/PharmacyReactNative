@@ -10,9 +10,9 @@ export default function entry() {
   return (
     <Tab.Navigator
       shifting={false}
-      activeColor={R.colors.white}
+      activeColor={R.colors.black}
       inactiveColor={R.colors.lightGrey}
-      barStyle={{backgroundColor: R.colors.primary}}>
+      barStyle={{backgroundColor: R.colors.white}}>
       <Tab.Screen name="Pharmacy" component={Home} options={{title: 'Home'}} />
       <Tab.Screen
         name="FillOrder"
