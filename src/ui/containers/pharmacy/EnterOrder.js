@@ -44,19 +44,19 @@ export default function EnterOrder() {
   return (
     <View style={layout.body}>
       <TextInput
-        style={form.textInput}
+        style={form.input}
         selectionColor={R.colors.primary}
         onChangeText={text => setMedName(text)}
         placeholder="Medicine Name"
       />
       <TextInput
-        style={form.textInput}
+        style={form.input}
         selectionColor={R.colors.primary}
         onChangeText={text => setQuantity(text)}
         placeholder="Quantity"
       />
       <TextInput
-        style={form.textInput}
+        style={form.input}
         selectionColor={R.colors.primary}
         placeholder="Duration"
       />

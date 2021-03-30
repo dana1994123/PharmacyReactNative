@@ -15,9 +15,9 @@ const Stack = createStackNavigator();
 export default class App extends Component {
   state = {
     appReady: false,
-    userToken: 'abc',
-    pharmToken: null,
-    isSignedIn: false,
+    userToken: null,
+    pharmToken: 'a',
+    isSignedIn: true,
   };
 
   constructor() {

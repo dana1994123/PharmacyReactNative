@@ -14,8 +14,11 @@ export default function entry() {
       inactiveColor={R.colors.lightGrey}
       barStyle={{backgroundColor: R.colors.primary}}>
       <Tab.Screen name="Pharmacy" component={Home} options={{title: 'Home'}} />
-      name="FillOrder" component={FillOrderFlow}
-      options={{title: 'Fill Order'}}/>
+      <Tab.Screen
+        name="FillOrder"
+        component={FillOrderFlow}
+        options={{title: 'Fill Order'}}
+      />
     </Tab.Navigator>
   );
 }

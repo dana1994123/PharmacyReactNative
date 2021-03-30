@@ -18,6 +18,10 @@ export const layout = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  centered: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   row: {
     width: 400,
     flexDirection: 'row',
@@ -28,14 +32,15 @@ export const layout = StyleSheet.create({
 });
 
 export const form = StyleSheet.create({
-  textInput: {
-    color: '#000',
-    height: 50,
-    fontSize: 20,
-    backgroundColor: '#EEEEEE',
-    alignSelf: 'stretch',
+  input: {
+    width: 330,
+    height: 48,
     borderRadius: 5,
-    margin: 5,
+    overflow: 'hidden',
+    backgroundColor: R.colors.white,
+    marginTop: 10,
+    paddingLeft: 16,
+    alignSelf: 'center',
   },
 });
 
@@ -93,6 +98,34 @@ export const text = StyleSheet.create({
     color: R.colors.red,
     fontWeight: 'bold',
     marginStart: '10%',
+  },
+});
+
+export const header = StyleSheet.create({
+  bk: {
+    backgroundColor: R.colors.blueGrey,
+    height: '38%',
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+  subtext: {
+    fontSize: 15,
+  },
+  avatar: {
+    width: 100,
+    height: 80,
+    borderRadius: 70,
+    borderWidth: 4,
+    borderColor: R.colors.white,
+    alignSelf: 'center',
+    position: 'absolute',
+    marginTop: '5%',
+  },
+  userName: {
+    marginTop: '28%',
+    fontSize: 30,
+    fontWeight: '600',
+    color: R.colors.black,
   },
 });
 
