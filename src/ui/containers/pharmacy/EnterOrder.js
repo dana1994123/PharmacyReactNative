@@ -1,35 +1,25 @@
-import React, { useState, Component } from "react";
-import {
-  StyleSheet,
-  Pressable,
-  Modal,
-  Text,
-  View,
-  TextInput,
-  Switch,
-} from "react-native";
-import { AppButton } from "../../components/AppButton";
-import R from "../../../res/R";
-import DatePicker from "react-native-modern-datepicker";
-import PrescriptionOrder from "../../../models/PrescriptionOrder";
-import { form, layout, button } from "../../../res/styles/global";
+import React, {useState} from 'react';
+import {StyleSheet, Modal, Text, View, TextInput, Switch} from 'react-native';
+import {AppButton} from '../../components/AppButton';
+import R from '../../../res/R';
+import DatePicker from 'react-native-modern-datepicker';
+import PrescriptionOrder from '../../../models/PrescriptionOrder';
+import {form, layout, button} from '../../../res/styles/global';
 
 export default function EnterOrder() {
-  const [selectedDate, setSelectedDate] = useState("");
-  const [isEnabled, setIsEnabled] = useState("");
-  const [toggleSwitch, setToggleSwitch] = useState("");
-  const [medName, setMedName] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [duration, setDuration] = useState("");
-  const [modalVisible, setModalVisible] = useState("");
-  const [modal2Visible, setModal2Visible] = useState("");
+  const [selectedDate, setSelectedDate] = useState('');
+  const [toggleSwitch, setToggleSwitch] = useState('');
+  const [medName, setMedName] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [modalVisible, setModalVisible] = useState('');
+  const [modal2Visible, setModal2Visible] = useState('');
 
   saveObject = () => {
     const obj = new PrescriptionOrder(
       medName,
       quantity,
       selectedDate,
-      toggleSwitch
+      toggleSwitch,
     );
     console.log(obj);
     setModalVisible(true);
@@ -56,13 +46,13 @@ export default function EnterOrder() {
       <TextInput
         style={form.textInput}
         selectionColor={R.colors.primary}
-        onChangeText={(text) => setMedName(text)}
+        onChangeText={text => setMedName(text)}
         placeholder="Medicine Name"
       />
       <TextInput
         style={form.textInput}
         selectionColor={R.colors.primary}
-        onChangeText={(text) => setQuantity(text)}
+        onChangeText={text => setQuantity(text)}
         placeholder="Quantity"
       />
       <TextInput
@@ -73,8 +63,8 @@ export default function EnterOrder() {
       <View style={layout.row}>
         <Text style={styles.switchText}>Refillable</Text>
         <Switch
-          trackColor={{ false: "#767577", true: R.colors.primary }}
-          thumbColor={toggleSwitch ? "#fff" : "#f4f3f4"}
+          trackColor={{false: '#767577', true: R.colors.primary}}
+          thumbColor={toggleSwitch ? '#fff' : '#f4f3f4'}
           ios_backgroundColor="#3e3e3e"
           onValueChange={this.setToggle}
           value={toggleSwitch}
@@ -82,47 +72,44 @@ export default function EnterOrder() {
       </View>
       <AppButton
         title="Duration"
-        buttonStyle={button.appButtonContainer}
-        textStyle={button.appButtonText}
+        buttonStyle={button.Wrap}
+        textStyle={button.Text}
         onPress={this.openModal2}
-      ></AppButton>
+      />
       <Modal
         animationType="slide"
         transparent={true}
         visible={modal2Visible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          Alert.alert('Modal has been closed.');
           this.setModal2;
-        }}
-      >
+        }}>
         <View style={styles.modalView}>
-          <DatePicker onSelectedChange={(date) => setSelectedDate(date)} />
+          <DatePicker onSelectedChange={date => setSelectedDate(date)} />
           <AppButton
             title="Ok"
-            buttonStyle={button.appButtonContainer}
-            textStyle={button.appButtonText}
-            onPress={this.setModal2}
-          >
+            buttonStyle={button.Wrap}
+            textStyle={button.Text}
+            onPress={this.setModal2}>
             <Text style={styles.textStyle}>Hide Modal</Text>
           </AppButton>
         </View>
       </Modal>
       <AppButton
         title="Submit"
-        buttonStyle={button.appButtonContainer}
-        textStyle={button.appButtonText}
+        buttonStyle={button.Wrap}
+        textStyle={button.Text}
         onPress={this.saveObject}
-      ></AppButton>
+      />
 
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          Alert.alert('Modal has been closed.');
           this.setModal;
-        }}
-      >
+        }}>
         <View style={styles.modalView}>
           <Text style={styles.okText}>Submitted</Text>
           <View style={styles.row_modal}>
@@ -146,8 +133,7 @@ export default function EnterOrder() {
             title="Ok"
             buttonStyle={button.appButtonContainer}
             textStyle={button.appButtonText}
-            onPress={this.setModal}
-          >
+            onPress={this.setModal}>
             <Text style={styles.textStyle}>Hide Modal</Text>
           </AppButton>
         </View>
@@ -159,9 +145,9 @@ export default function EnterOrder() {
 const styles = StyleSheet.create({
   row_modal: {
     width: 200,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     margin: 5,
   },
   switchText: {
@@ -169,19 +155,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 6,
     marginRight: 10,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   modalView: {
     flex: 1,
     margin: 30,
     marginTop: 100,
     marginBottom: 100,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -191,7 +177,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   Text: {
-    color: "#000",
+    color: '#000',
     fontSize: 20,
   },
   okText: {

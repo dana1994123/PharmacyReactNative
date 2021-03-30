@@ -40,19 +40,75 @@ export const form = StyleSheet.create({
 });
 
 export const button = StyleSheet.create({
-  appButtonContainer: {
-    width: 200,
+  Wrap: {
+    backgroundColor: R.colors.primary,
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 20,
+    height: 48,
     elevation: 8,
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    margin: 20,
+    width: '50%',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
-  appButtonText: {
+  Text: {
     fontSize: 18,
     color: R.colors.white,
     fontWeight: 'bold',
     alignSelf: 'center',
     textTransform: 'uppercase',
+  },
+});
+
+export const text = StyleSheet.create({
+  default: {
+    fontSize: 42,
+  },
+  h2: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: R.colors.white,
+    marginTop: '5%',
+  },
+  h3: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: R.colors.purple,
+  },
+
+  h5: {
+    color: R.colors.white,
+    fontSize: 12,
+  },
+  h6: {
+    color: R.colors.black,
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginTop: '5%',
+  },
+  error: {
+    fontSize: 10,
+    color: R.colors.red,
+    fontWeight: 'bold',
+    marginStart: '10%',
+  },
+});
+
+export const footer = StyleSheet.create({
+  footerView: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  footerText: {
+    fontSize: 16,
+    color: 'black',
+  },
+  footerLink: {
+    color: R.colors.primary,
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });

@@ -15,9 +15,9 @@ const Stack = createStackNavigator();
 export default class App extends Component {
   state = {
     appReady: false,
-    userToken: null,
-    pharmToken: 'abc',
-    isSignedIn: true,
+    userToken: 'abc',
+    pharmToken: null,
+    isSignedIn: false,
   };
 
   constructor() {
@@ -35,7 +35,7 @@ export default class App extends Component {
     return (
       <NavigationContainer style={styles.root} mode="modal">
         <Stack.Navigator>
-          {this.state.isSignedIn === null ? (
+          {this.state.isSignedIn === false ? (
             <>
               <Stack.Screen
                 name="Login"
@@ -89,9 +89,6 @@ export default class App extends Component {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
   container: {
     flex: 1,
     backgroundColor: R.colors.primary,

@@ -1,66 +1,68 @@
-import React, { useState } from "react";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
-import styles from "../common/commonstyle/styles";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import React, {useState} from 'react';
+import {Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import styles from '../common/commonstyle/styles';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {footer, button} from '../../../res/styles/global';
+import {AppButton} from '../../components/AppButton';
 
-export default function SignUp({ navigation }) {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [darte, setDate] = useState("2030-05-15");
-  const [nError, setnError] = useState("");
-  const [pError, setpError] = useState("");
-  const [cError, setcError] = useState("");
-  const [eError, seteError] = useState("");
+export default function SignUp({navigation}) {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [darte, setDate] = useState('2030-05-15');
+  const [nError, setnError] = useState('');
+  const [pError, setpError] = useState('');
+  const [cError, setcError] = useState('');
+  const [eError, seteError] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
 
   const onLoginPress = () => {
     //navigate to login page
-    navigation.navigate("Login");
+    navigation.navigate('Login');
   };
 
   const validateConfirm = () => {
-    if (confirmPassword == "") {
-      setcError("Confirm password cannot be empty");
+    if (confirmPassword == '') {
+      setcError('Confirm password cannot be empty');
       setErrorStatus(true);
     } else if (confirmPassword != password) {
-      setcError("Confirm password does not match the password");
+      setcError('Confirm password does not match the password');
       setErrorStatus(true);
     } else {
-      setcError("");
+      setcError('');
       setErrorStatus(false);
     }
   };
   const validatePass = () => {
-    if (password == "") {
-      setpError("Password cannot be empty");
+    if (password == '') {
+      setpError('Password cannot be empty');
       setErrorStatus(true);
     } else {
-      setpError("");
+      setpError('');
       setErrorStatus(false);
     }
   };
 
   const validateEmail = () => {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (email == "") {
-      seteError("Email cannot be empty");
+    if (email == '') {
+      seteError('Email cannot be empty');
       setErrorStatus(true);
     } else if (reg.test(email) === false) {
-      seteError("Email format INVALID");
+      seteError('Email format INVALID');
       setErrorStatus(true);
     } else {
-      seteError("");
+      seteError('');
       setErrorStatus(false);
     }
   };
   const validateName = () => {
-    if (fullName == "") {
-      setnError("Name cannot be empty");
+    if (fullName == '') {
+      setnError('Name cannot be empty');
       setErrorStatus(true);
     } else {
-      setnError("");
+      setnError('');
       setErrorStatus(false);
     }
   };
@@ -75,7 +77,7 @@ export default function SignUp({ navigation }) {
       if (errorStatus === false) {
         //there is no error in the validation and you should save this obj in data base
       } else {
-        alert("Please fix the issues to continue!");
+        alert('Please fix the issues to continue!');
       }
     } catch (error) {
       alert(error);
@@ -84,18 +86,17 @@ export default function SignUp({ navigation }) {
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView
-        style={{ flex: 1, width: "100%" }}
-        keyboardShouldPersistTaps="always"
-      >
+        style={{flex: 1, width: '100%'}}
+        keyboardShouldPersistTaps="always">
         <Image
           style={styles.logo}
-          source={require("../../../../assets/images/circleLogo.png")}
+          source={require('../../../../assets/images/circleLogo.png')}
         />
         <TextInput
           style={styles.input}
           placeholder="Full Name"
           placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setFullName(text)}
+          onChangeText={text => setFullName(text)}
           value={fullName}
           onBlur={() => validateName()}
           underlineColorAndroid="transparent"
@@ -106,7 +107,7 @@ export default function SignUp({ navigation }) {
           style={styles.input}
           placeholder="E-mail"
           placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setEmail(text)}
+          onChangeText={text => setEmail(text)}
           value={email}
           onBlur={() => validateEmail()}
           underlineColorAndroid="transparent"
@@ -118,7 +119,7 @@ export default function SignUp({ navigation }) {
           placeholderTextColor="#aaaaaa"
           secureTextEntry
           placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={text => setPassword(text)}
           value={password}
           onBlur={() => validatePass()}
           underlineColorAndroid="transparent"
@@ -130,7 +131,7 @@ export default function SignUp({ navigation }) {
           placeholderTextColor="#aaaaaa"
           secureTextEntry
           placeholder="Confirm Password"
-          onChangeText={(text) => setConfirmPassword(text)}
+          onChangeText={text => setConfirmPassword(text)}
           value={confirmPassword}
           onBlur={() => validateConfirm()}
           underlineColorAndroid="transparent"
@@ -163,13 +164,16 @@ export default function SignUp({ navigation }) {
         }}
         //what you want to do when the date is changed
       /> */}
-        <TouchableOpacity style={styles.button} onPress={() => onSignUp()}>
-          <Text style={styles.buttonTitle}>Create account</Text>
-        </TouchableOpacity>
-        <View style={styles.footerView}>
-          <Text style={styles.footerText}>
-            Already got an account?{" "}
-            <Text onPress={onLoginPress} style={styles.footerLink}>
+        <AppButton
+          buttonStyle={button.button}
+          textStyle={styles.buttonTitle}
+          title={'Create account'}
+          onPress={() => onSignUp()}
+        />
+        <View style={footer.footerView}>
+          <Text style={footer.footerText}>
+            Already got an account?{' '}
+            <Text onPress={onLoginPress} style={footer.footerLink}>
               Log in
             </Text>
           </Text>
