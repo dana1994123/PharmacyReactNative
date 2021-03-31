@@ -10,7 +10,7 @@ export default function EditProfile() {
   const [company, setCompany] = useState('');
   const [location, setLocation] = useState('');
 
-  saveProfile = () => {
+  const saveProfile = () => {
     console.log('Saved Profile');
   };
 
@@ -53,7 +53,7 @@ export default function EditProfile() {
         title="Update Profile"
         buttonStyle={button.Wrap}
         textStyle={button.Text}
-        onpress={saveProfile}
+        onpress={() => saveProfile()}
       />
     </View>
   );

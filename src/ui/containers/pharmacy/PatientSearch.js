@@ -34,7 +34,7 @@ export default function PatientSearch({navigation}) {
             title="Search"
             buttonStyle={styles.buttonContainer}
             textStyle={button.Text}
-            onPress={search}
+            onPress={() => search()}
           />
         </View>
 

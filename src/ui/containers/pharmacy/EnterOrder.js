@@ -14,7 +14,7 @@ export default function EnterOrder() {
   const [modalVisible, setModalVisible] = useState('');
   const [modal2Visible, setModal2Visible] = useState('');
 
-  saveObject = () => {
+  const saveObject = () => {
     const obj = new PrescriptionOrder(
       medName,
       quantity,
@@ -60,7 +60,7 @@ export default function EnterOrder() {
           title="Duration"
           buttonStyle={[form.inputGrey, {justifyContent: 'flex-start'}]}
           textStyle={styles.Text}
-          onPress={openModal2}
+          onPress={() => openModal2()}
         />
         <View style={form.inputGrey}>
           <View style={layout.row}>
@@ -70,7 +70,7 @@ export default function EnterOrder() {
               thumbColor={toggleSwitch ? '#fff' : '#f4f3f4'}
               ios_backgroundColor="#3e3e3e"
               onValueChange={setToggle}
-              value={toggleSwitch}
+              value={() => toggleSwitch()}
               style={{marginTop: 1}}
             />
           </View>
@@ -80,10 +80,9 @@ export default function EnterOrder() {
       <Modal
         animationType="slide"
         transparent={true}
-        visible={modal2Visible}
+        visible={() => modal2Visible()}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          this.setModal2;
+          () => setModal2();
         }}>
         <View style={styles.modalView}>
           <DatePicker onSelectedChange={date => setSelectedDate(date)} />
@@ -91,7 +90,7 @@ export default function EnterOrder() {
             title="Ok"
             buttonStyle={button.Wrap}
             textStyle={button.Text}
-            onPress={setModal2}>
+            onPress={() => setModal2()}>
             <Text style={styles.textStyle}>Hide Modal</Text>
           </AppButton>
         </View>
@@ -100,7 +99,7 @@ export default function EnterOrder() {
         title="Submit"
         buttonStyle={button.Wrap}
         textStyle={button.Text}
-        onPress={saveObject}
+        onPress={() => saveObject()}
       />
 
       <Modal
@@ -108,8 +107,7 @@ export default function EnterOrder() {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModal;
+          () => setModal();
         }}>
         <View style={styles.modalViewSM}>
           <View style={styles.modalCenter}>
@@ -135,7 +133,8 @@ export default function EnterOrder() {
               title="Ok"
               buttonStyle={button.Wrap}
               textStyle={button.Text}
-              onPress={setModal}></AppButton>
+              onPress={() => setModal()}
+            />
           </View>
         </View>
       </Modal>
