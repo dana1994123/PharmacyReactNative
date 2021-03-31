@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Pressable,
@@ -7,14 +7,14 @@ import {
   View,
   TextInput,
   Switch,
-} from "react-native";
-import R from "../../../res/R";
-import { form, layout, button } from "../../../res/styles/global";
-import { Stepper } from "../../components/Stepper";
+} from 'react-native';
+import R from '../../../res/R';
+import {form, layout, button} from '../../../res/styles/global';
+import {Stepper} from '../../components/Stepper';
 
 export default function Settings() {
-  const [fontSize, setFontSize] = useState("");
-  const [toggleSwitch, setToggleSwitch] = useState("");
+  const [fontSize, setFontSize] = useState('');
+  const [toggleSwitch, setToggleSwitch] = useState('');
   return (
     <View style={layout.fullScreen}>
       <View>
@@ -23,8 +23,8 @@ export default function Settings() {
       <View style={layout.row}>
         <Text>Dark/Light</Text>
         <Switch
-          trackColor={{ false: "#767577", true: R.colors.primary }}
-          thumbColor={toggleSwitch ? "#fff" : "#f4f3f4"}
+          trackColor={{false: '#767577', true: R.colors.primary}}
+          thumbColor={toggleSwitch ? '#fff' : '#f4f3f4'}
           ios_backgroundColor="#3e3e3e"
           onValueChange={this.setToggle}
           value={toggleSwitch}
@@ -32,7 +32,7 @@ export default function Settings() {
       </View>
       <View style={layout.row}>
         <Text>Font Size</Text>
-        <Stepper fCall={setFontSize} number={fontSize}></Stepper>
+        <Stepper fCall={setFontSize} number={fontSize} />
       </View>
     </View>
   );

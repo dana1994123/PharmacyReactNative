@@ -1,24 +1,10 @@
-import React from "react";
-import { Pressable, Text } from "react-native";
-import R from "../../res/R";
+import React from 'react';
+import {Pressable, Text} from 'react-native';
 
-export const AppButton = ({
-  onPress,
-  title,
-  buttonStyle,
-  textStyle,
-  active = "#3286EE",
-  inactive = R.colors.primary,
-}) => (
+export const AppButton = ({onPress, title, buttonStyle, textStyle}) => (
   <Pressable
     onPress={onPress}
-    style={({ pressed }) => [
-      {
-        backgroundColor: pressed ? active : inactive,
-      },
-      buttonStyle,
-    ]}
-  >
+    style={({pressed}) => [{opacity: pressed ? 0.65 : 1.0}, buttonStyle]}>
     <Text style={textStyle}>{title}</Text>
   </Pressable>
 );

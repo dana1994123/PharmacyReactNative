@@ -7,8 +7,6 @@ export default styles = StyleSheet.create({
     alignItems: 'center',
     color: R.colors.white,
   },
-  title: {},
-
   logo: {
     flex: 1,
     height: 120,
@@ -43,20 +41,6 @@ export default styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
-  },
-  footerView: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  footerText: {
-    fontSize: 16,
-    color: 'black',
-  },
-  footerLink: {
-    color: R.colors.primary,
-    fontWeight: 'bold',
-    fontSize: 16,
   },
   subTitle: {
     marginTop: 10,
