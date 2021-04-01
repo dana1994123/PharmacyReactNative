@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,17 +8,17 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
-} from "react-native";
-import FamilyDr from "./FamilyDr";
-import { createStackNavigator } from "@react-navigation/stack";
-import { IconButton, Colors } from "react-native-paper";
-import R from "../../../res/R";
-import Profile from "./Profile";
-import AddPrescription from "./AddPrescription";
-import HealthInsurance from "../../../models/HealthInsurance";
-import Ppharmacy from "./Ppharmacy";
-import News from "../common/news/News";
-import Clock from "./drug_reminder/Clock";
+} from 'react-native';
+import FamilyDr from './FamilyDr';
+import {createStackNavigator} from '@react-navigation/stack';
+import {IconButton, Colors} from 'react-native-paper';
+import R from '../../../res/R';
+import Profile from './Profile';
+import AddPrescription from './AddPrescription';
+import HealthInsurance from '../../../models/HealthInsurance';
+import Ppharmacy from './Ppharmacy';
+import News from '../common/news/News';
+import Clock from './drug_reminder/Clock';
 const Stack = createStackNavigator();
 
 export default function Home() {
@@ -28,24 +28,22 @@ export default function Home() {
         headerStyle: {
           backgroundColor: R.colors.primary,
         },
-        headerTintColor: "#fff",
+        headerTintColor: '#fff',
         headerTitleStyle: {
-          fontWeight: "bold",
+          fontWeight: 'bold',
         },
-      }}
-    >
-      <Stack.Screen name={"PatientHome"} component={PatientHome}></Stack.Screen>
-      <Stack.Screen name={"Clock"} component={Clock}></Stack.Screen>
+      }}>
+      <Stack.Screen name={'PatientHome'} component={PatientHome}></Stack.Screen>
+      <Stack.Screen name={'Clock'} component={Clock}></Stack.Screen>
       <Stack.Screen
-        name={"prescription"}
-        component={AddPrescription}
-      ></Stack.Screen>
-      <Stack.Screen name={"Pharmacy"} component={Ppharmacy}></Stack.Screen>
-      <Stack.Screen name={"News"} component={News}></Stack.Screen>
+        name={'prescription'}
+        component={AddPrescription}></Stack.Screen>
+      <Stack.Screen name={'Pharmacy'} component={Ppharmacy}></Stack.Screen>
+      <Stack.Screen name={'News'} component={News}></Stack.Screen>
     </Stack.Navigator>
   );
 }
-const PatientHome = ({ navigation }) => {
+const PatientHome = ({navigation}) => {
   return (
     <View>
       <ScrollView>
@@ -54,8 +52,8 @@ const PatientHome = ({ navigation }) => {
             <View style={styles.row}>
               <View>
                 <Text style={styles.txtHeader}>
-                  {" "}
-                  How {"\n"} are you {"\n"} feeling {"\n"} today?
+                  {' '}
+                  How {'\n'} are you {'\n'} feeling {'\n'} today?
                 </Text>
                 {/* <TouchableOpacity
                   onPress={() => nevigatetoPham()}
@@ -67,7 +65,7 @@ const PatientHome = ({ navigation }) => {
 
               <Image
                 style={styles.phamImg}
-                source={require("../../../../assets/images/pham.jpg")}
+                source={require('../../../../assets/images/pham.jpg')}
               />
             </View>
           </View>
@@ -79,16 +77,15 @@ const PatientHome = ({ navigation }) => {
           {/* DrugReminder obj that will be render from the db */}
           <View style={styles.col}>
             <TouchableOpacity
-              onPress={() => navigation.navigate("Clock")}
-              style={styles.box2}
-            >
+              onPress={() => navigation.navigate('Clock')}
+              style={styles.box2}>
               <View style={styles.row}>
                 <View>
                   <Text style={styles.h2}> Drug Reminder</Text>
                   <Text style={styles.h5}>
-                    {" "}
-                    Be in control of your meds{"\n"}
-                    {"                     "} CLICK & SET
+                    {' '}
+                    Be in control of your meds{'\n'}
+                    {'                     '} CLICK & SET
                   </Text>
                 </View>
                 <IconButton
@@ -101,11 +98,10 @@ const PatientHome = ({ navigation }) => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate("prescription")}
-              style={styles.box}
-            >
+              onPress={() => navigation.navigate('prescription')}
+              style={styles.box}>
               <View style={styles.row}>
-                <Text style={styles.h6}>Request{"\n"} Perscription</Text>
+                <Text style={styles.h6}>Request{'\n'} Perscription</Text>
                 <IconButton
                   icon="plus"
                   style={styles.optionImg}
@@ -116,9 +112,8 @@ const PatientHome = ({ navigation }) => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate("Pharmacy")}
-              style={styles.box}
-            >
+              onPress={() => navigation.navigate('Pharmacy')}
+              style={styles.box}>
               <View style={styles.row}>
                 <Text style={styles.h6}>Find Pharmacy</Text>
                 <IconButton
@@ -142,58 +137,59 @@ const styles = StyleSheet.create({
     fontSize: 42,
   },
   header: {
-    height: "39%",
-    width: "100%",
+    height: '39%',
+    width: '100%',
     backgroundColor: R.colors.secondary,
-    alignContent: "center",
-    alignItems: "center",
-    position: "absolute",
+    alignContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
   },
   txtHeader: {
-    marginLeft: "5%",
-    marginTop: "10%",
+    marginLeft: '15%',
+    marginTop: '10%',
     fontSize: 32,
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
     color: R.colors.purple,
   },
   row: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
   wheader: {
-    marginTop: "17%",
-    marginRight: "1%",
-    marginBottom: "1%",
-    marginEnd: "1%",
-    height: "75%",
-    width: "98%",
+    marginTop: '17%',
+    marginRight: '1%',
+    marginBottom: '1%',
+    marginEnd: '1%',
+    height: '75%',
+    width: '98%',
     backgroundColor: R.colors.white,
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end',
   },
   phamImg: {
     height: 248,
     width: 300,
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end',
   },
   optionImg: {
-    alignSelf: "center",
-    marginBottom: "10%",
+    alignSelf: 'center',
+    marginBottom: '10%',
   },
   h3: {
     fontSize: 25,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: R.colors.purple,
+    marginTop: '5%',
   },
   h2: {
     fontSize: 30,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: R.colors.white,
-    marginTop: "5%",
+    marginTop: '5%',
   },
   box: {
-    alignSelf: "center",
-    height: "27%",
-    width: "95%",
+    alignSelf: 'center',
+    height: '27%',
+    width: '95%',
     backgroundColor: R.colors.lightGrey,
     borderRadius: 20,
     borderColor: R.colors.Grey,
@@ -205,16 +201,16 @@ const styles = StyleSheet.create({
       height: 1,
       width: 0,
     },
-    marginTop: "2%",
+    marginTop: '2%',
   },
   col: {},
   boxCon: {
-    marginTop: "100%",
+    marginTop: '100%',
   },
   box2: {
-    alignSelf: "center",
-    height: "27%",
-    width: "95%",
+    alignSelf: 'center',
+    height: '27%',
+    width: '95%',
     backgroundColor: R.colors.secondary,
     borderRadius: 20,
     borderColor: R.colors.Grey,
@@ -229,10 +225,10 @@ const styles = StyleSheet.create({
   },
   col: {},
   boxCon: {
-    marginTop: "83%",
+    marginTop: '83%',
   },
   txtCon: {
-    margin: "5%",
+    margin: '5%',
   },
   h5: {
     color: R.colors.white,
@@ -241,8 +237,8 @@ const styles = StyleSheet.create({
   h6: {
     color: R.colors.black,
     fontSize: 30,
-    fontWeight: "bold",
-    marginTop: "5%",
+    fontWeight: 'bold',
+    marginTop: '5%',
   },
   btn: {
     backgroundColor: R.colors.primary,
@@ -256,9 +252,9 @@ const styles = StyleSheet.create({
       height: 1,
       width: 0,
     },
-    marginTop: "12%",
-    alignSelf: "center",
-    height: "20%",
-    width: "80%",
+    marginTop: '12%',
+    alignSelf: 'center',
+    height: '20%',
+    width: '80%',
   },
 });

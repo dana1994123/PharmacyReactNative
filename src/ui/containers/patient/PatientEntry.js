@@ -27,9 +27,6 @@ export default function PatientEntry() {
       <Tab.Screen name="Patient1" options={{title: 'Profile'}}>
         {() => <Profile name="Profile" />}
       </Tab.Screen>
-      <Tab.Screen name="Patient5" options={{title: 'Reminder'}}>
-        {() => <Clock name="Reminder" />}
-      </Tab.Screen>
       <Tab.Screen name="Patient2" options={{title: 'News'}}>
         {() => <News name="News" />}
       </Tab.Screen>
