@@ -1,9 +1,9 @@
 import React, {useContext, useState, useEffect, useCallback} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-// import auth from '@react-native-firebase/auth';
+//import auth from '@react-native-firebase/auth';
 import {AuthContext} from './AuthProvider';
 
-import Entry from '../ui/containers/pharmacy/Entry';
+import AppStack from './AppStack';
 import {firebase} from '../database/config';
 import AuthStack from './AuthStack';
 // export const app = firebase.initializeApp(firebaseConfig);
@@ -34,7 +34,7 @@ const Routes = () => {
     console.log('Routes' + user),
     (
       <NavigationContainer>
-        {user !== null ? <Entry /> : <AuthStack />}
+        {user !== null ? <AppStack /> : <AuthStack />}
       </NavigationContainer>
     )
   );

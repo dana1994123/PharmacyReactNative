@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import styles from '../common/commonstyle/styles';
 import SignUp from './SignUp';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {footer, layout} from '../../../res/styles/global';
+import {AuthContext} from '../../../navigation/AuthProvider';
 
 export default function LoginScreen({navigation}) {
   const [email, setEmail] = useState('');
@@ -12,6 +13,8 @@ export default function LoginScreen({navigation}) {
   const [eError, seteError] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
   const [pError, setpError] = useState('');
+
+  const {login} = useContext(AuthContext);
 
   const onSignUp = () => {
     navigation.navigate('Sign Up');
@@ -53,6 +56,7 @@ export default function LoginScreen({navigation}) {
       if (errorStatus === false) {
         //there is no error in the validation and we
         //navigate to the home page
+        login(email, password);
       } else {
         alert('Invalid input! Please try again');
       }

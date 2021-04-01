@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import styles from '../common/commonstyle/styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {footer, button} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
-import auth from '@react-native-firebase/auth';
+import {AuthContext} from '../../../navigation/AuthProvider';
 
 export default function SignUp({navigation}) {
   const [fullName, setFullName] = useState('');
@@ -17,6 +17,8 @@ export default function SignUp({navigation}) {
   const [cError, setcError] = useState('');
   const [eError, seteError] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
+
+  const {register} = useContext(AuthContext);
 
   const onLoginPress = () => {
     //navigate to login page
@@ -77,22 +79,7 @@ export default function SignUp({navigation}) {
       validatePass();
       if (errorStatus === false) {
         //there is no error in the validation and you should save this obj in data base
-        auth()
-          .createUserWithEmailAndPassword(email, password)
-          .then(() => {
-            console.log('User account created & signed in!');
-          })
-          .catch(error => {
-            if (error.code === 'auth/email-already-in-use') {
-              console.log('That email address is already in use!');
-            }
-
-            if (error.code === 'auth/invalid-email') {
-              console.log('That email address is invalid!');
-            }
-
-            console.error(error);
-          });
+        register(email, password);
       } else {
         alert('Please fix the issues to continue!');
       }
