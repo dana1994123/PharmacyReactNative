@@ -19,6 +19,7 @@ import Clock from './drug_reminder/Clock';
 import FamilyDr from './FamilyDr';
 import HealthInsurance from './HealthInsurance';
 import {IconButton} from 'react-native-paper';
+import CameraScreen from './CameraScreen';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +42,7 @@ export default function Pprofile() {
       <Stack.Screen name={'FamilyDr'} component={FamilyDr} />
       <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
       <Stack.Screen name={'HealthInsurance'} component={HealthInsurance} />
+      <Stack.Screen name={'Camera'} component={CameraScreen} />
     </Stack.Navigator>
   );
 }
@@ -59,7 +61,6 @@ const Profile = ({navigation}) => {
         <View style={styles.container}>
           {/* user picture and name */}
           <View>
-            <TouchableOpacity>
               <Image
                 style={styles.avatar}
                 source={require('../../../../assets/images/default.png')}
@@ -74,7 +75,7 @@ const Profile = ({navigation}) => {
                 size={40}
                 onPress={() => updateProfile()}
               />
-            </TouchableOpacity>
+            
             <View style={styles.body}>
               <View style={styles.col}>
                 <TouchableOpacity
@@ -178,8 +179,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     height: 90,
     width: 170,
-    borderWidth: 2,
-    borderColor: R.colors.black,
+    borderWidth: 4,
+    borderColor: R.colors.orange,
     flexDirection: 'column',
     alignItems: 'flex-start',
     marginRight: '5%',

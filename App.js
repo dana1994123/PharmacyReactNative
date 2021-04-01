@@ -10,7 +10,8 @@ import PatientEntry from './src/ui/containers/patient/PatientEntry';
 import LogoLoad from './src/ui/containers/common/LogoLoad';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import Camera from './src/ui/containers/patient/Camera';
+import Camera from './src/ui/containers/patient/CameraScreen';
+import CameraScreen from './src/ui/containers/patient/CameraScreen';
 const Stack = createStackNavigator();
 
 export default class App extends Component {
@@ -73,13 +74,13 @@ export default class App extends Component {
           ) : this.state.userToken ? (
             <Stack.Screen
               name="User"
-              component={PatientEntry}
+              component={Camera}
               options={{headerShown: false}}
             />
           ) : (
             <Stack.Screen
               name="Pharmacy"
-              component={Camera}
+              component={Entry}
               options={{headerShown: false}}
             />
           )}

@@ -7,16 +7,10 @@ import {TouchableOpacity} from 'react-native';
 import {footer} from '../../../res/styles/global';
 import Dialog from 'react-native-dialog';
 
-
-export default function UpdateProfile() {
+export default function UpdateProfile({navigation}) {
   //generate the user information into the ui using his information that has
   //been saved as a context for the app
 
-  componentWillMount = () => {
-    setnPass('');
-    setcnPass('');
-    //populate the user information from the firebase
-  };
   const [name, setName] = useState('');
   const [userNumber, setNumber] = useState('');
   const [address, setAddress] = useState('');
@@ -24,6 +18,11 @@ export default function UpdateProfile() {
   const [upassword, setupassword] = useState(false);
   const [nPass, setnPass] = useState('');
   const [cnPass, setcnPass] = useState('');
+  // componentWillMount = () => {
+  //   setnPass('');
+  //   setcnPass('');
+  //   //populate the user information from the firebase
+  // };
 
   const saveProfile = () => {
     console.log('Saved Profile');
@@ -38,6 +37,10 @@ export default function UpdateProfile() {
     setupassword(!upassword);
   };
 
+  const navigateCamera = () => {
+    navigation.navigate('Camera');
+    setupassword(!upassword);
+  };
   const handleSave = () => {
     // The user has pressed the "Delete" button, so here you can do your own logic.
     // ...Your logic
@@ -48,7 +51,7 @@ export default function UpdateProfile() {
   return (
     <View style={layout.fullScreen}>
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigateCamera()}>
           <Image
             style={header.avatar}
             source={require('../../../../assets/images/default.png')}
