@@ -8,17 +8,24 @@ const Tab = createMaterialBottomTabNavigator();
 
 export default function entry() {
   return (
-    <Tab.Navigator
-      shifting={false}
-      activeColor={R.colors.black}
-      inactiveColor={R.colors.lightGrey}
-      barStyle={{backgroundColor: R.colors.white}}>
-      <Tab.Screen name="Pharmacy" component={Home} options={{title: 'Home'}} />
-      <Tab.Screen
-        name="FillOrder"
-        component={FillOrderFlow}
-        options={{title: 'Fill Order'}}
-      />
-    </Tab.Navigator>
+    console.log('In Entry'),
+    (
+      <Tab.Navigator
+        shifting={false}
+        activeColor={R.colors.black}
+        inactiveColor={R.colors.lightGrey}
+        barStyle={{backgroundColor: R.colors.white}}>
+        <Tab.Screen
+          name="Pharmacy"
+          component={Home}
+          options={{title: 'Home'}}
+        />
+        <Tab.Screen
+          name="FillOrder"
+          component={FillOrderFlow}
+          options={{title: 'Fill Order'}}
+        />
+      </Tab.Navigator>
+    )
   );
 }

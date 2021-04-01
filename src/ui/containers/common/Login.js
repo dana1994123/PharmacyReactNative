@@ -3,7 +3,7 @@ import {Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import styles from '../common/commonstyle/styles';
 import SignUp from './SignUp';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {footer} from '../../../res/styles/global';
+import {footer, layout} from '../../../res/styles/global';
 
 export default function LoginScreen({navigation}) {
   const [email, setEmail] = useState('');
@@ -62,7 +62,7 @@ export default function LoginScreen({navigation}) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={layout.centeredFullScreen}>
       <KeyboardAwareScrollView
         style={{flex: 1, width: '100%'}}
         keyboardShouldPersistTaps="always">

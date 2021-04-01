@@ -4,6 +4,7 @@ import styles from '../common/commonstyle/styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {footer, button} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
+import auth from '@react-native-firebase/auth';
 
 export default function SignUp({navigation}) {
   const [fullName, setFullName] = useState('');
@@ -23,10 +24,10 @@ export default function SignUp({navigation}) {
   };
 
   const validateConfirm = () => {
-    if (confirmPassword == '') {
+    if (confirmPassword === '') {
       setcError('Confirm password cannot be empty');
       setErrorStatus(true);
-    } else if (confirmPassword != password) {
+    } else if (confirmPassword !== password) {
       setcError('Confirm password does not match the password');
       setErrorStatus(true);
     } else {
@@ -35,7 +36,7 @@ export default function SignUp({navigation}) {
     }
   };
   const validatePass = () => {
-    if (password == '') {
+    if (password === '') {
       setpError('Password cannot be empty');
       setErrorStatus(true);
     } else {
@@ -46,7 +47,7 @@ export default function SignUp({navigation}) {
 
   const validateEmail = () => {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (email == '') {
+    if (email === '') {
       seteError('Email cannot be empty');
       setErrorStatus(true);
     } else if (reg.test(email) === false) {
@@ -58,7 +59,7 @@ export default function SignUp({navigation}) {
     }
   };
   const validateName = () => {
-    if (fullName == '') {
+    if (fullName === '') {
       setnError('Name cannot be empty');
       setErrorStatus(true);
     } else {
@@ -76,6 +77,22 @@ export default function SignUp({navigation}) {
       validatePass();
       if (errorStatus === false) {
         //there is no error in the validation and you should save this obj in data base
+        auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then(() => {
+            console.log('User account created & signed in!');
+          })
+          .catch(error => {
+            if (error.code === 'auth/email-already-in-use') {
+              console.log('That email address is already in use!');
+            }
+
+            if (error.code === 'auth/invalid-email') {
+              console.log('That email address is invalid!');
+            }
+
+            console.error(error);
+          });
       } else {
         alert('Please fix the issues to continue!');
       }
@@ -83,6 +100,7 @@ export default function SignUp({navigation}) {
       alert(error);
     }
   };
+
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView
@@ -165,8 +183,8 @@ export default function SignUp({navigation}) {
         //what you want to do when the date is changed
       /> */}
         <AppButton
-          buttonStyle={button.button}
-          textStyle={styles.buttonTitle}
+          buttonStyle={button.Wrap}
+          textStyle={styles.Text}
           title={'Create account'}
           onPress={() => onSignUp()}
         />
