@@ -10,7 +10,7 @@ import {
   Modal,
 } from 'react-native';
 import {form, layout, button, header} from '../../../../res/styles/global';
-import {IconButton, Colors} from 'react-native-paper';
+import {IconButton} from 'react-native-paper';
 import {Card, Divider} from 'react-native-elements';
 import {Directions} from 'react-native-gesture-handler';
 import DrugReminderObj from '../../../../models/DrugReminderObj';

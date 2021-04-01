@@ -55,12 +55,6 @@ const PatientHome = ({navigation}) => {
                   {' '}
                   How {'\n'} are you {'\n'} feeling {'\n'} today?
                 </Text>
-                {/* <TouchableOpacity
-                  onPress={() => nevigatetoPham()}
-                  style={styles.btn}
-                >
-                  <Text style={styles.h3}>Health Test</Text>
-                </TouchableOpacity> */}
               </View>
 
               <Image
@@ -139,7 +133,7 @@ const styles = StyleSheet.create({
   header: {
     height: '39%',
     width: '100%',
-    backgroundColor: R.colors.secondary,
+    backgroundColor: R.colors.lightSec,
     alignContent: 'center',
     alignItems: 'center',
     position: 'absolute',
@@ -211,7 +205,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     height: '27%',
     width: '95%',
-    backgroundColor: R.colors.secondary,
+    backgroundColor: R.colors.lightSec,
     borderRadius: 20,
     borderColor: R.colors.Grey,
     shadowColor: R.colors.black,
