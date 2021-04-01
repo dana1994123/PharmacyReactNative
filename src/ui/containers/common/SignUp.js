@@ -165,7 +165,7 @@ export default function SignUp({navigation}) {
         //what you want to do when the date is changed
       /> */}
         <AppButton
-          buttonStyle={button.button}
+          buttonStyle={button.Wrap}
           textStyle={styles.buttonTitle}
           title={'Create account'}
           onPress={() => onSignUp()}
