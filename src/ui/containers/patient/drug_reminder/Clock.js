@@ -240,12 +240,12 @@ const styles = StyleSheet.create({
     marginTop: 140,
   },
   smallQuardan: {
-    width: 10,
+    width: '3%',
     height: 10,
     borderRadius: 5,
     backgroundColor: R.colors.primary,
     position: 'absolute',
-    marginTop: 177,
+    marginTop: 170,
   },
   dateStyle: {
     color: 'black',

@@ -10,6 +10,7 @@ import PatientEntry from './src/ui/containers/patient/PatientEntry';
 import LogoLoad from './src/ui/containers/common/LogoLoad';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import Camera from './src/ui/containers/patient/Camera';
 const Stack = createStackNavigator();
 
 export default class App extends Component {
@@ -78,7 +79,7 @@ export default class App extends Component {
           ) : (
             <Stack.Screen
               name="Pharmacy"
-              component={PatientEntry}
+              component={Camera}
               options={{headerShown: false}}
             />
           )}

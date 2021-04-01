@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
     margin: 30,
   },
   header: {
-    backgroundColor: R.colors.primary,
-    height: '25%',
+    backgroundColor: R.colors.lightSec,
+    height: '20%',
     alignContent: 'center',
     alignItems: 'center',
   },
