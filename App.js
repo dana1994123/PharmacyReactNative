@@ -78,7 +78,7 @@ export default class App extends Component {
           ) : (
             <Stack.Screen
               name="Pharmacy"
-              component={Entry}
+              component={PatientEntry}
               options={{headerShown: false}}
             />
           )}
