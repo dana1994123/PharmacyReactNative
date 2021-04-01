@@ -4,6 +4,7 @@ import R from '../R';
 export const layout = StyleSheet.create({
   fullScreen: {
     flex: 1,
+    backgroundColor: '#E7E7E7',
   },
   centeredFullScreen: {
     flex: 1,
@@ -18,41 +19,139 @@ export const layout = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  centered: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   row: {
-    width: 400,
+    width: 320,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: R.colors.white,
   },
 });
 
 export const form = StyleSheet.create({
-  textInput: {
-    color: '#000',
-    height: 50,
-    fontSize: 20,
-    backgroundColor: '#EEEEEE',
-    alignSelf: 'stretch',
+  input: {
+    width: 330,
+    height: 48,
     borderRadius: 5,
-    margin: 5,
+    overflow: 'hidden',
+    backgroundColor: R.colors.white,
+    marginTop: 10,
+    paddingLeft: 16,
+    alignSelf: 'center',
+  },
+  inputGrey: {
+    width: 320,
+    height: 48,
+    borderRadius: 5,
+    overflow: 'hidden',
+    backgroundColor: '#EEEEEE',
+    marginTop: 10,
+    paddingLeft: 16,
+    alignSelf: 'center',
   },
 });
 
 export const button = StyleSheet.create({
-  appButtonContainer: {
-    width: 200,
+  Wrap: {
+    backgroundColor: R.colors.primary,
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 20,
+    height: 48,
     elevation: 8,
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    margin: 20,
+    width: '50%',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
-  appButtonText: {
+  Text: {
     fontSize: 18,
     color: R.colors.white,
     fontWeight: 'bold',
     alignSelf: 'center',
     textTransform: 'uppercase',
+  },
+});
+
+export const text = StyleSheet.create({
+  default: {
+    fontSize: 42,
+  },
+  h2: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: R.colors.white,
+    marginTop: '5%',
+  },
+  h3: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: R.colors.purple,
+  },
+
+  h5: {
+    color: R.colors.white,
+    fontSize: 12,
+  },
+  h6: {
+    color: R.colors.black,
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginTop: '5%',
+  },
+  error: {
+    fontSize: 10,
+    color: R.colors.red,
+    fontWeight: 'bold',
+    marginStart: '10%',
+  },
+});
+
+export const header = StyleSheet.create({
+  bk: {
+    backgroundColor: R.colors.primary,
+    height: '60%',
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+  subtext: {
+    fontSize: 15,
+  },
+  avatar: {
+    width: 100,
+    height: 80,
+    borderRadius: 70,
+    borderWidth: 4,
+    borderColor: R.colors.white,
+    alignSelf: 'center',
+    position: 'absolute',
+    marginTop: '5%',
+  },
+  userName: {
+    marginTop: '38%',
+    fontSize: 30,
+    fontWeight: '600',
+    color: R.colors.white,
+  },
+});
+
+export const footer = StyleSheet.create({
+  footerView: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  footerText: {
+    fontSize: 16,
+    color: 'black',
+  },
+  footerLink: {
+    color: R.colors.primary,
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
