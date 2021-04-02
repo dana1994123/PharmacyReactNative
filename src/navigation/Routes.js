@@ -2,7 +2,7 @@ import React, {useContext, useState, useEffect, useCallback} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 //import auth from '@react-native-firebase/auth';
 import {AuthContext} from './AuthProvider';
-
+import auth from '@react-native-firebase/auth';
 import AppStack from './AppStack';
 import {firebase} from '../database/config';
 import AuthStack from './AuthStack';
