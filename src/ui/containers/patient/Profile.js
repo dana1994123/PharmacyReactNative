@@ -19,7 +19,7 @@ import Clock from './drug_reminder/Clock';
 import FamilyDr from './FamilyDr';
 import HealthInsurance from './HealthInsurance';
 import {IconButton} from 'react-native-paper';
-import CameraScreen from './CameraScreen';
+import CameraScreen from './camera/CameraScreen';
 
 const Stack = createStackNavigator();
 
