@@ -1,10 +1,11 @@
 import React, {useState, useContext} from 'react';
-import {Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TextInput, View, Switch} from 'react-native';
 import styles from '../common/commonstyle/styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {footer, button} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import {AuthContext} from '../../../navigation/AuthProvider';
+import R from '../../../res/R';
 
 export default function SignUp({navigation}) {
   const [fullName, setFullName] = useState('');
@@ -17,6 +18,7 @@ export default function SignUp({navigation}) {
   const [cError, setcError] = useState('');
   const [eError, seteError] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
+  const [toggleSwitch, setToggleSwitch] = useState('');
 
   const {register} = useContext(AuthContext);
 
@@ -79,7 +81,7 @@ export default function SignUp({navigation}) {
       validatePass();
       if (errorStatus === false) {
         //there is no error in the validation and you should save this obj in data base
-        register(email, password);
+        register(fullName, toggleSwitch, email, password);
       } else {
         alert('Please fix the issues to continue!');
       }
@@ -141,6 +143,13 @@ export default function SignUp({navigation}) {
           onBlur={() => validateConfirm()}
           underlineColorAndroid="transparent"
           autoCapitalize="none"
+        />
+        <Switch
+          trackColor={{false: '#767577', true: R.colors.primary}}
+          thumbColor={toggleSwitch ? '#fff' : '#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={() => setToggleSwitch()}
+          value={toggleSwitch}
         />
         <Text style={styles.error}>{cError}</Text>
         {/* <Text style={styles.subTitle}>Date of Birth</Text> */}

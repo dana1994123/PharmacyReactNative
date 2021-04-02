@@ -2,6 +2,7 @@ import React, {useState, createContext} from 'react';
 
 export const AuthContext = createContext();
 import {firebase} from '../database/config';
+import {db} from '../database/config';
 
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
@@ -17,11 +18,24 @@ export const AuthProvider = ({children}) => {
             console.log(e);
           }
         },
-        register: async (email, password) => {
+        register: async (fname, pharmacist, email, password) => {
           try {
             await firebase
               .auth()
-              .createUserWithEmailAndPassword(email, password);
+              .createUserWithEmailAndPassword(email, password)
+              .then(response => {
+                const uid = response.user.uid;
+                const usersRef = firebase.firestore().collection('users');
+                console.log('usersRef: ' + usersRef);
+                usersRef.doc(uid).set({
+                  fname: fname,
+                  // lname: lname,
+                  email: email,
+                  pharmacist: pharmacist,
+                  //createdAt: firebase.Firebase.Timestamp.fromDate(new Date()),
+                  userImg: null,
+                });
+              });
           } catch (e) {
             console.log(e);
           }
