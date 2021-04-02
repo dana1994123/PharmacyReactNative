@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
-import {Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import React, {useState, useContext} from 'react';
+import {Image, Text, TextInput, View, Switch} from 'react-native';
 import styles from '../common/commonstyle/styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {footer, button} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
+import {AuthContext} from '../../../navigation/AuthProvider';
+import R from '../../../res/R';
 
 export default function SignUp({navigation}) {
   const [fullName, setFullName] = useState('');
@@ -16,6 +18,9 @@ export default function SignUp({navigation}) {
   const [cError, setcError] = useState('');
   const [eError, seteError] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
+  const [toggleSwitch, setToggleSwitch] = useState('');
+
+  const {register} = useContext(AuthContext);
 
   const onLoginPress = () => {
     //navigate to login page
@@ -23,10 +28,10 @@ export default function SignUp({navigation}) {
   };
 
   const validateConfirm = () => {
-    if (confirmPassword == '') {
+    if (confirmPassword === '') {
       setcError('Confirm password cannot be empty');
       setErrorStatus(true);
-    } else if (confirmPassword != password) {
+    } else if (confirmPassword !== password) {
       setcError('Confirm password does not match the password');
       setErrorStatus(true);
     } else {
@@ -35,7 +40,7 @@ export default function SignUp({navigation}) {
     }
   };
   const validatePass = () => {
-    if (password == '') {
+    if (password === '') {
       setpError('Password cannot be empty');
       setErrorStatus(true);
     } else {
@@ -46,7 +51,7 @@ export default function SignUp({navigation}) {
 
   const validateEmail = () => {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (email == '') {
+    if (email === '') {
       seteError('Email cannot be empty');
       setErrorStatus(true);
     } else if (reg.test(email) === false) {
@@ -58,7 +63,7 @@ export default function SignUp({navigation}) {
     }
   };
   const validateName = () => {
-    if (fullName == '') {
+    if (fullName === '') {
       setnError('Name cannot be empty');
       setErrorStatus(true);
     } else {
@@ -76,6 +81,7 @@ export default function SignUp({navigation}) {
       validatePass();
       if (errorStatus === false) {
         //there is no error in the validation and you should save this obj in data base
+        register(fullName, toggleSwitch, email, password);
       } else {
         alert('Please fix the issues to continue!');
       }
@@ -83,6 +89,7 @@ export default function SignUp({navigation}) {
       alert(error);
     }
   };
+
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView
@@ -137,6 +144,13 @@ export default function SignUp({navigation}) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
+        <Switch
+          trackColor={{false: '#767577', true: R.colors.primary}}
+          thumbColor={toggleSwitch ? '#fff' : '#f4f3f4'}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={() => setToggleSwitch()}
+          value={toggleSwitch}
+        />
         <Text style={styles.error}>{cError}</Text>
         {/* <Text style={styles.subTitle}>Date of Birth</Text> */}
         {/* <DatePicker
@@ -165,8 +179,8 @@ export default function SignUp({navigation}) {
         //what you want to do when the date is changed
       /> */}
         <AppButton
-          buttonStyle={button.button}
-          textStyle={styles.buttonTitle}
+          buttonStyle={button.Wrap}
+          textStyle={styles.Text}
           title={'Create account'}
           onPress={() => onSignUp()}
         />

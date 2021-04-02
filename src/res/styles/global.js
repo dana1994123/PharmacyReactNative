@@ -155,3 +155,18 @@ export const footer = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: R.colors.primary,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     width: Dimensions.get('window').width,
+//     height: Dimensions.get('window').height,
+//   },
+
+//   loadingBackgroundStyle: {
+//     backgroundColor: 'rgba(125, 125, 255, 1)',
+//   },
+// });
