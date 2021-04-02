@@ -180,7 +180,7 @@ export default function SignUp({navigation}) {
       /> */}
         <AppButton
           buttonStyle={button.Wrap}
-          textStyle={styles.Text}
+          textStyle={button.Text}
           title={'Create account'}
           onPress={() => onSignUp()}
         />

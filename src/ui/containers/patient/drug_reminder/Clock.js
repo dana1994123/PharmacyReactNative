@@ -1,5 +1,5 @@
-import React from "react";
-import { Component } from "react";
+import React from 'react';
+import {Component} from 'react';
 import {
   Animated,
   StyleSheet,
@@ -8,21 +8,21 @@ import {
   ScrollView,
   View,
   Text,
-} from "react-native";
-import moment from "moment";
-import dayjs from "dayjs";
-import R from "../../../../res/R";
-import RenderdrugReminder from "./DrugReminder";
-import PHeader from "../PHeader";
+} from 'react-native';
+import moment from 'moment';
+import dayjs from 'dayjs';
+import R from '../../../../res/R';
+import RenderdrugReminder from './DrugReminder';
+import PHeader from '../PHeader';
 
-const { width } = Dimensions.get("screen");
+const {width} = Dimensions.get('screen');
 const SIZE = width * 0.9;
 const TICK_INTERVAL = 1000;
 
 export default class Clock extends Component {
   state = {
-    time: moment().format("LT"),
-    date: moment().format("LL"),
+    time: moment().format('LT'),
+    date: moment().format('LL'),
     index: new Animated.Value(0),
     tick: new Animated.Value(0),
     //creating an array of the animations
@@ -34,7 +34,7 @@ export default class Clock extends Component {
 
   componentDidMount() {
     const current = dayjs();
-    const diff = current.endOf("day").diff(current, "seconds");
+    const diff = current.endOf('day').diff(current, 'seconds');
     const oneDay = 24 * 60 * 60;
     this._timer = oneDay - diff;
     this.state.tick.setValue(this._timer);
@@ -52,7 +52,7 @@ export default class Clock extends Component {
     this._ticker = null;
   }
   _animate = () => {
-    const scaleStaggerAnimations = this.state.scales.map((animated) => {
+    const scaleStaggerAnimations = this.state.scales.map(animated => {
       return Animated.spring(animated, {
         toValue: 1,
         tension: 18,
@@ -64,7 +64,7 @@ export default class Clock extends Component {
     Animated.parallel([
       Animated.stagger(
         TICK_INTERVAL / this.state.scales.length,
-        scaleStaggerAnimations
+        scaleStaggerAnimations,
       ),
       Animated.timing(this.state.index, {
         toValue: this.state.tick,
@@ -89,34 +89,34 @@ export default class Clock extends Component {
 
     setTimeout(() => {
       this.setState({
-        time: moment().format("LT"),
-        date: moment().format("LL"),
+        time: moment().format('LT'),
+        date: moment().format('LL'),
       });
     }, 1000);
 
     const interpolated = {
       inputRange: [0, 360],
-      outputRange: ["0deg", "360deg"],
+      outputRange: ['0deg', '360deg'],
     };
 
     //move the second as the circle has 6*60
     const secondDegrees = Animated.multiply(index, 6);
     const transformSeconds = {
       transform: [
-        { rotate: secondDegrees.interpolate(interpolated) },
-        { scale: secondScale },
+        {rotate: secondDegrees.interpolate(interpolated)},
+        {scale: secondScale},
       ],
     };
 
     //move th min each 60 seconds
     const rotateminutes = Animated.divide(
       secondDegrees,
-      new Animated.Value(60)
+      new Animated.Value(60),
     );
     const transformMinutes = {
       transform: [
-        { rotate: rotateminutes.interpolate(interpolated) },
-        { scale: minScale },
+        {rotate: rotateminutes.interpolate(interpolated)},
+        {scale: minScale},
       ],
     };
 
@@ -124,8 +124,8 @@ export default class Clock extends Component {
     const rotateHours = Animated.divide(rotateminutes, new Animated.Value(12));
     const transformHours = {
       transform: [
-        { rotate: rotateHours.interpolate(interpolated) },
-        { scale: hourScale },
+        {rotate: rotateHours.interpolate(interpolated)},
+        {scale: hourScale},
       ],
     };
     return (
@@ -135,10 +135,10 @@ export default class Clock extends Component {
           <View style={styles.clockContainer}>
             <StatusBar hidden={true} />
             <Animated.View
-              style={[styles.bigQuardan, { transform: [{ scale: hourScale }] }]}
+              style={[styles.bigQuardan, {transform: [{scale: hourScale}]}]}
             />
             <Animated.View
-              style={[styles.mediQuardan, { transform: [{ scale: minScale }] }]}
+              style={[styles.mediQuardan, {transform: [{scale: minScale}]}]}
             />
             <Animated.View style={[styles.mover, transformHours]}>
               <View style={[styles.hours]} />
@@ -150,10 +150,7 @@ export default class Clock extends Component {
               <View style={[styles.second]} />
             </Animated.View>
             <Animated.View
-              style={[
-                styles.smallQuardan,
-                { transform: [{ scale: secondScale }] },
-              ]}
+              style={[styles.smallQuardan, {transform: [{scale: secondScale}]}]}
             />
           </View>
           {/* current time & date */}
@@ -175,59 +172,59 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: R.colors.white,
-    alignItems: "center",
-    justifyContent: "flex-start",
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     marginTop: 0,
   },
   clockContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 10,
   },
   renderContainer: {
-    marginTop: "60%",
-    justifyContent: "flex-end",
-    alignItems: "center",
+    marginTop: '60%',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   timing: {
     flex: 1,
     backgroundColor: R.colors.white,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
     margin: 90,
     padding: 0,
   },
 
   mover: {
-    position: "absolute",
+    position: 'absolute',
     width: SIZE,
     height: SIZE,
     borderRadius: SIZE / 2,
-    justifyContent: "flex-start",
-    alignItems: "center",
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   hours: {
-    backgroundColor: "black",
-    height: "14%",
-    marginTop: "35%",
+    backgroundColor: 'black',
+    height: '14%',
+    marginTop: '35%',
     width: 4,
     borderRadius: 4,
   },
   minutes: {
-    backgroundColor: "black",
-    height: "20%",
-    marginTop: "30%",
+    backgroundColor: 'black',
+    height: '20%',
+    marginTop: '30%',
     width: 3,
     borderRadius: 3,
   },
   second: {
     backgroundColor: R.colors.Grey,
-    height: "20%",
+    height: '20%',
     width: 1,
-    marginTop: "30%",
+    marginTop: '30%',
     borderRadius: 1,
   },
   bigQuardan: {
-    position: "absolute",
+    position: 'absolute',
     width: SIZE * 0.5,
     height: 150,
     borderRadius: 60,
@@ -239,25 +236,25 @@ const styles = StyleSheet.create({
     height: SIZE * 0.2,
     borderRadius: SIZE * 0.25,
     backgroundColor: R.colors.secondary,
-    position: "absolute",
+    position: 'absolute',
     marginTop: 140,
   },
   smallQuardan: {
-    width: 10,
+    width: '3%',
     height: 10,
     borderRadius: 5,
     backgroundColor: R.colors.primary,
-    position: "absolute",
-    marginTop: 177,
+    position: 'absolute',
+    marginTop: 170,
   },
   dateStyle: {
-    color: "black",
+    color: 'black',
     fontSize: 10,
     marginLeft: 10,
   },
   timeStyle: {
     margin: 10,
-    color: "black",
+    color: 'black',
     fontSize: 30,
   },
 });

@@ -6,6 +6,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+  ImageBackground,
 } from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Patient from '../../../models/patient';
@@ -17,6 +18,8 @@ import AddPrescription from './AddPrescription';
 import Clock from './drug_reminder/Clock';
 import FamilyDr from './FamilyDr';
 import HealthInsurance from './HealthInsurance';
+import {IconButton} from 'react-native-paper';
+import CameraScreen from './CameraScreen';
 
 const Stack = createStackNavigator();
 
@@ -39,113 +42,92 @@ export default function Pprofile() {
       <Stack.Screen name={'FamilyDr'} component={FamilyDr} />
       <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
       <Stack.Screen name={'HealthInsurance'} component={HealthInsurance} />
+      <Stack.Screen name={'Camera'} component={CameraScreen} />
     </Stack.Navigator>
   );
 }
 const Profile = ({navigation}) => {
   //get the patient information from the database and render it here
   const currPatient = new Patient();
+  const updateProfile = () => {
+    //navigate to update profile page
+    navigation.navigate('UpdateProfile');
+  };
   return (
-    <View>
+    <ImageBackground
+      source={require('../../../../assets/images/bg.jpg')}
+      style={styles.image2}>
       <ScrollView>
         <View style={styles.container}>
           {/* user picture and name */}
           <View>
-            <View>
-              <View style={styles.header}>
-                <TouchableOpacity onPress={() => nevigatetoCamera()}>
-                  {/* click and give access to the camera to take picture */}
+              <Image
+                style={styles.avatar}
+                source={require('../../../../assets/images/default.png')}
+              />
+              <Text style={styles.userName}>{currPatient.fullName}</Text>
+              <Text style={styles.sub}>
+                {currPatient.location.city}, {currPatient.location.country}
+              </Text>
+              <IconButton
+                icon="pencil"
+                color={R.colors.secondary}
+                size={40}
+                onPress={() => updateProfile()}
+              />
+            
+            <View style={styles.body}>
+              <View style={styles.col}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('prescription')}
+                  style={styles.buttonContainer}>
                   <Image
-                    style={styles.avatar}
-                    source={require('../../../../assets/images/default.png')}
+                    style={styles.optionImg}
+                    source={require('../../../../assets/images/61122.png')}
                   />
-                  <Text style={styles.userName}>{currPatient.fullName}</Text>
-                  <Text style={styles.sub}>
-                    {currPatient.location.city}, {currPatient.location.country}
+                  <Text style={styles.optionTxt}>
+                    Perscription {'\n'} History
                   </Text>
                 </TouchableOpacity>
-              </View>
-              <View style={styles.body}>
-                <View style={styles.row}>
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('prescription')}
-                    style={styles.buttonContainer}>
-                    <Image
-                      style={styles.optionImg}
-                      source={require('../../../../assets/images/61122.png')}
-                    />
-                    <Text style={styles.optionTxt}>
-                      Perscription {'\n'} History
-                    </Text>
-                  </TouchableOpacity>
-                  {/* pharmacy */}
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('Pharmacy')}
-                    style={styles.buttonContainer}>
-                    <Image
-                      style={styles.optionImg}
-                      source={require('../../../../assets/images/pha.png')}
-                    />
-                    <Text style={styles.optionTxt}>
-                      {'       '}My {'\n'} Pharmacy{' '}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                {/* pharmacy */}
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Pharmacy')}
+                  style={styles.buttonContainer}>
+                  <Image
+                    style={styles.optionImg}
+                    source={require('../../../../assets/images/pha.png')}
+                  />
+                  <Text style={styles.optionTxt}>
+                    {'       '}My {'\n'} Pharmacy{' '}
+                  </Text>
+                </TouchableOpacity>
+                {/* update profile */}
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('FamilyDr')}
+                  style={styles.buttonContainer}>
+                  <Image
+                    style={styles.optionImg}
+                    source={require('../../../../assets/images/dr.jpg')}
+                  />
+                  <Text style={styles.optionTxt}>Family {'\n'} Doctor</Text>
+                </TouchableOpacity>
 
-                <View style={styles.row}>
-                  {/* update profile */}
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('UpdateProfile')}
-                    style={styles.buttonContainer}>
-                    <Image
-                      style={styles.optionImg}
-                      source={require('../../../../assets/images/update.jpg')}
-                    />
-                    <Text style={styles.optionTxt}>Update {'\n'} Profile</Text>
-                  </TouchableOpacity>
-
-                  {/* health insurance */}
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('HealthInsurance')}
-                    style={styles.buttonContainer}>
-                    <Image
-                      style={styles.optionImg}
-                      source={require('../../../../assets/images/health.png')}
-                    />
-                    <Text style={styles.optionTxt}>
-                      Health {'\n'} Insurance
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View style={styles.row}>
-                  {/* drug reminder */}
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('Clock')}
-                    style={styles.buttonContainer}>
-                    <Image
-                      style={styles.optionImg}
-                      source={require('../../../../assets/images/reminder.png')}
-                    />
-                    <Text style={styles.optionTxt}>Drug {'\n'} Reminder</Text>
-                  </TouchableOpacity>
-                  {/* family doctor */}
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('FamilyDr')}
-                    style={styles.buttonContainer}>
-                    <Image
-                      style={styles.optionImg}
-                      source={require('../../../../assets/images/dr.jpg')}
-                    />
-                    <Text style={styles.optionTxt}>Family {'\n'} Doctor</Text>
-                  </TouchableOpacity>
-                </View>
+                {/* health insurance */}
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('HealthInsurance')}
+                  style={styles.buttonContainer}>
+                  <Image
+                    style={styles.optionImg}
+                    source={require('../../../../assets/images/health.png')}
+                  />
+                  <Text style={styles.optionTxt}>Health {'\n'} Insurance</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
         </View>
       </ScrollView>
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -169,42 +151,53 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 18,
     marginTop: '15%',
+    color: R.colors.black,
   },
   sub: {
     fontSize: 15,
+    marginLeft: '5%',
+    alignSelf: 'flex-end',
+    marginRight: '16%',
   },
-  row: {
-    flexDirection: 'row',
+  col: {
     justifyContent: 'space-evenly',
+    marginTop: '5%',
+    alignSelf: 'flex-end',
   },
   avatar: {
     width: 100,
     height: 80,
     borderRadius: 70,
     borderWidth: 4,
-    borderColor: R.colors.white,
-    alignSelf: 'center',
+    borderColor: R.colors.orange,
+    alignSelf: 'flex-start',
     position: 'absolute',
-    marginTop: '5%',
-  },
-  body: {
-    marginTop: '6%',
+    marginTop: '12%',
+    marginLeft: '5%',
   },
 
   buttonContainer: {
-    height: 100,
+    height: 90,
     width: 170,
-
-    borderWidth: 1,
-    borderColor: R.colors.white,
+    borderWidth: 4,
+    borderColor: R.colors.orange,
     flexDirection: 'column',
     alignItems: 'flex-start',
-    backgroundColor: R.colors.lightGrey,
+    marginRight: '5%',
+    marginBottom: '5%',
   },
   userName: {
-    marginTop: '28%',
+    marginRight: '10%',
     fontSize: 30,
     fontWeight: '600',
     color: R.colors.black,
+    alignSelf: 'flex-end',
+    marginTop: '10%',
+  },
+  image2: {
+    resizeMode: 'cover',
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
   },
 });
