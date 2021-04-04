@@ -1,123 +1,127 @@
-import React, {useState} from 'react';
-import {StyleSheet, TextInput, View, Image, Text} from 'react-native';
+import React, {Component, useState} from 'react';
+import {StyleSheet, TextInput, View, Modal, Image, Text} from 'react-native';
 import {form, layout, button, header} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import {TouchableOpacity} from 'react-native';
 import {footer} from '../../../res/styles/global';
 import Dialog from 'react-native-dialog';
-
-export default function UpdateProfile({navigation}) {
+import defaultProfile from '../../../../assets/images/default.png';
+import Camera from '../common/camera/Camera';
+const defaultProfileUri = Image.resolveAssetSource(defaultProfile).uri;
+export default class UpdateProfile extends Component {
   //generate the user information into the ui using his information that has
   //been saved as a context for the app
-
-  const [name, setName] = useState('');
-  const [userNumber, setNumber] = useState('');
-  const [address, setAddress] = useState('');
-  const [password, setpassword] = useState('');
-  const [upassword, setupassword] = useState(false);
-  const [nPass, setnPass] = useState('');
-  const [cnPass, setcnPass] = useState('');
-  // componentWillMount = () => {
-  //   setnPass('');
-  //   setcnPass('');
-  //   //populate the user information from the firebase
-  // };
-
-  const saveProfile = () => {
-    console.log('Saved Profile');
+  state = {
+    name: '',
+    userNumber: '',
+    address: '',
+    password: '',
+    upassword: false,
+    nPass: '',
+    cnPass: '',
+    picModal: false,
+    picUri: defaultProfileUri,
+  };
+  componentDidMount() {
+    //get the user information from the firebase
+    this.setState({setnPass: ''});
+    this.setState({setcnPass: ''});
+  }
+  handlePress = visible => {
+    //rerender the details
+    // this.props.onItemPress(this.props.articles.title);
+    this.setState({picModal: visible});
   };
 
-  const changePassRequest = () => {
-    //open a dialog to change the password in
-    setupassword(!upassword);
-  };
-  const handleCancel = () => {
-    componentWillMount();
-    setupassword(!upassword);
-  };
+  render() {
+    const handleSave = () => {
+      // The user has pressed the "Delete" button, so here you can do your own logic.
+      // ...Your logic
+      this.setState({upassword: false});
+      //update the password
+    };
+    const saveProfile = () => {
+      console.log('Saved Profile');
+    };
 
-  const navigateCamera = () => {
-    navigation.navigate('Camera');
-    setupassword(!upassword);
-  };
-  const handleSave = () => {
-    // The user has pressed the "Delete" button, so here you can do your own logic.
-    // ...Your logic
-    componentWillMount();
-    setupassword(!upassword);
-  };
+    const changePassRequest = () => {
+      //open a dialog to change the password in
+      this.setState({upassword: true});
+    };
+    const handleCancel = () => {
+      componentDidMount();
+      this.setState({upassword: false});
+    };
 
-  return (
-    <View style={layout.fullScreen}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigateCamera()}>
-          <Image
-            style={header.avatar}
-            source={require('../../../../assets/images/default.png')}
+    return (
+      <View style={layout.fullScreen}>
+        <View style={styles.header}>
+          <Camera id="profile" picUri={this.state.picUri} />
+        </View>
+        <View style={styles.box}>
+          <TextInput
+            style={form.inputGrey}
+            selectionColor={R.colors.primary}
+            onChangeText={text => this.setState({name: text})}
+            placeholder="Full Name"
           />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.box}>
-        <TextInput
-          style={form.inputGrey}
-          selectionColor={R.colors.primary}
-          onChangeText={text => setName(text)}
-          placeholder="Full Name"
-        />
-        <TextInput
-          style={form.inputGrey}
-          selectionColor={R.colors.primary}
-          onChangeText={text => setNumber(text)}
-          placeholder="Number"
-        />
-        <TextInput
-          style={form.inputGrey}
-          selectionColor={R.colors.primary}
-          onChangeText={text => setAddress(text)}
-          placeholder="Address"
-        />
-        <TextInput
-          style={form.inputGrey}
-          selectionColor={R.colors.primary}
-          onChangeText={text => setpassword(text)}
-          placeholder="Password"
-        />
-        <TouchableOpacity
-          style={styles.fotor}
-          onPress={() => changePassRequest()}>
-          <Text style={footer.footerText}>
-            {'          '}Change your Password{' '}
-            <Text style={footer.footerLink}>Update</Text>
-          </Text>
-        </TouchableOpacity>
-      </View>
+          <TextInput
+            style={form.inputGrey}
+            selectionColor={R.colors.primary}
+            onChangeText={text => this.setState({userNumber: text})}
+            placeholder="Number"
+          />
+          <TextInput
+            style={form.inputGrey}
+            selectionColor={R.colors.primary}
+            onChangeText={text => this.setState({address: text})}
+            placeholder="Address"
+          />
+          <TextInput
+            style={form.inputGrey}
+            selectionColor={R.colors.primary}
+            onChangeText={text => this.setState({upassword: text})}
+            placeholder="Password"
+          />
+          <TouchableOpacity
+            style={styles.fotor}
+            onPress={() => changePassRequest()}>
+            <Text style={footer.footerText}>
+              {'          '}Change your Password{' '}
+              <Text style={footer.footerLink}>Update</Text>
+            </Text>
+          </TouchableOpacity>
+        </View>
 
-      <AppButton
-        title="Update Profile"
-        buttonStyle={button.Wrap}
-        textStyle={button.Text}
-        onpress={() => saveProfile()}
-      />
-      <View>
-        <Dialog.Container visible={upassword}>
-          <Dialog.Title>Change your password</Dialog.Title>
-          <Dialog.Input
-            style={styles.inputGrey}
-            label="New Password"
-            onChangeText={text => setnPass(text)}
-            value={nPass}></Dialog.Input>
-          <Dialog.Input
-            style={styles.inputGrey}
-            onChangeText={text => setcnPass(text)}
-            label="Confirm Password"
-            value={cnPass}></Dialog.Input>
-          <Dialog.Button label="Cancel" onPress={handleCancel} />
-          <Dialog.Button label="Save" onPress={handleSave} />
-        </Dialog.Container>
+        <AppButton
+          title="Update Profile"
+          buttonStyle={button.Wrap}
+          textStyle={button.Text}
+          onpress={() => saveProfile()}
+        />
+        <View>
+          {/* dialog to update the password */}
+          <Dialog.Container visible={this.state.upassword}>
+            <Dialog.Title>Change your password</Dialog.Title>
+            <Dialog.Input
+              style={styles.inputGrey}
+              label="New Password"
+              onChangeText={text => this.setState({nPass: text})}
+              value={this.state.nPass}></Dialog.Input>
+            <Dialog.Input
+              style={styles.inputGrey}
+              onChangeText={text => this.setState({cnPass: text})}
+              label="Confirm Password"
+              value={this.state.cnPass}></Dialog.Input>
+            <Dialog.Button label="Cancel" onPress={() => handleCancel()} />
+            <Dialog.Button label="Save" onPress={() => handleSave()} />
+          </Dialog.Container>
+        </View>
+        {/* navigate to camera modal */}
       </View>
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -162,5 +166,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEEEEE',
     paddingLeft: 16,
     alignSelf: 'center',
+  },
+  modalView: {
+    flex: 1,
+    margin: 10,
+    marginTop: 95,
+    marginBottom: 10,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });

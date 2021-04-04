@@ -19,7 +19,6 @@ import Clock from './drug_reminder/Clock';
 import FamilyDr from './FamilyDr';
 import HealthInsurance from './HealthInsurance';
 import {IconButton} from 'react-native-paper';
-import CameraScreen from './camera/CameraScreen';
 
 const Stack = createStackNavigator();
 
@@ -42,7 +41,6 @@ export default function Pprofile() {
       <Stack.Screen name={'FamilyDr'} component={FamilyDr} />
       <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
       <Stack.Screen name={'HealthInsurance'} component={HealthInsurance} />
-      <Stack.Screen name={'Camera'} component={CameraScreen} />
     </Stack.Navigator>
   );
 }
@@ -61,21 +59,21 @@ const Profile = ({navigation}) => {
         <View style={styles.container}>
           {/* user picture and name */}
           <View>
-              <Image
-                style={styles.avatar}
-                source={require('../../../../assets/images/default.png')}
-              />
-              <Text style={styles.userName}>{currPatient.fullName}</Text>
-              <Text style={styles.sub}>
-                {currPatient.location.city}, {currPatient.location.country}
-              </Text>
-              <IconButton
-                icon="pencil"
-                color={R.colors.secondary}
-                size={40}
-                onPress={() => updateProfile()}
-              />
-            
+            <Image
+              style={styles.avatar}
+              source={require('../../../../assets/images/default.png')}
+            />
+            <Text style={styles.userName}>{currPatient.fullName}</Text>
+            <Text style={styles.sub}>
+              {currPatient.location.city}, {currPatient.location.country}
+            </Text>
+            <IconButton
+              icon="pencil"
+              color={R.colors.secondary}
+              size={40}
+              onPress={() => updateProfile()}
+            />
+
             <View style={styles.body}>
               <View style={styles.col}>
                 <TouchableOpacity
