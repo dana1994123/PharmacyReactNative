@@ -16,6 +16,8 @@ export default function PatientSearch({navigation}) {
   };
 
   const search = () => {
+    setIsFound(false);
+    setNotFound(true);
     console.log('Search is Called');
     firebase
       .firestore()
@@ -28,7 +30,6 @@ export default function PatientSearch({navigation}) {
           console.log(doc.id, ' => ', doc.data());
           setIsFound(true);
           setNotFound(false);
-          this.forceUpdate();
         });
       })
       .catch(error => {
@@ -39,7 +40,6 @@ export default function PatientSearch({navigation}) {
     if (isFound !== true) {
       setNotFound(true);
       setIsFound(false);
-      this.forceUpdate();
     }
   };
   return (
