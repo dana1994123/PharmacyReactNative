@@ -4,4 +4,7 @@ export default class Customer {
     this.healthCard = 'healthCard';
     this.date = 'date';
   }
+  toString() {
+    return this.name + ', ' + this.healthCard + ', ' + this.date;
+  }
 }
