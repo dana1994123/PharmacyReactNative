@@ -10,7 +10,6 @@ export default class Camera extends Component {
     fileUri: this.props.picUri,
     id: this.props.id,
   };
-
   chooseImage = () => {
     let options = {
       title: 'Select Image',
@@ -21,7 +20,6 @@ export default class Camera extends Component {
     };
     ImagePicker.showImagePicker(options, response => {
       console.log('Response = ', response);
-
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
@@ -95,7 +93,6 @@ export default class Camera extends Component {
       }
     });
   };
-
   //after choosing the imge what to do for with the uri  for the profile picture
   renderProfilePicFileUri() {
     //we need to save the image in the firebase & pass it as a prop

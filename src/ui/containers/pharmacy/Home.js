@@ -6,7 +6,8 @@ import {layout, header} from '../../../res/styles/global';
 import R from '../../../res/R';
 import EditProfile from './EditProfile';
 import Settings from '../common/Settings';
-
+import defaultProfile from '../../../../assets/images/default.png';
+const defaultProfileUri = Image.resolveAssetSource(defaultProfile).uri;
 const Stack = createStackNavigator();
 
 export default function Home() {

@@ -14,37 +14,66 @@ export default function EnterOrder({route, navigation}) {
   const [quantity, setQuantity] = useState('');
   const [modalVisible, setModalVisible] = useState('');
   const [modal2Visible, setModal2Visible] = useState('');
+  const [orderConflict, setOrderConflict] = useState('');
 
   const {customer} = route.params;
+
+  const checkOrder = Timestamp => {
+    setOrderConflict(false);
+    console.log('check orer called');
+    firebase
+      .firestore()
+      .collection('orders')
+      .where('uid', '==', customer.uid)
+      .where('medName', '==', medName)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log('times' + doc.data().Timestamp + ' ' + Timestamp);
+          if (doc.data() !== undefined) {
+            if (doc.data().Timestamp > Timestamp) {
+              setOrderConflict(true);
+            }
+          }
+        });
+      });
+  };
 
   const addOrder = () => {
     const uid = customer.uid;
     const pharmID = '1111';
-    firebase
-      .firestore()
-      .collection('orders')
-      .add({
-        uid,
-        pharmID,
-        medName,
-        quantity,
-        selectedDate,
-        refill,
-      })
-      .then(docRef => {
-        console.log('Document written with ID: ', docRef.id);
-      })
-      .catch(error => {
-        console.error('Error adding document: ', error);
-      });
-    setModal();
-    navigation.navigate('Home');
+    const Timestamp = firebase.firestore.Timestamp.fromDate(
+      new Date(selectedDate),
+    );
+    checkOrder(Timestamp);
+    if (!orderConflict) {
+      firebase
+        .firestore()
+        .collection('orders')
+        .add({
+          uid,
+          pharmID,
+          medName,
+          quantity,
+          Timestamp,
+          refill,
+        })
+        .then(docRef => {
+          console.log('Document written with ID: ', docRef.id);
+        })
+        .catch(error => {
+          console.error('Error adding document: ', error);
+        });
+      setModal();
+      navigation.navigate('Home');
+    }
+    console.log(orderConflict);
+    setModalVisible(true);
   };
 
-  const saveObject = () => {
-    const obj = new PrescriptionOrder(medName, quantity, selectedDate, refill);
-    console.log(obj);
-    setModalVisible(true);
+  const saveOrder = () => {
+    //const obj = new PrescriptionOrder(medName, quantity, selectedDate, refill);
   };
 
   const setToggle = () => {
@@ -128,7 +157,7 @@ export default function EnterOrder({route, navigation}) {
         title="Submit"
         buttonStyle={button.Wrap}
         textStyle={button.Text}
-        onPress={() => saveObject()}
+        onPress={() => addOrder()}
       />
 
       <Modal
@@ -140,29 +169,35 @@ export default function EnterOrder({route, navigation}) {
         }}>
         <View style={styles.modalViewSM}>
           <View style={styles.modalCenter}>
-            <Text style={styles.okText}>Submitted</Text>
-            <View style={styles.row_modal}>
-              <Text style={styles.Text}>Medicine:</Text>
-              <Text style={styles.Text}>{medName}</Text>
-            </View>
-            <View style={styles.row_modal}>
-              <Text style={styles.Text}>Quantity:</Text>
-              <Text style={styles.Text}>{quantity}</Text>
-            </View>
-            <View style={styles.row_modal}>
-              <Text style={styles.Text}>Refillable:</Text>
-              {refill ? (
-                <Text style={styles.Text}>YES</Text>
-              ) : (
-                <Text style={styles.Text}>NO</Text>
-              )}
-            </View>
+            {orderConflict ? (
+              <Text style={textstyle.error}>Conflict</Text>
+            ) : (
+              <View>
+                <Text style={styles.okText}>Submitted</Text>
+                <View style={styles.row_modal}>
+                  <Text style={styles.Text}>Medicine:</Text>
+                  <Text style={styles.Text}>{medName}</Text>
+                </View>
+                <View style={styles.row_modal}>
+                  <Text style={styles.Text}>Quantity:</Text>
+                  <Text style={styles.Text}>{quantity}</Text>
+                </View>
+                <View style={styles.row_modal}>
+                  <Text style={styles.Text}>Refillable:</Text>
+                  {refill ? (
+                    <Text style={styles.Text}>YES</Text>
+                  ) : (
+                    <Text style={styles.Text}>NO</Text>
+                  )}
+                </View>
+              </View>
+            )}
 
             <AppButton
               title="Ok"
               buttonStyle={button.Wrap}
               textStyle={button.Text}
-              onPress={() => addOrder()}
+              onPress={() => setModal()}
             />
           </View>
         </View>
