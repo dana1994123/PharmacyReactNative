@@ -3,12 +3,16 @@ import {StyleSheet, TextInput, View, Image, Text} from 'react-native';
 import {form, layout, button, header} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
+import Camera from '../common/camera/Camera';
+import defaultProfile from '../../../../assets/images/default.png';
+const defaultProfileUri = Image.resolveAssetSource(defaultProfile).uri;
 
 export default function EditProfile() {
   const [name, setName] = useState('');
   const [userName, setUserName] = useState('');
   const [company, setCompany] = useState('');
   const [location, setLocation] = useState('');
+  const [picUri, setPicUri] = useState(defaultProfileUri);
 
   const saveProfile = () => {
     console.log('Saved Profile');
@@ -17,10 +21,7 @@ export default function EditProfile() {
   return (
     <View style={layout.fullScreen}>
       <View style={header.bk}>
-        <Image
-          style={header.avatar}
-          source={require('../../../../assets/images/default.png')}
-        />
+        <Camera id="profile" picUri={picUri} />
       </View>
       <View style={styles.box}>
         <TextInput

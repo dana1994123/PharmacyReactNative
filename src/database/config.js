@@ -23,8 +23,8 @@ export const db = firebase.Firebase;
 // });
 // export { Firebase };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+// if (!firebase.apps.length) {
+firebase.initializeApp(firebaseConfig);
+// }
 
 export {firebase};

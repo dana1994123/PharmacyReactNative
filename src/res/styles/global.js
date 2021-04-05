@@ -52,6 +52,17 @@ export const form = StyleSheet.create({
     paddingLeft: 16,
     alignSelf: 'center',
   },
+  staticinputGrey: {
+    width: 320,
+    height: 48,
+    borderRadius: 5,
+    overflow: 'hidden',
+    backgroundColor: '#EEEEEE',
+    marginTop: 10,
+    paddingLeft: 16,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export const button = StyleSheet.create({
@@ -77,7 +88,7 @@ export const button = StyleSheet.create({
   },
 });
 
-export const text = StyleSheet.create({
+export const textstyle = StyleSheet.create({
   default: {
     fontSize: 42,
   },

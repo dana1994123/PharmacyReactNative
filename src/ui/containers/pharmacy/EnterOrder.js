@@ -4,29 +4,80 @@ import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import DatePicker from 'react-native-modern-datepicker';
 import PrescriptionOrder from '../../../models/PrescriptionOrder';
-import {form, layout, button, text} from '../../../res/styles/global';
+import {form, layout, button, textstyle} from '../../../res/styles/global';
+import {firebase} from '../../../database/config';
 
-export default function EnterOrder() {
+export default function EnterOrder({route, navigation}) {
   const [selectedDate, setSelectedDate] = useState('');
-  const [toggleSwitch, setToggleSwitch] = useState('');
+  const [refill, setRefill] = useState('');
   const [medName, setMedName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [modalVisible, setModalVisible] = useState('');
   const [modal2Visible, setModal2Visible] = useState('');
+  const [orderConflict, setOrderConflict] = useState('');
 
-  const saveObject = () => {
-    const obj = new PrescriptionOrder(
-      medName,
-      quantity,
-      selectedDate,
-      toggleSwitch,
+  const {customer} = route.params;
+
+  const checkOrder = Timestamp => {
+    setOrderConflict(false);
+    console.log('check orer called');
+    firebase
+      .firestore()
+      .collection('orders')
+      .where('uid', '==', customer.uid)
+      .where('medName', '==', medName)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log('times' + doc.data().Timestamp + ' ' + Timestamp);
+          if (doc.data() !== undefined) {
+            if (doc.data().Timestamp > Timestamp) {
+              setOrderConflict(true);
+            }
+          }
+        });
+      });
+  };
+
+  const addOrder = () => {
+    const uid = customer.uid;
+    const pharmID = '1111';
+    const Timestamp = firebase.firestore.Timestamp.fromDate(
+      new Date(selectedDate),
     );
-    console.log(obj);
+    checkOrder(Timestamp);
+    if (!orderConflict) {
+      firebase
+        .firestore()
+        .collection('orders')
+        .add({
+          uid,
+          pharmID,
+          medName,
+          quantity,
+          Timestamp,
+          refill,
+        })
+        .then(docRef => {
+          console.log('Document written with ID: ', docRef.id);
+        })
+        .catch(error => {
+          console.error('Error adding document: ', error);
+        });
+      setModal();
+      navigation.navigate('Home');
+    }
+    console.log(orderConflict);
     setModalVisible(true);
   };
 
+  const saveOrder = () => {
+    //const obj = new PrescriptionOrder(medName, quantity, selectedDate, refill);
+  };
+
   const setToggle = () => {
-    setToggleSwitch(!toggleSwitch);
+    setRefill(!refill);
   };
 
   const setModal = () => {
@@ -44,6 +95,13 @@ export default function EnterOrder() {
   return (
     <View style={layout.centeredFullScreen}>
       <View style={styles.box}>
+        <Text style={textstyle.h6}>Enter Prescription</Text>
+        <View style={form.staticinputGrey}>
+          <Text>{'Name: ' + customer.name}</Text>
+        </View>
+        <View style={form.staticinputGrey}>
+          <Text>{'Card#: ' + customer.healthcard}</Text>
+        </View>
         <TextInput
           style={form.inputGrey}
           selectionColor={R.colors.primary}
@@ -67,11 +125,11 @@ export default function EnterOrder() {
             <Text style={styles.Text}>Refillable</Text>
             <Switch
               trackColor={{false: '#767577', true: R.colors.primary}}
-              thumbColor={toggleSwitch ? '#fff' : '#f4f3f4'}
+              thumbColor={refill ? '#fff' : '#f4f3f4'}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={setToggle}
-              value={() => toggleSwitch()}
-              style={{marginTop: 1}}
+              onValueChange={() => setToggle()}
+              value={refill}
+              style={{marginTop: 3}}
             />
           </View>
         </View>
@@ -80,7 +138,7 @@ export default function EnterOrder() {
       <Modal
         animationType="slide"
         transparent={true}
-        visible={() => modal2Visible()}
+        visible={modal2Visible}
         onRequestClose={() => {
           () => setModal2();
         }}>
@@ -99,11 +157,11 @@ export default function EnterOrder() {
         title="Submit"
         buttonStyle={button.Wrap}
         textStyle={button.Text}
-        onPress={() => saveObject()}
+        onPress={() => addOrder()}
       />
 
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -111,23 +169,29 @@ export default function EnterOrder() {
         }}>
         <View style={styles.modalViewSM}>
           <View style={styles.modalCenter}>
-            <Text style={styles.okText}>Submitted</Text>
-            <View style={styles.row_modal}>
-              <Text style={styles.Text}>Medicine:</Text>
-              <Text style={styles.Text}>{medName}</Text>
-            </View>
-            <View style={styles.row_modal}>
-              <Text style={styles.Text}>Quantity:</Text>
-              <Text style={styles.Text}>{quantity}</Text>
-            </View>
-            <View style={styles.row_modal}>
-              <Text style={styles.Text}>Refillable:</Text>
-              {toggleSwitch ? (
-                <Text style={styles.Text}>YES</Text>
-              ) : (
-                <Text style={styles.Text}>NO</Text>
-              )}
-            </View>
+            {orderConflict ? (
+              <Text style={textstyle.error}>Conflict</Text>
+            ) : (
+              <View>
+                <Text style={styles.okText}>Submitted</Text>
+                <View style={styles.row_modal}>
+                  <Text style={styles.Text}>Medicine:</Text>
+                  <Text style={styles.Text}>{medName}</Text>
+                </View>
+                <View style={styles.row_modal}>
+                  <Text style={styles.Text}>Quantity:</Text>
+                  <Text style={styles.Text}>{quantity}</Text>
+                </View>
+                <View style={styles.row_modal}>
+                  <Text style={styles.Text}>Refillable:</Text>
+                  {refill ? (
+                    <Text style={styles.Text}>YES</Text>
+                  ) : (
+                    <Text style={styles.Text}>NO</Text>
+                  )}
+                </View>
+              </View>
+            )}
 
             <AppButton
               title="Ok"
@@ -181,7 +245,7 @@ const styles = StyleSheet.create({
   modalViewSM: {
     flex: 1,
     backgroundColor: '#66555533',
-    borderRadius: 20,
+
     padding: 35,
     alignItems: 'center',
     justifyContent: 'center',

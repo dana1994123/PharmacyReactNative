@@ -13,7 +13,7 @@ export default function Settings() {
   const {logout} = useContext(AuthContext);
 
   return (
-    <View style={layout.fullScreen}>
+    <View style={layout.centeredFullScreen}>
       <View>
         <Text>Settings Page</Text>
       </View>

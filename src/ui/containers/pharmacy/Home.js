@@ -6,7 +6,8 @@ import {layout, header} from '../../../res/styles/global';
 import R from '../../../res/R';
 import EditProfile from './EditProfile';
 import Settings from '../common/Settings';
-
+import defaultProfile from '../../../../assets/images/default.png';
+const defaultProfileUri = Image.resolveAssetSource(defaultProfile).uri;
 const Stack = createStackNavigator();
 
 export default function Home() {
@@ -53,7 +54,7 @@ const HomeScreen = ({navigation}) => {
             title="Add Patient"
             buttonStyle={styles.buttonContainer}
             textStyle={styles.optionTxt}
-            onPress={() => navigation.navigate('CheckOrder')}
+            onPress={() => navigation.navigate('AddCustomer')}
           />
         </View>
         <View style={styles.row}>
