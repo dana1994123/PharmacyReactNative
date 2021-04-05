@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {StyleSheet, Modal, Text, View, TextInput} from 'react-native';
+import {
+  StyleSheet,
+  Modal,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+} from 'react-native';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import {DateInput} from '../../components/DateInput';
@@ -7,28 +14,23 @@ import {form, layout, button, textstyle} from '../../../res/styles/global';
 import {db} from '../../../database/config';
 import {firebase} from '../../../database/config';
 
-export default function EnterOrder() {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [toggleSwitch, setToggleSwitch] = useState('');
+export default function EnterOrder({navigation}) {
   const [custName, setCustName] = useState('');
   const [healthCard, setHealthCard] = useState('');
   const [day, setDay] = useState('');
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [modalVisible, setModalVisible] = useState('');
-  const [customer, setCustomer] = useState({
-    name: '',
-    healthCard: '',
-    date: '',
-  });
+  const [date, setDate] = useState('');
 
   const addCustomer = () => {
-    console.log(customer);
     firebase
       .firestore()
       .collection('Customers')
       .add({
-        customer,
+        custName,
+        healthCard,
+        date,
       })
       .then(docRef => {
         console.log('Document written with ID: ', docRef.id);
@@ -37,15 +39,12 @@ export default function EnterOrder() {
         console.error('Error adding document: ', error);
       });
     setModal();
+    navigation.goBack();
   };
 
   const saveObject = () => {
-    const date = new Date(year, month, day);
-    setCustomer({
-      name: custName,
-      healthCard: healthCard,
-      date: date.toString(),
-    });
+    const d = new Date(year, month, day);
+    setDate(d.toString());
     setModalVisible(true);
   };
 
@@ -74,20 +73,19 @@ export default function EnterOrder() {
 
         <AppButton
           title="Ok"
-          buttonStyle={button.Wrap}
+          buttonStyle={styles.custButtonwrap}
           textStyle={button.Text}
           onPress={() => saveObject()}
         />
       </View>
-
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
           () => setModal();
         }}>
-        <View style={styles.modalViewSM}>
+        <Pressable style={styles.modalViewSM} onPress={() => setModal()}>
           <View style={styles.modalCenter}>
             <Text style={styles.okText}>Submit Record</Text>
             <View style={styles.row_modal}>
@@ -100,17 +98,28 @@ export default function EnterOrder() {
             </View>
             <View style={styles.row_modal}>
               <Text style={styles.Text}>DOB:</Text>
-              <Text style={styles.Text}>{customer.date}</Text>
+              <Text style={styles.Text}>{date}</Text>
+            </View>
+            <View styles={styles.row}>
+              <View styles={styles.inputWrap}>
+                <AppButton
+                  title="Cancel"
+                  buttonStyle={button.Wrap}
+                  textStyle={button.Text}
+                  onPress={() => setModal()}
+                />
+              </View>
+              <View styles={styles.inputWrap}>
+                <AppButton
+                  title="Ok"
+                  buttonStyle={button.Wrap}
+                  textStyle={button.Text}
+                  onPress={() => addCustomer()}
+                />
+              </View>
             </View>
           </View>
-
-          <AppButton
-            title="Ok"
-            buttonStyle={button.Wrap}
-            textStyle={button.Text}
-            onPress={() => addCustomer()}
-          />
-        </View>
+        </Pressable>
       </Modal>
     </View>
   );
@@ -155,7 +164,6 @@ const styles = StyleSheet.create({
   modalViewSM: {
     flex: 1,
     backgroundColor: '#66555533',
-    borderRadius: 20,
     padding: 35,
     alignItems: 'center',
     justifyContent: 'center',
@@ -193,5 +201,29 @@ const styles = StyleSheet.create({
     elevation: 8,
     borderRadius: 10,
     width: '110%',
+  },
+  custButtonwrap: {
+    backgroundColor: R.colors.primary,
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 20,
+    height: 48,
+    elevation: 8,
+    width: 250,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  inputWrap: {
+    flex: 1,
+    borderColor: '#000000',
+    borderBottomWidth: 1,
+    marginBottom: 10,
+    backgroundColor: '#FF0000',
   },
 });

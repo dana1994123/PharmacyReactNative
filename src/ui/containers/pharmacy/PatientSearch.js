@@ -3,15 +3,44 @@ import {StyleSheet, TextInput, View, Text} from 'react-native';
 import {form, layout, button, textstyle} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
+import {firebase} from '../../../database/config';
 
 export default function PatientSearch({navigation}) {
   const [patientName, setPatientName] = useState('');
   const [healthCard, setHealthCardNumber] = useState('');
   const [isFound, setIsFound] = useState(false);
+  const [notFound, setNotFound] = useState(false);
+
+  constructor = () => {
+    setIsFound(false);
+  };
 
   const search = () => {
+    console.log('Search is Called');
+    firebase
+      .firestore()
+      .collection('Customers')
+      .where('healthCard', '==', healthCard)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, ' => ', doc.data());
+          setIsFound(true);
+          setNotFound(false);
+          this.forceUpdate();
+        });
+      })
+      .catch(error => {
+        console.log('Error getting documents: ', error);
+      });
     //call the database
-    setIsFound(true);
+    //setIsFound(true);
+    if (isFound !== true) {
+      setNotFound(true);
+      setIsFound(false);
+      this.forceUpdate();
+    }
   };
   return (
     <View style={layout.fullScreen}>
@@ -38,21 +67,22 @@ export default function PatientSearch({navigation}) {
           />
         </View>
 
-        {isFound ? (
+        {isFound && !notFound ? (
           <AppButton
             title="Enter Order"
             buttonStyle={button.Wrap}
             textStyle={button.Text}
-            onPress={navigation.navigate('EnterOrder')}
+            onPress={() => navigation.navigate('EnterOrder')}
           />
-        ) : (
+        ) : null}
+        {!isFound && notFound ? (
           <AppButton
             title="Add Patient"
             buttonStyle={button.Wrap}
             textStyle={button.Text}
             onPress={() => navigation.navigate('AddCustomer')}
           />
-        )}
+        ) : null}
       </View>
     </View>
   );

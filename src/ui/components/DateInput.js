@@ -12,7 +12,6 @@ export const DateInput = ({setDay, setMonth, setYear}) => (
         placeholder="Day"
       />
     </View>
-
     <View style={styles.inputWrap}>
       <TextInput
         style={styles.input2}
