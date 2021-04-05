@@ -8,13 +8,11 @@ import Patient from '../../../models/patient';
 import {TouchableOpacity} from 'react-native';
 
 export default function HealthInsurance() {
-  
-
   const p = new Patient();
   const COLLECTION_ONE = 'Patient';
 
-  addGuest = () => {
-    fdb
+  const addGuest = () => {
+    db
       .collection(COLLECTION_ONE)
       .document(p.email.toString())
       .set(p).addOnSuccessListener = () => {

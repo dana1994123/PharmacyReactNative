@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, TextInput, View, Text} from 'react-native';
-import {form, layout, button, text} from '../../../res/styles/global';
+import {form, layout, button, textstyle} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 
@@ -17,7 +17,7 @@ export default function PatientSearch({navigation}) {
     <View style={layout.fullScreen}>
       <View style={layout.centeredFullScreen}>
         <View style={styles.box}>
-          <Text style={text.h6}>Find Customer</Text>
+          <Text style={textstyle.h6}>Find Customer</Text>
           <TextInput
             style={form.inputGrey}
             selectionColor={R.colors.primary}
@@ -50,7 +50,7 @@ export default function PatientSearch({navigation}) {
             title="Add Patient"
             buttonStyle={button.Wrap}
             textStyle={button.Text}
-            //onPress={navigation.navigate("AddRecord")}
+            onPress={() => navigation.navigate('AddCustomer')}
           />
         )}
       </View>

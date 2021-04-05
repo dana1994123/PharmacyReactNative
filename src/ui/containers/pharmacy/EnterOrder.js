@@ -4,7 +4,7 @@ import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import DatePicker from 'react-native-modern-datepicker';
 import PrescriptionOrder from '../../../models/PrescriptionOrder';
-import {form, layout, button, text} from '../../../res/styles/global';
+import {form, layout, button, textstyle} from '../../../res/styles/global';
 
 export default function EnterOrder() {
   const [selectedDate, setSelectedDate] = useState('');

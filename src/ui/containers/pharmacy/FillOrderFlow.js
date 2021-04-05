@@ -2,6 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import PatientSearch from './PatientSearch';
 import EnterOrder from './EnterOrder';
+import AddCustomer from './AddCustomer';
 import R from '../../../res/R';
 
 const Stack = createStackNavigator();
@@ -24,7 +25,7 @@ export default function FillOrderFlow() {
         options={{title: 'Search Patient'}}
       />
       <Stack.Screen name={'EnterOrder'} component={EnterOrder} />
-      {/* <Stack.Screen name={"AddPatient"} component={}></Stack.Screen> */}
+      <Stack.Screen name={'AddCustomer'} component={AddCustomer} />
     </Stack.Navigator>
   );
 }

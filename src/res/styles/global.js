@@ -77,7 +77,7 @@ export const button = StyleSheet.create({
   },
 });
 
-export const text = StyleSheet.create({
+export const textstyle = StyleSheet.create({
   default: {
     fontSize: 42,
   },

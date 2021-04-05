@@ -53,7 +53,7 @@ const HomeScreen = ({navigation}) => {
             title="Add Patient"
             buttonStyle={styles.buttonContainer}
             textStyle={styles.optionTxt}
-            onPress={() => navigation.navigate('CheckOrder')}
+            onPress={() => navigation.navigate('AddCustomer')}
           />
         </View>
         <View style={styles.row}>
