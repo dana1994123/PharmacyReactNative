@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import TagInput from 'react-native-tag-input';
+import { forms } from '../../res/styles/global';
 
 import {styles} from '../containers/patient/styles';
 
@@ -22,10 +23,10 @@ export default class SearchForm extends React.Component {
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.main}>
+        <View style={forms.main}>
           <View style={[styles.boxContainer, styles.searchBlock, styles.flex1]}>
             <TagInput
-              style={[styles.searchInput]}
+              style={[forms.searchInput]}
               value={props.selected}
               labelExtractor={symptom => {
                 return symptom.Name;
