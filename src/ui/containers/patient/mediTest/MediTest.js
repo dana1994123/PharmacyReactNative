@@ -22,6 +22,7 @@ import {
   text,
 } from '../../../../res/styles/global';
 import {AppButton} from '../../../components/AppButton';
+import BeginTest from './BeginTest';
 const Stack = createStackNavigator();
 
 export default function MediTest() {
@@ -38,6 +39,7 @@ export default function MediTest() {
         },
       }}>
       <Stack.Screen name={'StartTest'} component={StartTest} />
+      <Stack.Screen name={'BeginTest'} component={BeginTest} />
     </Stack.Navigator>
   );
 }
@@ -47,10 +49,10 @@ const StartTest = ({navigation}) => {
   onFieldChange = (field, value) => {
     this.props.dispatch(fieldChangedAction(field, value));
   };
-  startQuiz =()=>{
-    console.log("the quiz will start soooon")
-
-  }
+  startQuiz = () => {
+    console.log('the quiz will start soooon');
+    navigation.navigate(BeginTest);
+  };
   return (
     <View style={layout.fullScreen}>
       <View>
@@ -120,6 +122,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: '10%',
     marginLeft: '10%',
-    color:R.colors.black
+    color: R.colors.black,
   },
 });

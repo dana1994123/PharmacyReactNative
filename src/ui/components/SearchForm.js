@@ -15,8 +15,6 @@ import {
 import TagInput from 'react-native-tag-input';
 import { forms } from '../../res/styles/global';
 
-import {styles} from '../containers/patient/styles';
-
 export default class SearchForm extends React.Component {
   render() {
     const props = this.props;
@@ -24,7 +22,7 @@ export default class SearchForm extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={forms.main}>
-          <View style={[styles.boxContainer, styles.searchBlock, styles.flex1]}>
+          <View style={[forms.boxContainer, forms.searchBlock, forms.flex1]}>
             <TagInput
               style={[forms.searchInput]}
               value={props.selected}
@@ -47,8 +45,8 @@ export default class SearchForm extends React.Component {
                         key={key}
                         underlayColor="lightgrey"
                         onPress={props.select.bind(null, symptom)}>
-                        <View style={styles.tag}>
-                          <Text style={styles.tagText}>{symptom.Name}</Text>
+                        <View style={forms.tag}>
+                          <Text style={forms.tagText}>{symptom.Name}</Text>
                         </View>
                       </TouchableHighlight>
                     );
@@ -58,7 +56,7 @@ export default class SearchForm extends React.Component {
             </View>
           </View>
 
-          <View style={[styles.boxContainer, styles.actionBlock]}>
+          <View style={[forms.boxContainer, forms.actionBlock]}>
             <Button
               onPress={props.searchAction}
               title={props.searchTitle}

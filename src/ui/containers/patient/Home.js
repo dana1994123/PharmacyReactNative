@@ -99,7 +99,7 @@ const PatientHome = ({navigation}) => {
                 <IconButton
                   icon="plus"
                   style={styles.optionImg}
-                  color={R.colors.purple}
+                  color={R.colors.orange}
                   size={80}
                   // onPress={addReminder}
                 />
@@ -113,7 +113,7 @@ const PatientHome = ({navigation}) => {
                 <IconButton
                   icon="map"
                   style={styles.optionImg}
-                  color={R.colors.purple}
+                  color={R.colors.orange}
                   size={80}
                   // onPress={addReminder}
                 />
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   h3: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: R.colors.purple,
+    color: R.colors.orange,
     marginTop: '5%',
   },
   h2: {
