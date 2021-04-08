@@ -7,13 +7,12 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ScrollView,
-  Dimensions,
   TouchableHighlight,
-  Button,
 } from 'react-native';
 
 import TagInput from 'react-native-tag-input';
-import { forms } from '../../res/styles/global';
+import {button, forms} from '../../res/styles/global';
+import {AppButton} from './AppButton';
 
 export default class SearchForm extends React.Component {
   render() {
@@ -54,6 +53,14 @@ export default class SearchForm extends React.Component {
                 </View>
               </ScrollView>
             </View>
+          </View>
+          <View style={forms.btnS}>
+            <AppButton
+              onPress={props.searchAction}
+              title="Check Order"
+              buttonStyle={button.Wrap}
+              textStyle={button.Text}
+            />
           </View>
         </View>
       </TouchableWithoutFeedback>

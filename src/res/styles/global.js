@@ -47,7 +47,7 @@ export const form = StyleSheet.create({
     height: 48,
     borderRadius: 5,
     overflow: 'hidden',
-    backgroundColor: '#EEEEEE',
+    backgroundColor: R.colors.orange,
     marginTop: 10,
     paddingLeft: 16,
     alignSelf: 'center',
@@ -57,7 +57,7 @@ export const form = StyleSheet.create({
     height: 48,
     borderRadius: 5,
     overflow: 'hidden',
-    backgroundColor: '#EEEEEE',
+    backgroundColor: R.colors.orange,
     marginTop: 10,
     paddingLeft: 16,
     alignSelf: 'center',
@@ -198,11 +198,12 @@ export const forms = StyleSheet.create({
   },
   searchBlock: {
     backgroundColor: 'white',
+    height: 90,
   },
   tagsBlock: {
     flex: 6,
     flexDirection: 'row',
-    backgroundColor: '#d7dce0',
+    backgroundColor: R.colors.lightGrey,
   },
   filteredTagsBlock: {
     flex: 2,
@@ -226,13 +227,12 @@ export const forms = StyleSheet.create({
   },
   tag: {
     // backgroundColor: 'transparent',
-    backgroundColor: '#faa2ad',
+    backgroundColor: R.colors.orange,
     borderRadius: 5,
     borderWidth: 1,
     borderColor: 'transparent',
     margin: 5,
     alignContent: 'center',
-    //display: 'inline-flex',
     paddingRight: 10,
     paddingLeft: 10,
     paddingTop: 5,
@@ -240,12 +240,24 @@ export const forms = StyleSheet.create({
   },
   tagText: {
     fontSize: 18,
-    color: '#fff',
+    color: R.colors.white,
     textAlign: 'center',
   },
   formcon: {
     marginTop: 0,
   },
+  btn: {
+    width: '100%',
+    marginTop: '80%',
+    justifyContent: 'center',
+  },
+  cont: {
+    justifyContent: 'center',
+    marginTop: '40%',
+  },
+  btnS:{
+    marginBottom:"10%"
+  }
 });
 
 // const styles = StyleSheet.create({
