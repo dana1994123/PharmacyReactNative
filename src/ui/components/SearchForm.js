@@ -35,10 +35,10 @@ export default class SearchForm extends React.Component {
             />
           </View>
 
-          <View style={[styles.boxContainer, styles.tagsBlock]}>
-            <View style={[styles.boxContainer, styles.filteredTagsBlock]}>
+          <View style={[forms.boxContainer, forms.tagsBlock]}>
+            <View style={[forms.boxContainer, forms.filteredTagsBlock]}>
               <ScrollView showsVerticalScrollIndicator={true}>
-                <View style={[styles.filteredTags]}>
+                <View style={[forms.filteredTags]}>
                   {props.filtered.map((symptom, key) => {
                     return (
                       <TouchableHighlight
@@ -54,15 +54,6 @@ export default class SearchForm extends React.Component {
                 </View>
               </ScrollView>
             </View>
-          </View>
-
-          <View style={[forms.boxContainer, forms.actionBlock]}>
-            <Button
-              onPress={props.searchAction}
-              title={props.searchTitle}
-              color="white"
-              accessibilityLabel=""
-            />
           </View>
         </View>
       </TouchableWithoutFeedback>

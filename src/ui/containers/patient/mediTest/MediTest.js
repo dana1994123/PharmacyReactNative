@@ -45,7 +45,8 @@ export default function MediTest() {
 }
 
 const StartTest = ({navigation}) => {
-  const [genders, setGender] = useState(['Male', 'Female']);
+  
+
   onFieldChange = (field, value) => {
     this.props.dispatch(fieldChangedAction(field, value));
   };

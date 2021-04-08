@@ -1,8 +1,8 @@
-import { FIELD_CHANGED } from '../actions'
+import {FIELD_CHANGED} from '../action';
 
 const initialState = {
   year: 1993,
-  gender: 'Male'
+  gender: 'Male',
 };
 
 export default (state = initialState, action) => {
@@ -10,17 +10,17 @@ export default (state = initialState, action) => {
     case FIELD_CHANGED:
       return {
         ...state,
-        [action.fieldName]: action.value
+        [action.fieldName]: action.value,
       };
     default:
       return state;
   }
-}
+};
 
 export function fieldChangedAction(fieldName, value) {
   return {
     type: FIELD_CHANGED,
     fieldName,
-    value
+    value,
   };
 }

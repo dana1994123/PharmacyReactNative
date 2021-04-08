@@ -12,6 +12,7 @@ export default class SelectGender extends React.Component {
     this.setState({selectedGender: value});
   }
 
+  
   render() {
     return (
       <SelectForm
@@ -26,3 +27,4 @@ export default class SelectGender extends React.Component {
     );
   }
 }
+

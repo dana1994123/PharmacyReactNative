@@ -1,14 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import {
-  Alert
-} from 'react-native';
-import { getToken } from '../../../../api/sumChecker/auth'
-import { getSymptoms, getDiagnosis } from '../../../../api/sumChecker/request'
-import filter from '../../../../utilites/filter'
-import deleteFromArray from '../../../../utilites/deleteFromArray'
-import SearchForm from '../../../components/SearchForm'
-import { symptomsFieldChangedAction } from './reducers/SymptomsReducer'
+import {connect} from 'react-redux';
+import {Alert, View, StyleSheet} from 'react-native';
+import {getToken} from '../../../../api/sumChecker/auth';
+import {getSymptoms, getDiagnosis} from '../../../../api/sumChecker/request';
+import filter from '../../../../utilites/filter';
+import deleteFromArray from '../../../../utilites/deleteFromArray';
+import SearchForm from '../../../components/SearchForm';
+import {symptomsFieldChangedAction} from './reducers/SymptomsReducer';
+import {button, form, forms, layout} from '../../../../res/styles/global';
+import {TouchableOpacity} from 'react-native';
+import {AppButton} from '../../../components/AppButton';
 
 export default class BeginTest extends React.Component {
   constructor(props) {
@@ -17,15 +18,15 @@ export default class BeginTest extends React.Component {
       token: '',
       symptoms: [],
       filteredSymptoms: [],
-      selectedSymptoms: []
+      selectedSymptoms: [],
     };
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     const res = await getToken();
 
     this.setState({
-      token: res.Token
+      token: res.Token,
     });
 
     this.onSearchSymptoms('');
@@ -45,17 +46,20 @@ export default class BeginTest extends React.Component {
   async getDiagnosis() {
     const diagnosis = await getDiagnosis(this.state.token, {
       symptoms: this.state.selectedSymptoms,
-      year: this.props.year
+      year: this.props.year,
     });
 
     // console.log(diagnosis);
-    Alert.alert('Possible diagnosis', diagnosis.reduce((sum, cur) => {
-      return sum + ' ' + cur.Issue.Name + '\n';
-    }, ''));
+    Alert.alert(
+      'Possible diagnosis',
+      diagnosis.reduce((sum, cur) => {
+        return sum + ' ' + cur.Issue.Name + '\n';
+      }, ''),
+    );
   }
 
   onSearchSymptoms(search) {
-    this.props.dispatch(symptomsFieldChangedAction('search', search));
+    // this.props.dispatch(symptomsFieldChangedAction('search', search));
 
     setTimeout(() => {
       this.getSymptoms().then(symptoms => {
@@ -72,7 +76,10 @@ export default class BeginTest extends React.Component {
     let selected = this.state.selectedSymptoms;
 
     this.setState({
-      selectedSymptoms: selected.length < 6 && selected.indexOf(symptom) === -1 ? selected.concat(symptom): selected
+      selectedSymptoms:
+        selected.length < 6 && selected.indexOf(symptom) === -1
+          ? selected.concat(symptom)
+          : selected,
     });
   }
 
@@ -80,27 +87,40 @@ export default class BeginTest extends React.Component {
     let selected = this.state.selectedSymptoms;
 
     this.setState({
-      selectedSymptoms: deleteFromArray(selected, symptom, true)
+      selectedSymptoms: deleteFromArray(selected, symptom, true),
     });
   }
 
   updateSelectedTags(newTags) {
-      this.setState({
-          selectedSymptoms: newTags
-      });
+    this.setState({
+      selectedSymptoms: newTags,
+    });
   }
 
   render() {
     return (
-      <SearchForm search={this.props.search}
-                  onSearch={this.onSearchSymptoms.bind(this)}
-                  select={this.selectSymptom.bind(this)}
-                  delete={this.deleteSymptom.bind(this)}
-                  updateSelectedTags={this.updateSelectedTags.bind(this)}
-                  filtered={this.state.filteredSymptoms}
-                  selected={this.state.selectedSymptoms}
-                  searchAction={this.getDiagnosis.bind(this)}
-                  searchTitle="Get diagnosis" />
+      <View style={layout.fullScreen}>
+        <SearchForm
+          search={this.props.search}
+          onSearch={text => this.onSearchSymptoms(text)}
+          select={this.selectSymptom.bind(this)}
+          delete={this.deleteSymptom.bind(this)}
+          updateSelectedTags={this.updateSelectedTags.bind(this)}
+          filtered={this.state.filteredSymptoms}
+          selected={this.state.selectedSymptoms}
+          searchAction={this.getDiagnosis.bind(this)}
+          searchTitle="Get diagnosis"
+        />
+
+        <View style={styles.buttonCon}>
+          <AppButton
+            title="Get Daignoise "
+            buttonStyle={button.Wrap}
+            textStyle={styles.Text}
+            onPress={() => openModal2()}
+          />
+        </View>
+      </View>
     );
   }
 }
@@ -110,3 +130,9 @@ export default class BeginTest extends React.Component {
 //   ...state.personalData
 // });
 
+const styles = StyleSheet.create({
+  buttonCon: {
+    alignContent: 'center',
+    flex: 1,
+  },
+});
