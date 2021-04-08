@@ -9,6 +9,6 @@ export default function AuthStack() {
   if (pharm) {
     return <PharmEntry />;
   } else {
-    return <MediTest />;
+    return <PatientEntry />;
   }
 }

@@ -139,7 +139,8 @@ import {Text} from 'react-native';
 
 import React from 'react';
 import {Alert, View, StyleSheet} from 'react-native';
-import ajax from '../../../../api/sumChecker/request';
+import ajax, { getDiagnosis } from '../../../../api/sumChecker/request';
+
 import filter from '../../../../utilites/filter';
 import deleteFromArray from '../../../../utilites/deleteFromArray';
 import SearchForm from '../../../components/SearchForm';
@@ -184,10 +185,7 @@ export default class BeginTest extends React.Component {
   }
 
   async getDiagnosis() {
-    const diagnosis = await getDiagnosis(this.state.token, {
-      symptoms: this.state.selectedSymptoms,
-      year: this.props.year,
-    });
+    const diagnosis = await getDiagnosis(this.state.selectedSymptoms);
 
     // console.log(diagnosis);
     Alert.alert(
@@ -207,7 +205,6 @@ export default class BeginTest extends React.Component {
           ? selected.concat(symptom)
           : selected,
     });
-    
   }
 
   deleteSymptom(symptom) {

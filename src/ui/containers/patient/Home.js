@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import db from "../../../database/config"
 import FamilyDr from './FamilyDr';
 import {createStackNavigator} from '@react-navigation/stack';
 import {IconButton, Colors} from 'react-native-paper';
@@ -19,6 +20,7 @@ import HealthInsurance from '../../../models/HealthInsurance';
 import Ppharmacy from './Ppharmacy';
 import News from '../common/news/News';
 import Clock from './drug_reminder/Clock';
+import Patient from '../../../models/patient';
 const Stack = createStackNavigator();
 
 export default function Home() {
@@ -44,6 +46,9 @@ export default function Home() {
   );
 }
 const PatientHome = ({navigation}) => {
+  const p = new Patient();
+  
+  console.log(p.fullName);
   return (
     <View>
       <ScrollView>

@@ -1,6 +1,4 @@
-// import firestore from "@react-native-firebase/firestore";
 
-// const usersCollection = firestore().collection("Users");
 import firebase from '@react-native-firebase/app';
 const firebaseConfig = {
   apiKey: 'AIzaSyA7iSdAJjwcJErmhuzSbDCZqkKQZI2fwfQ',
