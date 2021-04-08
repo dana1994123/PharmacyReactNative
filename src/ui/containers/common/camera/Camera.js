@@ -3,12 +3,16 @@ import ImagePicker from 'react-native-image-picker';
 import {StyleSheet, TouchableOpacity, View, Image} from 'react-native';
 import {header} from '../../../../res/styles/global';
 import R from '../../../../res/R';
+import {firebase} from '../../../../database/config';
+import storage from '@react-native-firebase/storage';
 
 export default class Camera extends Component {
   state = {
     filepath: {},
     fileUri: this.props.picUri,
     id: this.props.id,
+    uploading: false,
+    imageName: '',
   };
   chooseImage = () => {
     let options = {
@@ -34,8 +38,15 @@ export default class Camera extends Component {
           filePath: response,
           fileUri: response.uri,
         });
+        this.uploadImage();
       }
     });
+  };
+  uploadImage = () => {
+    firebase
+      .storage()
+      .putFile(this.state.fileUri)
+      .catch(e => console.log('uploading image error => ', e));
   };
 
   launchCamera = () => {
@@ -90,9 +101,11 @@ export default class Camera extends Component {
           filePath: response,
           fileUri: response.uri,
         });
+        this.uploadImage();
       }
     });
   };
+
   //after choosing the imge what to do for with the uri  for the profile picture
   renderProfilePicFileUri() {
     //we need to save the image in the firebase & pass it as a prop
@@ -104,6 +117,7 @@ export default class Camera extends Component {
       );
     }
   }
+
   render() {
     return <View style={styles.cont}>{this.renderProfilePicFileUri()}</View>;
   }
