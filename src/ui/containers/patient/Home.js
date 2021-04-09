@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import db from "../../../database/config"
+import db from '../../../database/config';
 import FamilyDr from './FamilyDr';
 import {createStackNavigator} from '@react-navigation/stack';
 import {IconButton, Colors} from 'react-native-paper';
@@ -21,6 +21,7 @@ import Ppharmacy from './Ppharmacy';
 import News from '../common/news/News';
 import Clock from './drug_reminder/Clock';
 import Patient from '../../../models/patient';
+import MediTest from './mediTest/MediTest';
 const Stack = createStackNavigator();
 
 export default function Home() {
@@ -40,14 +41,14 @@ export default function Home() {
       <Stack.Screen
         name={'prescription'}
         component={AddPrescription}></Stack.Screen>
-      <Stack.Screen name={'Pharmacy'} component={Ppharmacy}></Stack.Screen>
+      <Stack.Screen name={'MediTest'} component={MediTest}></Stack.Screen>
       <Stack.Screen name={'News'} component={News}></Stack.Screen>
     </Stack.Navigator>
   );
 }
 const PatientHome = ({navigation}) => {
   const p = new Patient();
-  
+
   console.log(p.fullName);
   return (
     <View>
@@ -111,10 +112,10 @@ const PatientHome = ({navigation}) => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('Pharmacy')}
+              onPress={() => navigation.navigate('MediTest')}
               style={styles.box}>
               <View style={styles.row}>
-                <Text style={styles.h6}>Find Pharmacy</Text>
+                <Text style={styles.h6}>Get Daignoise</Text>
                 <IconButton
                   icon="map"
                   style={styles.optionImg}

@@ -28,16 +28,12 @@ export default function MediTest() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: R.colors.primary,
-        },
-        headerTintColor: R.colors.white,
         headerTitleStyle: {
           fontWeight: 'bold',
-          fontSize: 25,
+          fontSize: 20,
         },
       }}>
-      <Stack.Screen name={'SelectYear'} component={SelectYear} />
+      <Stack.Screen name={'Select your Year of Birth'} component={SelectYear} />
       <Stack.Screen name={'SelectGender'} component={SelectGender} />
       <Stack.Screen name={'BeginTest'} component={BeginTest} />
     </Stack.Navigator>

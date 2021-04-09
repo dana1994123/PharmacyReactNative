@@ -260,6 +260,22 @@ export const forms = StyleSheet.create({
   }
 });
 
+export const cams = StyleSheet.create({
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 70,
+    borderWidth: 4,
+    borderColor: R.colors.white,
+    alignSelf: 'center',
+    position: 'absolute',
+    marginTop: '5%',
+  },
+  cont: {
+    marginTop: '5%',
+  },
+});
+
 // const styles = StyleSheet.create({
 //   container: {
 //     flex: 1,

@@ -1,10 +1,8 @@
 import React, {Component, useState} from 'react';
 import ImagePicker from 'react-native-image-picker';
-import {StyleSheet, TouchableOpacity, View, Image} from 'react-native';
-import {header} from '../../../../res/styles/global';
-import R from '../../../../res/R';
-import {firebase} from '../../../../database/config';
-import storage from '@react-native-firebase/storage';
+import {TouchableOpacity, View, Image} from 'react-native';
+import storage, {firebase} from '@react-native-firebase/storage';
+import {cams} from '../../../../res/styles/global';
 
 export default class Camera extends Component {
   state = {
@@ -12,8 +10,14 @@ export default class Camera extends Component {
     fileUri: this.props.picUri,
     id: this.props.id,
     uploading: false,
-    imageName: '',
+    imageName: 'test',
   };
+
+  componentDidCatch() {
+    //we have to be auth user to be able to upload images
+    firebase.auth().signInAnonymously();
+  }
+
   chooseImage = () => {
     let options = {
       title: 'Select Image',
@@ -23,31 +27,36 @@ export default class Camera extends Component {
       },
     };
     ImagePicker.showImagePicker(options, response => {
-      console.log('Response = ', response);
+      //console.log('Response = ', response);
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        //console.log('User cancelled image picker');
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+        //console.log('ImagePicker Error: ', response.error);
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
+        //console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
       } else {
         const source = {uri: response.uri};
-        console.log('response', JSON.stringify(response));
+        //console.log('response', JSON.stringify(response));
         this.setState({
           filePath: response,
           fileUri: response.uri,
+          imageName: `${response.uri.substring(4,8)}/test${response.uri.substring(1,5)}`,
         });
         this.uploadImage();
       }
     });
   };
-  uploadImage = () => {
-    firebase
-      .storage()
-      .putFile(this.state.fileUri)
-      .catch(e => console.log('uploading image error => ', e));
-  };
+
+  //upload the image to the firebase storage 
+  async uploadImage() {
+    const reference = storage().ref(`${this.state.fileUri}`);
+    console.log(`i'm refrence ${reference}`);
+    const pathToFile = `${this.state.fileUri}`;
+    console.log(`this is the path ${pathToFile} `);
+    // uploads file
+    await reference.putFile(pathToFile);
+  }
 
   launchCamera = () => {
     let options = {
@@ -73,6 +82,7 @@ export default class Camera extends Component {
           filePath: response,
           fileUri: response.uri,
         });
+        this.uploadImage();
       }
     });
   };
@@ -112,28 +122,13 @@ export default class Camera extends Component {
     if (this.state.fileUri) {
       return (
         <TouchableOpacity onPress={() => this.chooseImage()}>
-          <Image source={{uri: this.state.fileUri}} style={styles.avatar} />
+          <Image source={{uri: this.state.fileUri}} style={cams.avatar} />
         </TouchableOpacity>
       );
     }
   }
 
   render() {
-    return <View style={styles.cont}>{this.renderProfilePicFileUri()}</View>;
+    return <View style={cams.cont}>{this.renderProfilePicFileUri()}</View>;
   }
 }
-const styles = StyleSheet.create({
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 70,
-    borderWidth: 4,
-    borderColor: R.colors.white,
-    alignSelf: 'center',
-    position: 'absolute',
-    marginTop: '5%',
-  },
-  cont: {
-    marginTop: '5%',
-  },
-});
