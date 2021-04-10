@@ -5,7 +5,7 @@ import SignUp from './SignUp';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {footer, layout} from '../../../res/styles/global';
 import {AuthContext} from '../../../navigation/AuthProvider';
-
+import {db} from '../../../database/config';
 export default function LoginScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,7 +44,27 @@ export default function LoginScreen({navigation}) {
     }
   };
   const validateCredit = () => {
+    console.log("i'm here33");
     //check if the user name and password in our data base records
+    // setIsFound(false);
+    // setNotFound(true);
+    // console.log('Search is Called');
+    db.firestore()
+      .collection('Users')
+      .where('email', '===', email)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.map(doc => {
+          // doc.data() is never undefined for query doc snapshots
+          const data = doc.data();
+          console.log('Data' + data);
+        });
+      })
+      .catch(error => {
+        console.log('Error getting documents: ', error);
+      });
+    //call the database
+    //setIsFound(true);
   };
   const onLoginPress = () => {
     // validate the user input by searching the data base

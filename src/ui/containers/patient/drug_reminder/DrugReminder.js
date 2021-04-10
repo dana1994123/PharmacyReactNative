@@ -17,6 +17,7 @@ import DrugReminderObj from '../../../../models/DrugReminderObj';
 import R from '../../../../res/R';
 import Reminder from './Reminder';
 import {AppButton} from '../../../components/AppButton';
+import {saveDrugReminder} from "../../../../database/ViewModel"
 export default function RenderdrugReminder() {
   //fetch the list of drug reminder from the fire base & render it
   //if there is no drug reminder render a Text
@@ -40,6 +41,10 @@ export default function RenderdrugReminder() {
     //validate the information and create a drug reminder object for this specific user
     //& save to the new db
     setmodalVisible(!modalVisible);
+    const d = new DrugReminderObj();
+    saveDrugReminder(d);
+
+
     alert('The reminder has been Added');
   };
 

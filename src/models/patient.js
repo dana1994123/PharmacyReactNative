@@ -6,13 +6,11 @@ import FamilyMember from './FamilyMember';
 import DrugReminder from './DrugReminderObj';
 import DOB from './DOB';
 import Pharmacy from './Pharmacy';
+import User from './User';
 
 export default class Patient {
   constructor() {
-    this.fullName = 'John kamel';
-    this.email = 'd@c.c';
-    this.pass = '';
-    this.confirmPass = '';
+    this.user = new User();
     this.dateOfBirth = new DOB();
     this.location = new Location();
     this.healthInsurance = new HealthInsurance();
