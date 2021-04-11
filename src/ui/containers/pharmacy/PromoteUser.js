@@ -4,6 +4,7 @@ import {form, layout, button, textstyle} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import {db} from '../../../database/config';
+import {userConverter} from '../../../utilites/firestoreConverters';
 
 export default function PromoteUser({navigation}) {
   const [name, setName] = useState('');
@@ -12,13 +13,14 @@ export default function PromoteUser({navigation}) {
   const search = () => {
     setUsers([]);
     db.collection('users')
-      .where('u.fullName', '==', name)
+      .where('fullName', '==', name)
+      .where('role', '!=', 'pharmacist')
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
           // doc.data() is never undefined for query doc snapshots
           console.log(doc.id, ' => ', doc.data());
-          const data = doc.data();
+          const data = userConverter.fromFirestore(doc.data());
           setUsers([
             ...users,
             {
@@ -47,7 +49,7 @@ export default function PromoteUser({navigation}) {
       <View style={layout.row} key={index}>
         <View style={layout.centered}>
           <Text>
-            {item.user.fname} {item.user.email}
+            {'Name: ' + item.user.fullName + ' ' + 'Email: ' + item.user.email}
           </Text>
         </View>
 
@@ -60,8 +62,6 @@ export default function PromoteUser({navigation}) {
       </View>,
     );
   });
-
-  console.log(userList);
   return (
     <View style={layout.fullScreen}>
       <View style={layout.centeredFullScreen}>

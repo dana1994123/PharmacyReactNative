@@ -1,10 +1,12 @@
 import React, {useState, createContext} from 'react';
-import auth from '@react-native-firebase/auth';
+import {userConverter} from '../utilites/firestoreConverters';
+import firebase from '@react-native-firebase/app';
+import {db} from '../database/config';
+
 export const AuthContext = createContext();
-import {firebase} from '../database/config';
 
 export const AuthProvider = ({children}) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
 
   return (
     <AuthContext.Provider
@@ -27,11 +29,9 @@ export const AuthProvider = ({children}) => {
               .createUserWithEmailAndPassword(newUser.email, newUser.pass)
               .then(response => {
                 const uid = response.user.uid;
-                const usersRef = firebase.firestore().collection('users');
-                console.log('usersRef: ' + usersRef);
-                usersRef.doc(uid).set({
-                  u: newUser,
-                });
+                db.collection('users')
+                  .doc(uid)
+                  .set(userConverter.toFirestore(newUser));
               });
           } catch (e) {
             console.log(e);

@@ -14,9 +14,11 @@ const Routes = () => {
   const [initializing, setInitializing] = useState(true);
 
   const onAuthStateChanged = useCallback(
-    user => {
-      setUser(user);
-      if (initializing) setInitializing(false);
+    u => {
+      setUser(u);
+      if (initializing) {
+        setInitializing(false);
+      }
     },
     [initializing, setUser],
   );

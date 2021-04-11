@@ -10,7 +10,6 @@ const firebaseConfig = {
 };
 
 //const app = firebase.initializeApp(firebaseConfig);
-export const db = firebase.firestore();
 
 // //storing a document named "mario" inside of a collection named "characters" in Firestore:
 // dbh.collection("characters").doc("mario").set({
@@ -20,8 +19,8 @@ export const db = firebase.firestore();
 // });
 // export { Firebase };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
+// if (!firebase.apps.length) {
+firebase.initializeApp(firebaseConfig);
+// }
+export const db = firebase.firestore();
 export {firebase};

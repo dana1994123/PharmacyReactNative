@@ -19,7 +19,7 @@ export default function AuthStack({user}) {
           setInitializing(false);
         } else {
           // doc.data() will be undefined in this case
-          console.log('No such document!');
+          console.log('App Stack: No such document!');
         }
       })
       .catch(error => {
@@ -31,7 +31,7 @@ export default function AuthStack({user}) {
     return null;
   }
 
-  if (userInfo.role) {
+  if (userInfo.role !== 'patient') {
     return <PharmEntry />;
   } else {
     return <PatientEntry />;
