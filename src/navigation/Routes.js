@@ -6,7 +6,7 @@ import auth from '@react-native-firebase/auth';
 import AppStack from './AppStack';
 import {firebase} from '../database/config';
 import AuthStack from './AuthStack';
-import {UserProvider} from '../utilites/context/UserProvider';
+import {UserProvider} from '../utilites/providers/UserProvider';
 // export const app = firebase.initializeApp(firebaseConfig);
 
 const Routes = () => {

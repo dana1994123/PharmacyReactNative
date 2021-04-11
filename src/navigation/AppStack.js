@@ -2,7 +2,7 @@ import React, {useEffect, useContext, useState} from 'react';
 import {firebase} from '../database/config';
 import PharmEntry from '../ui/containers/pharmacy/Entry';
 import PatientEntry from '../ui/containers/patient/PatientEntry';
-import {UserContext} from '../utilites/context/UserProvider';
+import {UserContext} from '../utilites/providers/UserProvider';
 
 export default function AuthStack({user}) {
   // const pharm = true;
