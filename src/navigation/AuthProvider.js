@@ -3,9 +3,14 @@ import auth from '@react-native-firebase/auth';
 export const AuthContext = createContext();
 import {firebase} from '../database/config';
 import {db} from '../database/config';
+import User from '../models/User';
 
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
+
+  //create a user obj
+  const u = new User();
+
   return (
     <AuthContext.Provider
       value={{
@@ -18,22 +23,25 @@ export const AuthProvider = ({children}) => {
             console.log(e);
           }
         },
-        register: async (fname, pharmacist, email, password) => {
+
+        register: async u => {
           try {
             await firebase
               .auth()
-              .createUserWithEmailAndPassword(email, password)
+              .createUserWithEmailAndPassword(u.email, u.pass)
               .then(response => {
                 const uid = response.user.uid;
                 const usersRef = firebase.firestore().collection('users');
                 console.log('usersRef: ' + usersRef);
                 usersRef.doc(uid).set({
-                  fname: fname,
-                  // lname: lname,
-                  email: email,
-                  pharmacist: pharmacist,
-                  //createdAt: firebase.Firebase.Timestamp.fromDate(new Date()),
-                  userImg: null,
+                  u:u,
+                  // fullName: fname,
+                  // // lname: lname,
+                  // email: email,
+                  // role: role,
+                  // password: password,
+                  // //createdAt: firebase.Firebase.Timestamp.fromDate(new Date()),
+                  // userImg: null,
                 });
               });
           } catch (e) {

@@ -6,6 +6,7 @@ import {footer, button} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import {AuthContext} from '../../../navigation/AuthProvider';
 import R from '../../../res/R';
+import User from '../../../models/User';
 
 export default function SignUp({navigation}) {
   const [fullName, setFullName] = useState('');
@@ -81,7 +82,14 @@ export default function SignUp({navigation}) {
       validatePass();
       if (errorStatus === false) {
         //there is no error in the validation and you should save this obj in data base
-        register(fullName, toggleSwitch, email, password);
+        const u = new User();
+        u.fullName = fullName;
+        u.email = email;
+        u.pass = password;
+        u.role = "patient";
+        register(u);
+        //save the user as a context and then check the role render the matching home
+
       } else {
         alert('Please fix the issues to continue!');
       }
