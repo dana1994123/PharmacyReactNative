@@ -47,7 +47,7 @@ export default class Article extends Component {
               <Text style={{ marginBottom: 10 }}>
                 {a.description || "Read more..."}
               </Text>
-              <Divider style={{ backgroundColor: "#dfe6e9" }} />
+              <Divider style={{ backgroundColor: R.colors.orange }} />
               <View
                 style={{
                   flexDirection: "row",

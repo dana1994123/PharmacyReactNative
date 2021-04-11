@@ -31,12 +31,13 @@ export default function Home() {
         headerStyle: {
           backgroundColor: R.colors.primary,
         },
-        headerTintColor: '#fff',
+        headerTintColor: R.colors.white,
         headerTitleStyle: {
           fontWeight: 'bold',
+          fontSize: 30,
         },
       }}>
-      <Stack.Screen name={'PatientHome'} component={PatientHome}></Stack.Screen>
+      <Stack.Screen name={'Home'} component={PatientHome}></Stack.Screen>
       <Stack.Screen name={'Clock'} component={Clock}></Stack.Screen>
       <Stack.Screen
         name={'prescription'}

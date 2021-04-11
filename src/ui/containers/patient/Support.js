@@ -25,6 +25,9 @@ export default class Support extends Component {
     return (
       <View>
         <ScrollView>
+          <View style={styles.header}>
+            <Text style={styles.sub}>Support</Text>
+          </View>
           <View>
             <View style={styles.container}>
               <View style={styles.img}>
@@ -106,8 +109,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    alignItems: 'center',
     backgroundColor: R.colors.primary,
+    height: '20%',
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+
+  sub: {
+    fontSize: 30,
+    fontWeight: '600',
+
+    color: R.colors.white,
   },
   name: {
     fontSize: 22,
@@ -154,6 +167,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: '40%',
     width: '100%',
+    marginTop: '6%',
   },
   row: {
     flexDirection: 'row',

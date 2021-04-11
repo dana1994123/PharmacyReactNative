@@ -57,7 +57,7 @@ export default class SearchForm extends React.Component {
           <View style={forms.btnS}>
             <AppButton
               onPress={props.searchAction}
-              title="Check Order"
+              title="Get Daignoise"
               buttonStyle={button.Wrap}
               textStyle={button.Text}
             />

@@ -32,6 +32,7 @@ export default function Pprofile() {
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
+          fontSize:30
         },
       }}>
       <Stack.Screen name={'Profile'} component={Profile} />
