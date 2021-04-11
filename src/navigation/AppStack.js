@@ -1,5 +1,5 @@
 import React, {useEffect, useContext, useState} from 'react';
-import {firebase} from '../database/config';
+import {db} from '../database/config';
 import PharmEntry from '../ui/containers/pharmacy/Entry';
 import PatientEntry from '../ui/containers/patient/PatientEntry';
 import {UserContext} from '../utilites/providers/UserProvider';
@@ -10,9 +10,7 @@ export default function AuthStack({user}) {
   const [initializing, setInitializing] = useState(true);
 
   useEffect(() => {
-    firebase
-      .firestore()
-      .collection('users')
+    db.collection('users')
       .doc(user.uid)
       .get()
       .then(doc => {

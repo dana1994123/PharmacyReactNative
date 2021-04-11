@@ -5,7 +5,7 @@ import SignUp from './SignUp';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {footer, layout} from '../../../res/styles/global';
 import {AuthContext} from '../../../navigation/AuthProvider';
-import {db} from '../../../database/config';
+import {firebase} from '../../../database/config';
 export default function LoginScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -49,9 +49,10 @@ export default function LoginScreen({navigation}) {
     // setIsFound(false);
     // setNotFound(true);
     // console.log('Search is Called');
-    db.firestore()
+    firebase
+      .firestore()
       .collection('Users')
-      .where('email', '===', email)
+      .where('email', '==', email)
       .get()
       .then(querySnapshot => {
         querySnapshot.map(doc => {

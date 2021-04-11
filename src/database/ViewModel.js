@@ -1,10 +1,9 @@
 import React from 'react';
 import {firebase} from '../database/config';
 
-
 //Storing Data and Receiving Updates
 export const saveDrugReminder = drugReminderObj => {
- firebase
+  firebase
     .firestore(drugReminderObj)
     .ref('users/' + userId)
     .set({});

@@ -7,6 +7,7 @@ import R from '../../../res/R';
 import EditProfile from './EditProfile';
 import Settings from '../common/Settings';
 import {UserContext} from '../../../utilites/providers/UserProvider';
+import PromoteUser from './PromoteUser';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ export default function Home() {
       <Stack.Screen name={'Home'} component={HomeScreen} />
       <Stack.Screen name={'EditProfile'} component={EditProfile} />
       <Stack.Screen name={'Settings'} component={Settings} />
+      <Stack.Screen name={'PromoteUser'} component={PromoteUser} />
     </Stack.Navigator>
   );
 }
@@ -68,6 +70,20 @@ const HomeScreen = ({navigation}) => {
           />
           <AppButton
             title="Settings"
+            buttonStyle={styles.buttonContainer}
+            textStyle={styles.optionTxt}
+            onPress={() => navigation.navigate('Settings')}
+          />
+        </View>
+        <View style={styles.row}>
+          <AppButton
+            title="Promote User"
+            buttonStyle={styles.buttonContainer}
+            textStyle={styles.optionTxt}
+            onPress={() => navigation.navigate('PromoteUser')}
+          />
+          <AppButton
+            title="Orders"
             buttonStyle={styles.buttonContainer}
             textStyle={styles.optionTxt}
             onPress={() => navigation.navigate('Settings')}
