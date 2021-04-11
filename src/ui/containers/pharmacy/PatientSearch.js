@@ -17,20 +17,6 @@ export default function PatientSearch({navigation}) {
     setIsFound(false);
   };
 
-  var cityConverter = {
-    toFirestore: function (city) {
-      return {
-        name: city.name,
-        state: city.state,
-        country: city.country,
-      };
-    },
-    fromFirestore: function (snapshot, options) {
-      const data = snapshot.data(options);
-      return new Customer(data.name, data.healthcard, data.date);
-    },
-  };
-
   const search = () => {
     setIsFound(false);
     setNotFound(true);

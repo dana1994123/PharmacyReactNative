@@ -3,7 +3,6 @@ import {StyleSheet, Modal, Text, View, TextInput, Switch} from 'react-native';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import DatePicker from 'react-native-modern-datepicker';
-import PrescriptionOrder from '../../../models/PrescriptionOrder';
 import {form, layout, button, textstyle} from '../../../res/styles/global';
 import {firebase} from '../../../database/config';
 
@@ -127,7 +126,6 @@ export default function EnterOrder({route, navigation}) {
             onPress={() => openModal2()}
           />
         )}
-
         <View style={form.inputGrey}>
           <View style={layout.row}>
             <Text style={styles.Text}>Refillable</Text>

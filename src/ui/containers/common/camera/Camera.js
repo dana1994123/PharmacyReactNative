@@ -10,6 +10,7 @@ export default class Camera extends Component {
     fileUri: this.props.picUri,
     id: this.props.id,
   };
+
   chooseImage = () => {
     let options = {
       title: 'Select Image',
@@ -18,6 +19,7 @@ export default class Camera extends Component {
         path: 'images',
       },
     };
+
     ImagePicker.showImagePicker(options, response => {
       console.log('Response = ', response);
       if (response.didCancel) {

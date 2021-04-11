@@ -6,6 +6,7 @@ import auth from '@react-native-firebase/auth';
 import AppStack from './AppStack';
 import {firebase} from '../database/config';
 import AuthStack from './AuthStack';
+import {UserProvider} from '../utilites/context/UserProvider';
 // export const app = firebase.initializeApp(firebaseConfig);
 
 const Routes = () => {
@@ -26,7 +27,6 @@ const Routes = () => {
   }, [onAuthStateChanged]);
 
   if (initializing) {
-    console.log('Initializing');
     return null;
   }
 
@@ -34,7 +34,13 @@ const Routes = () => {
     console.log('Routes' + user),
     (
       <NavigationContainer>
-        {user !== null ? <AppStack /> : <AuthStack />}
+        {user !== null ? (
+          <UserProvider>
+            <AppStack user={user} />
+          </UserProvider>
+        ) : (
+          <AuthStack />
+        )}
       </NavigationContainer>
     )
   );
