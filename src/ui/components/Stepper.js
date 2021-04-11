@@ -1,15 +1,24 @@
-import React from "react";
-import { Pressable, Text, View } from "react-native";
-export const Stepper = ({ fCall, number, buttonStyle, textStyle }) => {
+import React from 'react';
+import {Pressable, Text, View, StyleSheet} from 'react-native';
+export const Stepper = ({fCall, number, buttonStyle, textStyle, numStyle}) => {
   return (
-    <View>
-      {/* <Pressable onPress={fCall(number--)} style={buttonStyle}>
+    <View style={styles.num}>
+      <Pressable onPress={() => fCall(number--)} style={buttonStyle}>
         <Text style={textStyle}>-</Text>
       </Pressable>
-      <Text>{number}</Text>
-      <Pressable onPress={fCall(number++)} style={buttonStyle}>
+      <View>
+        <Text style={[numStyle, styles.num]}>{number}</Text>
+      </View>
+      <Pressable onPress={() => fCall(number++)} style={buttonStyle}>
         <Text style={textStyle}>+</Text>
-      </Pressable> */}
+      </Pressable>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  num: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

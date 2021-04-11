@@ -1,13 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {StyleSheet, View, TouchableOpacity, Image, Text} from 'react-native';
+import {StyleSheet, View, Image, Text} from 'react-native';
 import {AppButton} from '../../components/AppButton';
 import {layout, header} from '../../../res/styles/global';
 import R from '../../../res/R';
 import EditProfile from './EditProfile';
 import Settings from '../common/Settings';
-import defaultProfile from '../../../../assets/images/default.png';
-const defaultProfileUri = Image.resolveAssetSource(defaultProfile).uri;
+import {UserContext} from '../../../utilites/providers/UserProvider';
+
 const Stack = createStackNavigator();
 
 export default function Home() {
@@ -30,7 +30,7 @@ export default function Home() {
 }
 
 const HomeScreen = ({navigation}) => {
-  const userName = 'John';
+  const {userInfo} = useContext(UserContext);
   return (
     <View style={layout.fullScreen}>
       <View style={header.bk}>
@@ -39,7 +39,9 @@ const HomeScreen = ({navigation}) => {
             style={header.avatar}
             source={require('../../../../assets/images/default.png')}
           />
-          <Text style={header.userName}>{'Welcome, ' + userName + '!'}</Text>
+          <Text style={header.userName}>
+            {'Welcome, ' + userInfo.fname + '!'}
+          </Text>
         </View>
       </View>
       <View style={styles.box}>

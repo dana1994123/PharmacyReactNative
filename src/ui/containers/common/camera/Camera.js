@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import ImagePicker from 'react-native-image-picker';
 import {TouchableOpacity, View, Image} from 'react-native';
 import storage, {firebase} from '@react-native-firebase/storage';
@@ -26,6 +26,7 @@ export default class Camera extends Component {
         path: 'images',
       },
     };
+
     ImagePicker.showImagePicker(options, response => {
       //console.log('Response = ', response);
       if (response.didCancel) {
@@ -41,14 +42,17 @@ export default class Camera extends Component {
         this.setState({
           filePath: response,
           fileUri: response.uri,
-          imageName: `${response.uri.substring(4,8)}/test${response.uri.substring(1,5)}`,
+          imageName: `${response.uri.substring(
+            4,
+            8,
+          )}/test${response.uri.substring(1, 5)}`,
         });
         this.uploadImage();
       }
     });
   };
 
-  //upload the image to the firebase storage 
+  //upload the image to the firebase storage
   async uploadImage() {
     const reference = storage().ref(`${this.state.fileUri}`);
     console.log(`i'm refrence ${reference}`);
