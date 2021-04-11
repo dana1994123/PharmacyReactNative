@@ -47,7 +47,7 @@ export const form = StyleSheet.create({
     height: 48,
     borderRadius: 5,
     overflow: 'hidden',
-    backgroundColor: R.colors.orange,
+    backgroundColor: R.colors.lightGrey,
     marginTop: 10,
     paddingLeft: 16,
     alignSelf: 'center',

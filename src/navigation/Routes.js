@@ -34,7 +34,7 @@ const Routes = () => {
     console.log('Routes' + user),
     (
       <NavigationContainer>
-        {user ? <AuthStack /> : <AppStack />}
+        {user ? <AppStack /> : <AuthStack />}
       </NavigationContainer>
     )
   );

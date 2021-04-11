@@ -5,6 +5,7 @@ import PatientEntry from '../ui/containers/patient/PatientEntry';
 import MediTest from '../ui/containers/patient/mediTest/MediTest';
 import LoginScreen from '../ui/containers/common/Login';
 import SignUp from '../ui/containers/common/SignUp';
+import Ppharmacy from '../ui/containers/patient/Ppharmacy';
 
 export default function AuthStack() {
   const pharm = false

@@ -48,7 +48,6 @@ export default function Home() {
 }
 const PatientHome = ({navigation}) => {
   const p = new Patient();
-
   console.log(p.fullName);
   return (
     <View>
