@@ -33,8 +33,8 @@ export default class Article extends Component {
               featuredTitle={a.title}
               featuredTitleStyle={{
                 marginHorizontal: 5,
-                textShadowColor: "#00000f",
-                textShadowOffset: { width: 3, height: 3 },
+                textShadowColor: R.colors.orange,
+                textShadowOffset: { width: 5, height: 3 },
                 textShadowRadius: 3,
               }}
             >
@@ -44,7 +44,7 @@ export default class Article extends Component {
                   uri: a.urlToImage,
                 }}
               />
-              <Text style={{ marginBottom: 10 }}>
+              <Text style={{ marginBottom: 10, color:R.colors.secondary }}>
                 {a.description || "Read more..."}
               </Text>
               <Divider style={{ backgroundColor: R.colors.orange }} />

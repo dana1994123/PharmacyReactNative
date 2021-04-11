@@ -16,6 +16,7 @@ const colors = {
   lightSec: '#34C9DC',
   orange: '#FD7600',
   darkPink: '#DA2A80',
+  yellow:"#FDBC27"
 };
 
 export default colors;

@@ -8,6 +8,7 @@ import {footer} from '../../../res/styles/global';
 import Dialog from 'react-native-dialog';
 import defaultProfile from '../../../../assets/images/default.png';
 import Camera from '../common/camera/Camera';
+import {color} from 'react-native-reanimated';
 const defaultProfileUri = Image.resolveAssetSource(defaultProfile).uri;
 export default class UpdateProfile extends Component {
   //generate the user information into the ui using his information that has
@@ -45,16 +46,16 @@ export default class UpdateProfile extends Component {
       console.log('Saved Profile');
     };
     // retreiveProfileImage = () => {
-  //   const {imageName} = this.state;
-  //   let imageRef = firebase.storage().ref('/' + imageName);
-  //   imageRef
-  //     .getDownloadURL()
-  //     .then(url => {
-  //       //from url you can fetched the uploaded image easily
-  //       this.setState({profileImageUrl: url});
-  //     })
-  //     .catch(e => console.log('getting downloadURL of image error => ', e));
-  // };
+    //   const {imageName} = this.state;
+    //   let imageRef = firebase.storage().ref('/' + imageName);
+    //   imageRef
+    //     .getDownloadURL()
+    //     .then(url => {
+    //       //from url you can fetched the uploaded image easily
+    //       this.setState({profileImageUrl: url});
+    //     })
+    //     .catch(e => console.log('getting downloadURL of image error => ', e));
+    // };
 
     const changePassRequest = () => {
       //open a dialog to change the password in
@@ -100,7 +101,7 @@ export default class UpdateProfile extends Component {
             onPress={() => changePassRequest()}>
             <Text style={footer.footerText}>
               {'          '}Change your Password{' '}
-              <Text style={footer.footerLink}>Update</Text>
+              <Text style={(footer.footerLink, styles.colorO)}>Update</Text>
             </Text>
           </TouchableOpacity>
         </View>
@@ -196,5 +197,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  colorO: {
+    color: R.colors.orange,
   },
 });

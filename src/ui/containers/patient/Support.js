@@ -12,6 +12,7 @@ import {IconButton, Colors} from 'react-native-paper';
 import {Card, Divider} from 'react-native-elements';
 import PHeader from './PHeader';
 import R from '../../../res/R';
+import {layout} from '../../../res/styles/global';
 
 export default class Support extends Component {
   state = {
@@ -23,7 +24,7 @@ export default class Support extends Component {
       console.log('Sending Email');
     };
     return (
-      <View>
+      <View style={layout.fullScreen}>
         <ScrollView>
           <View style={styles.header}>
             <Text style={styles.sub}>Support</Text>
@@ -119,7 +120,6 @@ const styles = StyleSheet.create({
   sub: {
     fontSize: 30,
     fontWeight: '600',
-
     color: R.colors.white,
   },
   name: {

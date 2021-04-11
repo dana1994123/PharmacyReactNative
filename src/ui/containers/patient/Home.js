@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     fontSize: 32,
     alignSelf: 'flex-start',
-    color: R.colors.purple,
+    color: R.colors.orange,
   },
   row: {
     flexDirection: 'row',

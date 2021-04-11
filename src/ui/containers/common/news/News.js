@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     marginLeft: '5%',
     fontSize: 25,
+    color: R.colors.orange,
   },
 });
 
