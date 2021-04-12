@@ -31,7 +31,7 @@ export default function AuthStack({user}) {
     return null;
   }
 
-  if (userInfo.role === 'patient') {
+  if (userInfo.role !== 'patient') {
     return <PharmEntry />;
   } else {
     return <PatientEntry />;

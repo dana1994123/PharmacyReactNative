@@ -12,7 +12,7 @@ export default function entry() {
     <Tab.Navigator
       shifting={false}
       activeColor={R.colors.white}
-      inactiveColor={R.colors.blueGrey}
+      inactiveColor={R.colors.blue}
       labeled={false}
       barStyle={{backgroundColor: R.colors.primary}}>
       <Tab.Screen
@@ -20,10 +20,8 @@ export default function entry() {
         component={Home}
         options={{
           title: 'Home',
-          tabBarIcon: ({focused, color, size}) => {
-            let iconName = 'home';
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={24} color={color} />;
+          tabBarIcon: ({color}) => {
+            return <Ionicons name={'home'} size={24} color={color} />;
           },
         }}
       />
@@ -32,10 +30,8 @@ export default function entry() {
         component={FillOrderFlow}
         options={{
           title: 'Fill Order',
-          tabBarIcon: ({focused, color, size}) => {
-            let iconName = 'clipboard';
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={24} color={color} />;
+          tabBarIcon: ({color}) => {
+            return <Ionicons name={'clipboard'} size={24} color={color} />;
           },
         }}
       />

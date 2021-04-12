@@ -44,7 +44,7 @@ class News extends Component {
                 Stay updated on everything that surrounding you{' '}
               </Text>
             </View>
-            <View>
+            <View style={{backgroundColor: R.colors.lightGrey}}>
               <Article articles={this.state.a} showModal={false} />
             </View>
           </ScrollView>
