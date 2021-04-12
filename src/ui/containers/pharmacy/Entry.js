@@ -13,6 +13,7 @@ export default function entry() {
       shifting={false}
       activeColor={R.colors.white}
       inactiveColor={R.colors.blueGrey}
+      labeled={false}
       barStyle={{backgroundColor: R.colors.primary}}>
       <Tab.Screen
         name="Pharmacy"
@@ -22,7 +23,7 @@ export default function entry() {
           tabBarIcon: ({focused, color, size}) => {
             let iconName = 'home';
             // You can return any component that you like here!
-            return <Ionicons name={iconName} size={20} color={color} />;
+            return <Ionicons name={iconName} size={24} color={color} />;
           },
         }}
       />
@@ -34,7 +35,7 @@ export default function entry() {
           tabBarIcon: ({focused, color, size}) => {
             let iconName = 'clipboard';
             // You can return any component that you like here!
-            return <Ionicons name={iconName} size={20} color={color} />;
+            return <Ionicons name={iconName} size={24} color={color} />;
           },
         }}
       />

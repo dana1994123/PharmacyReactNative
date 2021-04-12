@@ -8,6 +8,7 @@ import EditProfile from './EditProfile';
 import Settings from '../common/Settings';
 import {UserContext} from '../../../utilites/providers/UserProvider';
 import PromoteUser from './PromoteUser';
+import Orders from './Orders';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,7 @@ export default function Home() {
       <Stack.Screen name={'EditProfile'} component={EditProfile} />
       <Stack.Screen name={'Settings'} component={Settings} />
       <Stack.Screen name={'PromoteUser'} component={PromoteUser} />
+      <Stack.Screen name={'Orders'} component={Orders} />
     </Stack.Navigator>
   );
 }
@@ -86,7 +88,7 @@ const HomeScreen = ({navigation}) => {
             title="Orders"
             buttonStyle={styles.buttonContainer}
             textStyle={styles.optionTxt}
-            onPress={() => navigation.navigate('Settings')}
+            onPress={() => navigation.navigate('Orders')}
           />
         </View>
       </View>

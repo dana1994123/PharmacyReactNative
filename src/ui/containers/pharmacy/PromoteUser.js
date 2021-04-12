@@ -6,7 +6,7 @@ import R from '../../../res/R';
 import {db} from '../../../database/config';
 import {userConverter} from '../../../utilites/firestoreConverters';
 
-export default function PromoteUser({navigation}) {
+export default function PromoteUser() {
   const [name, setName] = useState('');
   const [users, setUsers] = useState([]);
 

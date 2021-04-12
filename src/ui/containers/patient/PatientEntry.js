@@ -15,14 +15,16 @@ export default function PatientEntry() {
       shifting={false}
       activeColor={R.colors.orange}
       inactiveColor={R.colors.grey}
-      barStyle={{backgroundColor: R.colors.white}}>
+      labeled={false}
+      barStyle={{backgroundColor: R.colors.white}}
+      tabBarOptions={{}}>
       <Tab.Screen
         name="Patient3"
         component={PatientHome}
         options={{
           title: 'Home',
           tabBarIcon: ({focused, color, size}) => {
-            return <Ionicons name={'home'} size={20} color={color} />;
+            return <Ionicons name={'home'} size={24} color={color} />;
           },
         }}
       />
@@ -33,7 +35,7 @@ export default function PatientEntry() {
           title: 'Profile',
           tabBarIcon: ({focused, color, size}) => {
             return (
-              <Ionicons name={'person-circle-sharp'} size={20} color={color} />
+              <Ionicons name={'person-circle-sharp'} size={24} color={color} />
             );
           },
         }}
@@ -44,7 +46,7 @@ export default function PatientEntry() {
         options={{
           title: 'News',
           tabBarIcon: ({focused, color, size}) => {
-            return <Ionicons name={'newspaper'} size={20} color={color} />;
+            return <Ionicons name={'newspaper'} size={24} color={color} />;
           },
         }}
       />
@@ -55,7 +57,7 @@ export default function PatientEntry() {
         options={{
           title: 'Support',
           tabBarIcon: ({focused, color, size}) => {
-            return <Ionicons name={'call'} size={20} color={color} />;
+            return <Ionicons name={'call'} size={24} color={color} />;
           },
         }}
       />

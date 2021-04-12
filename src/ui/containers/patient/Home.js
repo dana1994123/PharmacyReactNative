@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   StyleSheet,
   Text,
@@ -15,6 +15,7 @@ import News from '../common/news/News';
 import Clock from './drug_reminder/Clock';
 import Patient from '../../../models/patient';
 import MediTest from './mediTest/MediTest';
+import {UserContext} from '../../../utilites/providers/UserProvider';
 const Stack = createStackNavigator();
 
 export default function Home() {
@@ -38,6 +39,7 @@ export default function Home() {
   );
 }
 const PatientHome = ({navigation}) => {
+  const {userInfo} = useContext(UserContext);
   const p = new Patient();
   console.log(p.fullName);
   return (
@@ -62,7 +64,7 @@ const PatientHome = ({navigation}) => {
         </View>
         <View style={styles.boxCon}>
           <View style={styles.txtCon}>
-            <Text style={styles.h3}>Hello $userName</Text>
+            <Text style={styles.h3}>{'Hello ' + userInfo.fullName + '!'} </Text>
           </View>
           {/* DrugReminder obj that will be render from the db */}
           <View style={styles.col}>
