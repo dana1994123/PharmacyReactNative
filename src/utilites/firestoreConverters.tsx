@@ -9,7 +9,7 @@ export const userConverter = {
       role: user.role,
     };
   },
-  fromFirestore: function (data) {
+  fromFirestore: function (data): User {
     return new User(data.fullName, data.email, data.password, data.role);
   },
 };

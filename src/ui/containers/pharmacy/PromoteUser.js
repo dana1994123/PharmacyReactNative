@@ -79,10 +79,10 @@ export default function PromoteUser({navigation}) {
             textStyle={button.Text}
             onPress={() => search()}
           />
-        </View>
-        <View style={styles.box}>
-          <Text style={textstyle.h6}>Found Users:</Text>
-          {userList}
+          <View>
+            <Text style={textstyle.h6}>Found Users:</Text>
+            {userList}
+          </View>
         </View>
       </View>
     </View>

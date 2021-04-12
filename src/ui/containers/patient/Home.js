@@ -4,20 +4,13 @@ import {
   Text,
   View,
   ScrollView,
-  StatusBar,
-  Dimensions,
   TouchableOpacity,
   Image,
 } from 'react-native';
-import db from '../../../database/config';
-import FamilyDr from './FamilyDr';
 import {createStackNavigator} from '@react-navigation/stack';
-import {IconButton, Colors} from 'react-native-paper';
+import {IconButton} from 'react-native-paper';
 import R from '../../../res/R';
-import Profile from './Profile';
 import AddPrescription from './AddPrescription';
-import HealthInsurance from '../../../models/HealthInsurance';
-import Ppharmacy from './Ppharmacy';
 import News from '../common/news/News';
 import Clock from './drug_reminder/Clock';
 import Patient from '../../../models/patient';
@@ -36,13 +29,11 @@ export default function Home() {
           fontWeight: 'bold',
         },
       }}>
-      <Stack.Screen name={'PatientHome'} component={PatientHome}></Stack.Screen>
-      <Stack.Screen name={'Clock'} component={Clock}></Stack.Screen>
-      <Stack.Screen
-        name={'prescription'}
-        component={AddPrescription}></Stack.Screen>
-      <Stack.Screen name={'MediTest'} component={MediTest}></Stack.Screen>
-      <Stack.Screen name={'News'} component={News}></Stack.Screen>
+      <Stack.Screen name={'PatientHome'} component={PatientHome} />
+      <Stack.Screen name={'Clock'} component={Clock} />
+      <Stack.Screen name={'prescription'} component={AddPrescription} />
+      <Stack.Screen name={'MediTest'} component={MediTest} />
+      <Stack.Screen name={'News'} component={News} />
     </Stack.Navigator>
   );
 }
@@ -100,7 +91,7 @@ const PatientHome = ({navigation}) => {
               onPress={() => navigation.navigate('prescription')}
               style={styles.box}>
               <View style={styles.row}>
-                <Text style={styles.h6}>Request{'\n'} Perscription</Text>
+                <Text style={styles.h6}>Request{'\n'} Prescription</Text>
                 <IconButton
                   icon="plus"
                   style={styles.optionImg}
@@ -114,7 +105,7 @@ const PatientHome = ({navigation}) => {
               onPress={() => navigation.navigate('MediTest')}
               style={styles.box}>
               <View style={styles.row}>
-                <Text style={styles.h6}>Get Daignoise</Text>
+                <Text style={styles.h6}>Get Diagnosis</Text>
                 <IconButton
                   icon="map"
                   style={styles.optionImg}
@@ -202,10 +193,6 @@ const styles = StyleSheet.create({
     },
     marginTop: '2%',
   },
-  col: {},
-  boxCon: {
-    marginTop: '100%',
-  },
   box2: {
     alignSelf: 'center',
     height: '27%',
@@ -222,7 +209,6 @@ const styles = StyleSheet.create({
       width: 0,
     },
   },
-  col: {},
   boxCon: {
     marginTop: '83%',
   },
