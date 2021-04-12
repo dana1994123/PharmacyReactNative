@@ -274,6 +274,11 @@ export const cams = StyleSheet.create({
   cont: {
     marginTop: '5%',
   },
+  icon: {
+    marginTop: '100%',
+    alignSelf: 'flex-start',
+  },
+  
 });
 
 // const styles = StyleSheet.create({

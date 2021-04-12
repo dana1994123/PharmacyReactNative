@@ -32,6 +32,7 @@ export default function Pprofile() {
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
+          fontSize: 30,
         },
       }}>
       <Stack.Screen name={'Profile'} component={Profile} />
@@ -64,13 +65,12 @@ const Profile = ({navigation}) => {
               source={require('../../../../assets/images/default.png')}
             />
             <Text style={styles.userName}>{currPatient.fullName}</Text>
-            <Text style={styles.sub}>
-              {currPatient.location.city}, {currPatient.location.country}
-            </Text>
+
             <IconButton
               icon="pencil"
               color={R.colors.secondary}
               size={40}
+              style={styles.icon}
               onPress={() => updateProfile()}
             />
 
@@ -197,5 +197,8 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     justifyContent: 'center',
+  },
+  icon: {
+    marginTop: '10%',
   },
 });

@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
     height: '3%',
     alignContent: 'center',
     alignItems: 'center',
-    paddingTop: 15,
+    paddingTop: 15, //me
+    justifyContent: 'flex-end', // dana
   },
 
   sub: {
@@ -70,7 +71,10 @@ const styles = StyleSheet.create({
     color: R.colors.white,
   },
   sub2: {
-    color: R.colors.white,
+    marginTop: '5%',
+    marginLeft: '5%',
+    fontSize: 25,
+    color: R.colors.orange,
   },
 });
 

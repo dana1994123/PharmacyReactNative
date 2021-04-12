@@ -19,7 +19,6 @@ export default function Article({articles, showModal}) {
   const closeModal = () => {
     setModalVisible(false);
   };
-
   articles.map(a => {
     output.push(
       <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>

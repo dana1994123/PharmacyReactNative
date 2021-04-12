@@ -25,9 +25,10 @@ export default function Home() {
         headerStyle: {
           backgroundColor: R.colors.primary,
         },
-        headerTintColor: '#fff',
+        headerTintColor: R.colors.white,
         headerTitleStyle: {
           fontWeight: 'bold',
+          fontSize: 30,
         },
       }}>
       <Stack.Screen name={'PatientHome'} component={PatientHome} />
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     fontSize: 32,
     alignSelf: 'flex-start',
-    color: R.colors.purple,
+    color: R.colors.orange,
   },
   row: {
     flexDirection: 'row',
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
   h3: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: R.colors.orange,
+    color: R.colors.yellow,
     marginTop: '5%',
   },
   h2: {

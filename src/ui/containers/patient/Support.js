@@ -12,19 +12,31 @@ import {IconButton, Colors} from 'react-native-paper';
 import {Card, Divider} from 'react-native-elements';
 import PHeader from './PHeader';
 import R from '../../../res/R';
+import {layout} from '../../../res/styles/global';
+
+// either import the whole module and call as Communications.method()
+import Communications from 'react-native-communications';
 
 export default class Support extends Component {
+  //we need to get the pharmacy phone number from the user pharmacy profile
   state = {
     mess: '',
+    phamPhone: 9059627785,
+    phamEmailAddress: 'shoppers@gmail.com',
+  };
+  componentDidMount() {
+    this.setState({mess: ''});
+  }
+  call = () => {
+    Communications.phonecall(`${this.state.phamPhone}`, true)
   };
   render() {
-    const sendEmail = () => {
-      //navigate to prescription history page
-      console.log('Sending Email');
-    };
     return (
-      <View>
+      <View style={layout.fullScreen}>
         <ScrollView>
+          <View style={styles.header}>
+            <Text style={styles.sub}>Support</Text>
+          </View>
           <View>
             <View style={styles.container}>
               <View style={styles.img}>
@@ -35,27 +47,35 @@ export default class Support extends Component {
               </View>
               <View style={styles.row}>
                 {/* call us */}
-                <TouchableOpacity
-                  onPress={() => nevigatetoPers()}
-                  style={styles.box}>
+                <TouchableOpacity style={styles.box}>
                   <IconButton
                     icon="phone"
                     style={styles.optionImg}
                     color={R.colors.orange}
                     size={30}
-                    // onPress={addReminder}
+                    onPress={() => this.call()}
                   />
                 </TouchableOpacity>
                 {/* Email us */}
                 <TouchableOpacity
-                  onPress={() => nevigatetoPham()}
+                  onPress={() =>
+                    Communications.email(
+                      [
+                        this.state.userEmailAddress,
+                        this.state.phamEmailAddress,
+                      ],
+                      null,
+                      null,
+                      'Question',
+                      this.state.mess,
+                    )
+                  }
                   style={styles.box}>
                   <IconButton
                     icon="mail"
                     style={styles.optionImg}
                     color={R.colors.secondary}
                     size={30}
-                    // onPress={addReminder}
                   />
                 </TouchableOpacity>
                 {/* location */}
@@ -65,7 +85,7 @@ export default class Support extends Component {
                   <IconButton
                     icon="map"
                     style={styles.optionImg}
-                    color={R.colors.blue}
+                    color={R.colors.yellow}
                     size={30}
                     // onPress={addReminder}
                   />
@@ -87,7 +107,15 @@ export default class Support extends Component {
                   />
                   <TouchableOpacity
                     style={styles.button}
-                    onPress={() => sendEmail()}>
+                    onPress={() =>
+                      Communications.email(
+                        [this.state.phamEmailAddress],
+                        null,
+                        null,
+                        'Question',
+                        this.state.mess,
+                      )
+                    }>
                     <Text style={styles.buttonTitle}>Send</Text>
                   </TouchableOpacity>
                   {/* <Divider style={styles.dividerStyle} /> */}
@@ -106,8 +134,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    alignItems: 'center',
     backgroundColor: R.colors.primary,
+    height: '10%',
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+
+  sub: {
+    fontSize: 30,
+    fontWeight: '600',
+    color: R.colors.white,
   },
   name: {
     fontSize: 22,
@@ -154,6 +191,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: '40%',
     width: '100%',
+    marginTop: '3%',
   },
   row: {
     flexDirection: 'row',
