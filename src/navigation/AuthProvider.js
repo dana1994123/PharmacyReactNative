@@ -1,15 +1,12 @@
 import React, {useState, createContext} from 'react';
-import auth from '@react-native-firebase/auth';
-export const AuthContext = createContext();
-import {firebase} from '../database/config';
+import {userConverter} from '../utilites/firestoreConverters';
+import firebase from '@react-native-firebase/app';
 import {db} from '../database/config';
-import User from '../models/User';
+
+export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
-  const [user, setUser] = useState(null);
-
-  //create a user obj
-  const u = new User();
+  const [user, setUser] = useState();
 
   return (
     <AuthContext.Provider
@@ -17,6 +14,7 @@ export const AuthProvider = ({children}) => {
         user,
         setUser,
         login: async (email, password) => {
+          console.log('login IS called');
           try {
             await firebase.auth().signInWithEmailAndPassword(email, password);
           } catch (e) {
@@ -24,25 +22,16 @@ export const AuthProvider = ({children}) => {
           }
         },
 
-        register: async u => {
+        register: async newUser => {
           try {
             await firebase
               .auth()
-              .createUserWithEmailAndPassword(u.email, u.pass)
+              .createUserWithEmailAndPassword(newUser.email, newUser.pass)
               .then(response => {
                 const uid = response.user.uid;
-                const usersRef = firebase.firestore().collection('users');
-                console.log('usersRef: ' + usersRef);
-                usersRef.doc(uid).set({
-                  u:u,
-                  // fullName: fname,
-                  // // lname: lname,
-                  // email: email,
-                  // role: role,
-                  // password: password,
-                  // //createdAt: firebase.Firebase.Timestamp.fromDate(new Date()),
-                  // userImg: null,
-                });
+                db.collection('users')
+                  .doc(uid)
+                  .set(userConverter.toFirestore(newUser));
               });
           } catch (e) {
             console.log(e);

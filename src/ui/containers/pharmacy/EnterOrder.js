@@ -3,12 +3,12 @@ import {StyleSheet, Modal, Text, View, TextInput, Switch} from 'react-native';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import DatePicker from 'react-native-modern-datepicker';
-import PrescriptionOrder from '../../../models/PrescriptionOrder';
 import {form, layout, button, textstyle} from '../../../res/styles/global';
 import {firebase} from '../../../database/config';
 
 export default function EnterOrder({route, navigation}) {
   const [selectedDate, setSelectedDate] = useState('');
+  const [durationset, setDurationSet] = useState(false);
   const [refill, setRefill] = useState('');
   const [medName, setMedName] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -72,10 +72,6 @@ export default function EnterOrder({route, navigation}) {
     setModalVisible(true);
   };
 
-  const saveOrder = () => {
-    //const obj = new PrescriptionOrder(medName, quantity, selectedDate, refill);
-  };
-
   const setToggle = () => {
     setRefill(!refill);
   };
@@ -84,8 +80,9 @@ export default function EnterOrder({route, navigation}) {
     setModalVisible(!modalVisible);
   };
 
-  const setModal2 = () => {
-    setModal2Visible(!modal2Visible);
+  const closeDatePicker = () => {
+    setModal2Visible(false);
+    setDurationSet(true);
   };
 
   const openModal2 = () => {
@@ -114,12 +111,21 @@ export default function EnterOrder({route, navigation}) {
           onChangeText={text => setQuantity(text)}
           placeholder="Quantity"
         />
-        <AppButton
-          title="Duration"
-          buttonStyle={[form.inputGrey, {justifyContent: 'flex-start'}]}
-          textStyle={styles.Text}
-          onPress={() => openModal2()}
-        />
+        {durationset ? (
+          <AppButton
+            title={selectedDate}
+            buttonStyle={[form.inputGrey, {justifyContent: 'flex-start'}]}
+            textStyle={styles.Text}
+            onPress={() => openModal2()}
+          />
+        ) : (
+          <AppButton
+            title={'Duration'}
+            buttonStyle={[form.inputGrey, {justifyContent: 'flex-start'}]}
+            textStyle={styles.Text}
+            onPress={() => openModal2()}
+          />
+        )}
         <View style={form.inputGrey}>
           <View style={layout.row}>
             <Text style={styles.Text}>Refillable</Text>
@@ -140,7 +146,7 @@ export default function EnterOrder({route, navigation}) {
         transparent={true}
         visible={modal2Visible}
         onRequestClose={() => {
-          () => setModal2();
+          () => closeDatePicker();
         }}>
         <View style={styles.modalView}>
           <DatePicker onSelectedChange={date => setSelectedDate(date)} />
@@ -148,7 +154,7 @@ export default function EnterOrder({route, navigation}) {
             title="Ok"
             buttonStyle={button.Wrap}
             textStyle={button.Text}
-            onPress={() => setModal2()}>
+            onPress={() => closeDatePicker()}>
             <Text style={styles.textStyle}>Hide Modal</Text>
           </AppButton>
         </View>

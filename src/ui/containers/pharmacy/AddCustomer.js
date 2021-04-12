@@ -68,7 +68,7 @@ export default function EnterOrder({navigation}) {
         />
         <Text style={textstyle.h3}>Date of Birth</Text>
         <View style={layout.row}>
-          <DateInput />
+          <DateInput setDay={setDay} setMonth={setMonth} setYear={setYear} />
         </View>
 
         <AppButton

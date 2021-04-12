@@ -19,7 +19,6 @@ export default function SignUp({navigation}) {
   const [cError, setcError] = useState('');
   const [eError, seteError] = useState('');
   const [errorStatus, setErrorStatus] = useState(false);
-  const [toggleSwitch, setToggleSwitch] = useState('');
 
   const {register} = useContext(AuthContext);
 
@@ -86,10 +85,9 @@ export default function SignUp({navigation}) {
         u.fullName = fullName;
         u.email = email;
         u.pass = password;
-        u.role = "patient";
+        u.role = 'patient';
         register(u);
         //save the user as a context and then check the role render the matching home
-
       } else {
         alert('Please fix the issues to continue!');
       }
@@ -152,13 +150,7 @@ export default function SignUp({navigation}) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
         />
-        <Switch
-          trackColor={{false: '#767577', true: R.colors.primary}}
-          thumbColor={toggleSwitch ? '#fff' : '#f4f3f4'}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={() => setToggleSwitch()}
-          value={toggleSwitch}
-        />
+
         <Text style={styles.error}>{cError}</Text>
         {/* <Text style={styles.subTitle}>Date of Birth</Text> */}
         {/* <DatePicker

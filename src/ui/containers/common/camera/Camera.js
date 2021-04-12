@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import ImagePicker from 'react-native-image-picker';
 import {TouchableOpacity, View, Image} from 'react-native';
 import storage, {firebase} from '@react-native-firebase/storage';
@@ -28,6 +28,7 @@ export default class Camera extends Component {
         path: 'images',
       },
     };
+
     ImagePicker.showImagePicker(options, response => {
       //console.log('Response = ', response);
       if (response.didCancel) {

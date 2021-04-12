@@ -1,13 +1,13 @@
 import React, {useState, useContext} from 'react';
 import {Text, View, Switch} from 'react-native';
 import R from '../../../res/R';
-import {form, layout, button} from '../../../res/styles/global';
+import {form, layout, button, textstyle} from '../../../res/styles/global';
 import {Stepper} from '../../components/Stepper';
 import {AppButton} from '../../components/AppButton';
 import {AuthContext} from '../../../navigation/AuthProvider';
 
 export default function Settings() {
-  const [fontSize, setFontSize] = useState('');
+  const [fontSize, setFontSize] = useState(24);
   const [toggleSwitch, setToggleSwitch] = useState('');
 
   const {logout} = useContext(AuthContext);
@@ -28,8 +28,14 @@ export default function Settings() {
         />
       </View>
       <View style={layout.row}>
-        <Text>Font Size</Text>
-        <Stepper fCall={setFontSize} number={fontSize} />
+        <Text style={textstyle.h6}>Font Size</Text>
+        <Stepper
+          fCall={setFontSize}
+          number={fontSize}
+          numStyle={textstyle.h6}
+          buttonStyle={button.Wrap}
+          textStyle={textstyle.h2}
+        />
       </View>
       <AppButton
         title={'Sign Out'}
