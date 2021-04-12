@@ -33,18 +33,15 @@ const Routes = () => {
   }
 
   return (
-    console.log('Routes' + user),
-    (
-      <NavigationContainer>
-        {user !== null ? (
-          <UserProvider>
-            <AppStack user={user} />
-          </UserProvider>
-        ) : (
-          <AuthStack />
-        )}
-      </NavigationContainer>
-    )
+    <NavigationContainer>
+      {user !== null ? (
+        <UserProvider>
+          <AppStack user={user} />
+        </UserProvider>
+      ) : (
+        <AuthStack />
+      )}
+    </NavigationContainer>
   );
 };
 

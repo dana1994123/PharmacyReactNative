@@ -16,8 +16,7 @@ export default function PatientEntry() {
       activeColor={R.colors.white}
       inactiveColor={R.colors.blue}
       labeled={false}
-      barStyle={{backgroundColor: R.colors.primary}}
-      tabBarOptions={{}}>
+      barStyle={{backgroundColor: R.colors.primary}}>
       <Tab.Screen
         name="Patient3"
         component={PatientHome}

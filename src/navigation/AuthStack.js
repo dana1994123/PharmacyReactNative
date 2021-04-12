@@ -35,39 +35,36 @@ export default function AuthStack() {
   //   routeName = 'Sign Up';
   // }
   return (
-    console.log('In Auth'),
-    (
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Login"
-          component={LogIn}
-          options={{
-            title: R.strings.appName,
-            headerStyle: {
-              backgroundColor: R.colors.primary,
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Sign Up"
-          component={SignUp}
-          options={{
-            title: R.strings.appName,
-            // animationTypeForReplace: this.state.isSignout ? 'pop' : 'push',
-            headerStyle: {
-              backgroundColor: R.colors.primary,
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-        />
-      </Stack.Navigator>
-    )
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Login"
+        component={LogIn}
+        options={{
+          title: R.strings.appName,
+          headerStyle: {
+            backgroundColor: R.colors.primary,
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Sign Up"
+        component={SignUp}
+        options={{
+          title: R.strings.appName,
+          // animationTypeForReplace: this.state.isSignout ? 'pop' : 'push',
+          headerStyle: {
+            backgroundColor: R.colors.primary,
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
+    </Stack.Navigator>
   );
 }

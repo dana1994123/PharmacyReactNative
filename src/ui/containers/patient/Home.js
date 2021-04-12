@@ -41,7 +41,6 @@ export default function Home() {
 const PatientHome = ({navigation}) => {
   const {userInfo} = useContext(UserContext);
   const p = new Patient();
-  console.log(p.fullName);
   return (
     <View>
       <ScrollView>
