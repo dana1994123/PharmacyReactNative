@@ -17,7 +17,7 @@ export default class Ppharmacy extends Component {
   state = {
     disabled: false,
   };
-  componentDidMount(){
+  componentDidMount() {
     //serch the firebase if the user has a pharmacy and render it here
   }
   render() {
@@ -25,7 +25,7 @@ export default class Ppharmacy extends Component {
       this.setState({disabled: true});
     };
     const savePharmacyInfo = () => {
-      this.setState({disabled: false}); 
+      this.setState({disabled: false});
       //check if the pharmacy information been updated and then pop the are
       //update the firebase with these information
       alert('Pharmacy information been updated');
@@ -41,14 +41,15 @@ export default class Ppharmacy extends Component {
             style={styles.pham}
             source={require('../../../../assets/images/pham2.jpg')}
           />
-
-          <IconButton
-            icon="pencil"
-            color={R.colors.secondary}
-            size={40}
-            style={styles.icon}
-            onPress={() => updatePharmacy()}
-          />
+          <TouchableOpacity>
+            <IconButton
+              icon="pencil"
+              color={R.colors.secondary}
+              size={40}
+              style={styles.icon}
+              onPress={() => updatePharmacy()}
+            />
+          </TouchableOpacity>
           <Text style={styles.note}>
             Fill your Pharmacy information & we will do the work for you
           </Text>

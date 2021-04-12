@@ -3,6 +3,8 @@ import ImagePicker from 'react-native-image-picker';
 import {TouchableOpacity, View, Image} from 'react-native';
 import storage, {firebase} from '@react-native-firebase/storage';
 import {cams} from '../../../../res/styles/global';
+import {IconButton} from 'react-native-paper';
+import R from '../../../../res/R';
 
 export default class Camera extends Component {
   state = {
@@ -41,14 +43,17 @@ export default class Camera extends Component {
         this.setState({
           filePath: response,
           fileUri: response.uri,
-          imageName: `${response.uri.substring(4,8)}/test${response.uri.substring(1,5)}`,
+          imageName: `${response.uri.substring(
+            4,
+            8,
+          )}/test${response.uri.substring(1, 5)}`,
         });
         this.uploadImage();
       }
     });
   };
 
-  //upload the image to the firebase storage 
+  //upload the image to the firebase storage
   async uploadImage() {
     const reference = storage().ref(`${this.state.fileUri}`);
     console.log(`i'm refrence ${reference}`);
@@ -121,9 +126,17 @@ export default class Camera extends Component {
     //we need to save the image in the firebase & pass it as a prop
     if (this.state.fileUri) {
       return (
-        <TouchableOpacity onPress={() => this.chooseImage()}>
+        <View>
           <Image source={{uri: this.state.fileUri}} style={cams.avatar} />
-        </TouchableOpacity>
+
+          <IconButton
+            icon="camera"
+            color={R.colors.black}
+            size={30}
+            style={cams.icon}
+            onPress={() => this.chooseImage()}
+          />
+        </View>
       );
     }
   }

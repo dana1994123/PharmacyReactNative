@@ -255,9 +255,9 @@ export const forms = StyleSheet.create({
     justifyContent: 'center',
     marginTop: '40%',
   },
-  btnS:{
-    marginBottom:"10%"
-  }
+  btnS: {
+    marginBottom: '10%',
+  },
 });
 
 export const cams = StyleSheet.create({
@@ -274,6 +274,11 @@ export const cams = StyleSheet.create({
   cont: {
     marginTop: '5%',
   },
+  icon: {
+    marginTop: '100%',
+    alignSelf: 'flex-start',
+  },
+  
 });
 
 // const styles = StyleSheet.create({

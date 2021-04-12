@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   h3: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: R.colors.orange,
+    color: R.colors.yellow,
     marginTop: '5%',
   },
   h2: {
