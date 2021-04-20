@@ -1,47 +1,53 @@
-import React, {useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  Modal,
-} from 'react-native';
-import {form, layout, button, header} from '../../../../res/styles/global';
+import React, {useState, useContext, useEffect} from 'react';
+import {StyleSheet, ScrollView, View, Text, Modal} from 'react-native';
+import {layout} from '../../../../res/styles/global';
 import {IconButton} from 'react-native-paper';
-import {Card, Divider} from 'react-native-elements';
-import {Directions} from 'react-native-gesture-handler';
 import DrugReminderObj from '../../../../models/DrugReminderObj';
 import R from '../../../../res/R';
 import Reminder from './Reminder';
-import {saveDrugReminder} from '../../../../database/ViewModel';
-import Alarm, {removeAlarm, scheduleAlarm, updateAlarm} from './alarm';
 import TextInputAlarm from '../../../components/TextInputAlarm';
 import DayPicker from '../../../components/DayPicker';
 import TimePicker from '../../../components/TimePicker';
 import Button from '../../../components/Button';
 import SwitcherInput from '../../../components/SwitcherInput';
-export default function RenderdrugReminder({route, navigation}) {
+import {db} from '../../../../database/config';
+import moment from 'moment';
+import {UserContext} from '../../../../utilites/providers/UserProvider';
+
+export default function RenderdrugReminder() {
   //fetch the list of drug reminder from the fire base & render it
   //if there is no drug reminder render a Text
   const [modalVisible, setmodalVisible] = useState(false);
   const [drugName, setDrugName] = useState('');
-  const [drugDose, setDrugDose] = useState('');
-  const [startDate, setstartDate] = useState('');
-  const [endDate, setendDate] = useState('');
-  const [time, setTime] = useState('');
+  const [drugDisc, setDrugDisc] = useState('');
+  const [startH, setstartH] = useState(moment().format('LT'));
+  const [startM, setstartM] = useState('');
+  const [repeat, setRepeat] = useState(false);
   const [alarm, setAlarm] = useState(new DrugReminderObj());
-  const [mode, setMode] = useState(null);
+  const [mode, setMode] = useState('CREATE');
+  const {userInfo} = useContext(UserContext);
+  const [listReminder, setListReminders] = useState([]);
+  const [count, setCount] = useState(0);
 
-  componentDidMount = () => {
-    setAlarm(new DrugReminderObj());
-    setMode('CREATE');
-  };
-
+  useEffect(() => {
+    fetchReminders();
+  }, [count]);
   //fetch the reminder from db &add it to the list
-  const listReminder = [];
+  const fetchReminders = () => {
+    db.collection('Reminders')
+      .where('userEmail', '==', userInfo.email)
+      .limit(5)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          listReminder.push(doc.data());
+          console.log(doc.data());
+          console.log(listReminder.length);
+          console.log(count);
+        });
+      })
+      .catch(console.log('there is an error occur'));
+  };
 
   const addReminder = () => {
     //open new fragment and create a drug reminder object
@@ -62,19 +68,25 @@ export default function RenderdrugReminder({route, navigation}) {
     console.log(alarm.minutes);
     console.log(alarm.title);
     console.log(alarm.description);
+    alarm.userEmail = userInfo.email;
+    console.log(alarm.userEmail);
     setmodalVisible(!modalVisible);
-    if (mode === 'EDIT') {
-      alarm.active = true;
-      await updateAlarm(alarm);
-    }
     if (mode === 'CREATE') {
-      await scheduleAlarm(alarm);
+      //save the reminder to this user
+      db.collection('Reminders')
+        .add(alarm)
+        .then(() => {
+          console.log('Reminders added!');
+        });
+      //add it to the list
+      listReminder.push(alarm);
     }
+    //setListReminders([]);
+    //fetchReminders();
   }
 
-  async function onDelete() {
-    await removeAlarm(alarm.uid);
-    navigation.goBack();
+  async function onCancel() {
+    setmodalVisible(!modalVisible);
   }
 
   return (
@@ -83,15 +95,15 @@ export default function RenderdrugReminder({route, navigation}) {
         <View style={styles.icons}>
           <IconButton
             icon="plus"
-            color={R.colors.primary}
+            color={R.colors.orange}
             size={40}
             onPress={() => addReminder()}
           />
         </View>
         <View style={layout.centered}>
-          {listReminder.length > 0 ? (
+          {listReminder.length != 0 ? (
             //send the list of reminder and render it
-            <Reminder />
+            <Reminder reminders={listReminder} />
           ) : (
             <Text style={styles.txtHeader}>
               There is no Drug Reminder Added
@@ -141,7 +153,7 @@ export default function RenderdrugReminder({route, navigation}) {
               )}
             </View>
             <View style={styles.buttonContainer}>
-              <Button onPress={onDelete} title={'Cancel'} />
+              <Button onPress={onCancel} title={'Cancel'} />
               <Button fill={true} onPress={onSave} title={'Save'} />
             </View>
           </View>
@@ -208,7 +220,7 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     fontSize: 20,
     alignSelf: 'flex-start',
-    color: R.colors.purple,
+    color: R.colors.Grey,
   },
   row: {
     flexDirection: 'row',

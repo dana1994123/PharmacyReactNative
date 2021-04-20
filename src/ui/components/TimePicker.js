@@ -5,6 +5,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 export default function ({hour, minutes, onChange = () => null}) {
   const [showPicker, setShowPicker] = useState(false);
 
+  const [a, setA] = useState(null);
+  componentDidMount = () => {
+    setAlarm(new DrugReminderObj());
+  };
   return (
     <View>
       <TouchableOpacity
@@ -21,10 +25,10 @@ export default function ({hour, minutes, onChange = () => null}) {
           timeZoneOffsetInMinutes={0}
           value={getDate(hour, minutes)}
           mode={'time'}
+          is24Hour={true}
           display="default"
           onChange={(e, date) => {
-             
-            onChange(date.getHours() , date.getMinutes());
+            onChange(date.getHours(), date.getMinutes());
           }}
         />
       )}
