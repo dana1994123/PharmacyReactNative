@@ -55,6 +55,7 @@ export default function RenderdrugReminder() {
     setmodalVisible(!modalVisible);
   };
 
+
   function update(updates) {
     const a = Object.assign({}, alarm);
     for (let u of updates) {
@@ -100,7 +101,7 @@ export default function RenderdrugReminder() {
             onPress={() => addReminder()}
           />
         </View>
-        <View style={layout.centered}>
+        <View style={layout.centered }>
           {listReminder.length != 0 ? (
             //send the list of reminder and render it
             <Reminder reminders={listReminder} />

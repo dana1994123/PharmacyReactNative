@@ -11,7 +11,6 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 import Patient from '../../../models/patient';
 import R from '../../../res/R';
-import PHeader from './PHeader';
 import UpdateProfile from './UpdateProfile';
 import Ppharmacy from './Ppharmacy';
 import AddPrescription from './AddPrescription';

@@ -40,9 +40,9 @@ class News extends Component {
           <ScrollView>
             <View style={styles.header}>
               <Text style={styles.sub}>Medical News</Text>
-              <Text style={styles.sub2}>
+              {/* <Text style={styles.sub2}>
                 Stay updated on everything that surrounding you{' '}
-              </Text>
+              </Text> */}
             </View>
             <View style={{backgroundColor: R.colors.lightGrey}}>
               <Article articles={this.state.a} showModal={false} />
@@ -57,17 +57,15 @@ class News extends Component {
 const styles = StyleSheet.create({
   header: {
     backgroundColor: R.colors.primary,
-    height: '3%',
+    height: '1.5%',
     alignContent: 'center',
     alignItems: 'center',
-    paddingTop: 15, //me
     justifyContent: 'flex-end', // dana
   },
 
   sub: {
     fontSize: 30,
     fontWeight: '600',
-    marginTop: '5%',
     color: R.colors.white,
   },
   sub2: {
