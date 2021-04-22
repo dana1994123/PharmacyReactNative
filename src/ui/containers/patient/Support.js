@@ -28,7 +28,7 @@ export default class Support extends Component {
     this.setState({mess: ''});
   }
   call = () => {
-    Communications.phonecall(`${this.state.phamPhone}`, true)
+    Communications.phonecall(`${this.state.phamPhone}`, true);
   };
   render() {
     return (
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: R.colors.primary,
-    height: '10%',
+    height: '18%',
     alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '600',
     color: R.colors.white,
+    marginBottom:"6%"
   },
   name: {
     fontSize: 22,
@@ -185,6 +186,7 @@ const styles = StyleSheet.create({
   },
   supportImg: {
     height: 245,
+    marginTop: '3%',
   },
   img: {
     alignItems: 'center',

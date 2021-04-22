@@ -1,56 +1,94 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  Modal,
-} from 'react-native';
-import {form, layout, button, header} from '../../../../res/styles/global';
+import React, {useState, useContext, useEffect} from 'react';
+import {StyleSheet, ScrollView, View, Text, Modal} from 'react-native';
+import {layout} from '../../../../res/styles/global';
 import {IconButton} from 'react-native-paper';
-import {Card, Divider} from 'react-native-elements';
-import {Directions} from 'react-native-gesture-handler';
 import DrugReminderObj from '../../../../models/DrugReminderObj';
 import R from '../../../../res/R';
 import Reminder from './Reminder';
-import {AppButton} from '../../../components/AppButton';
-import {saveDrugReminder} from "../../../../database/ViewModel"
+import TextInputAlarm from '../../../components/TextInputAlarm';
+import DayPicker from '../../../components/DayPicker';
+import TimePicker from '../../../components/TimePicker';
+import Button from '../../../components/Button';
+import SwitcherInput from '../../../components/SwitcherInput';
+import {db} from '../../../../database/config';
+import moment from 'moment';
+import {UserContext} from '../../../../utilites/providers/UserProvider';
+
 export default function RenderdrugReminder() {
   //fetch the list of drug reminder from the fire base & render it
   //if there is no drug reminder render a Text
   const [modalVisible, setmodalVisible] = useState(false);
   const [drugName, setDrugName] = useState('');
-  const [drugDose, setDrugDose] = useState('');
-  const [startDate, setstartDate] = useState('');
-  const [endDate, setendDate] = useState('');
-  const [time, setTime] = useState('');
+  const [drugDisc, setDrugDisc] = useState('');
+  const [startH, setstartH] = useState(moment().format('LT'));
+  const [startM, setstartM] = useState('');
+  const [repeat, setRepeat] = useState(false);
+  const [alarm, setAlarm] = useState(new DrugReminderObj());
+  const [mode, setMode] = useState('CREATE');
+  const {userInfo} = useContext(UserContext);
+  const [listReminder, setListReminders] = useState([]);
+  const [count, setCount] = useState(0);
 
+  useEffect(() => {
+    fetchReminders();
+  }, [count]);
   //fetch the reminder from db &add it to the list
-  const listReminder = [];
+  const fetchReminders = () => {
+    db.collection('Reminders')
+      .where('userEmail', '==', userInfo.email)
+      .limit(5)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          listReminder.push(doc.data());
+          console.log(doc.data());
+          console.log(listReminder.length);
+          console.log(count);
+        });
+      })
+      .catch(console.log('there is an error occur'));
+  };
 
   const addReminder = () => {
     //open new fragment and create a drug reminder object
     console.log('plus button been clicked');
-
     setmodalVisible(!modalVisible);
   };
-  const handleSave = () => {
-    //validate the information and create a drug reminder object for this specific user
-    //& save to the new db
+
+
+  function update(updates) {
+    const a = Object.assign({}, alarm);
+    for (let u of updates) {
+      a[u[0]] = u[1];
+    }
+    setAlarm(a);
+  }
+
+  async function onSave() {
+    console.log(alarm.hour);
+    console.log(alarm.minutes);
+    console.log(alarm.title);
+    console.log(alarm.description);
+    alarm.userEmail = userInfo.email;
+    console.log(alarm.userEmail);
     setmodalVisible(!modalVisible);
-    const d = new DrugReminderObj();
-    saveDrugReminder(d);
+    if (mode === 'CREATE') {
+      //save the reminder to this user
+      db.collection('Reminders')
+        .add(alarm)
+        .then(() => {
+          console.log('Reminders added!');
+        });
+      //add it to the list
+      listReminder.push(alarm);
+    }
+    //setListReminders([]);
+    //fetchReminders();
+  }
 
-
-    alert('The reminder has been Added');
-  };
-
-  const handleCancel = () => {
+  async function onCancel() {
     setmodalVisible(!modalVisible);
-  };
+  }
 
   return (
     <View>
@@ -58,15 +96,15 @@ export default function RenderdrugReminder() {
         <View style={styles.icons}>
           <IconButton
             icon="plus"
-            color={R.colors.primary}
+            color={R.colors.orange}
             size={40}
             onPress={() => addReminder()}
           />
         </View>
-        <View>
-          {listReminder.length > 0 ? (
+        <View style={layout.centered }>
+          {listReminder.length != 0 ? (
             //send the list of reminder and render it
-            <Reminder />
+            <Reminder reminders={listReminder} />
           ) : (
             <Text style={styles.txtHeader}>
               There is no Drug Reminder Added
@@ -79,20 +117,46 @@ export default function RenderdrugReminder() {
           visible={modalVisible}
           onRequestClose={() => this.handlePress(!modalVisible)}>
           <View style={styles.modalView}>
-            {/* render the clickable article in this Model */}
-            <Text>render the specific article that has been clicked</Text>
-            <AppButton
-              title="Save"
-              buttonStyle={button.Wrap}
-              textStyle={button.Text}
-              onPress={() => handleSave()}
+            <TimePicker
+              onChange={(h, m) =>
+                update([
+                  ['hour', h],
+                  ['minutes', m],
+                ])
+              }
+              hour={alarm.hour}
+              minutes={alarm.minutes}
             />
-            <AppButton
-              title="Cancel"
-              buttonStyle={button.Wrap}
-              textStyle={button.Text}
-              onPress={() => handleCancel()}
-            />
+            <View styles={styles.inputsContainer}>
+              <TextInputAlarm
+                description={'Drug Name'}
+                style={styles.textInput}
+                onChangeText={v => update([['title', v]])}
+                value={alarm.title}
+              />
+              <TextInputAlarm
+                description={'Description'}
+                style={styles.textInput}
+                onChangeText={v => update([['description', v]])}
+                value={alarm.description}
+              />
+              <SwitcherInput
+                description={'Repeat'}
+                value={'5'}
+                onChange={v => update([['repeat', v]])}
+              />
+              {alarm.repeat && (
+                //show it if we only change the repeat status
+                <DayPicker
+                  onChange={v => update([['days', v]])}
+                  activeDays={'sunday'}
+                />
+              )}
+            </View>
+            <View style={styles.buttonContainer}>
+              <Button onPress={onCancel} title={'Cancel'} />
+              <Button fill={true} onPress={onSave} title={'Save'} />
+            </View>
           </View>
         </Modal>
       </ScrollView>
@@ -157,7 +221,7 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     fontSize: 20,
     alignSelf: 'flex-start',
-    color: R.colors.purple,
+    color: R.colors.Grey,
   },
   row: {
     flexDirection: 'row',
@@ -193,5 +257,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
+  },
+  inputsContainer: {
+    width: '100%',
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });

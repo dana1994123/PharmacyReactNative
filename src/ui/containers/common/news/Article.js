@@ -19,14 +19,14 @@ export default function Article({articles, showModal}) {
   const closeModal = () => {
     setModalVisible(false);
   };
-  articles.map(a => {
+  articles.map((a, i) => {
     output.push(
-      <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+      <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} key={i}>
         <Card
           featuredTitle={a.title}
           featuredTitleStyle={{
             marginHorizontal: 5,
-            textShadowColor: '#00000f',
+            textShadowColor: R.colors.secondary,
             textShadowOffset: {width: 3, height: 3},
             textShadowRadius: 3,
           }}>
@@ -39,17 +39,19 @@ export default function Article({articles, showModal}) {
           <Text style={{marginBottom: 10}}>
             {a.description || 'Read more...'}
           </Text>
-          <Divider style={{backgroundColor: '#dfe6e9'}} />
+          <Divider style={{backgroundColor: R.colors.secondary}} />
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
+              color: R.colors.orange,
             }}>
             <Text
               style={{
                 margin: 5,
                 fontStyle: 'italic',
-                color: '#b2bec3',
+                color: R.colors.orange,
+
                 fontSize: 10,
               }}>
               {a.source.name.toUpperCase()}
@@ -62,7 +64,7 @@ export default function Article({articles, showModal}) {
           visible={modalVisible}
           onRequestClose={() => setModalVisible(!modalVisible)}>
           <View style={styles.modalView}>
-            {/* render the clickable article in this Model */}
+            {/* render the clickable article in this Model based on the key of the article */}
             <Text>render the specific article that has been clicked</Text>
             <TouchableOpacity style={styles.btn} onPress={() => closeModal()}>
               <Text>Close Me</Text>

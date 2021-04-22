@@ -12,17 +12,23 @@ import {
 import {Card, Divider} from 'react-native-elements';
 import DrugReminderObj from '../../../../models/DrugReminderObj';
 import R from '../../../../res/R';
-export default function Reminder() {
-  const [modalVisible, setmodalVisible] = useState(true);
+export default function Reminder({reminders}) {
+  const imageList = [
+    'drugs1.png',
+    'drugs2.png',
+    'drugs3.png',
+    'drugs4.png',
+    'drugs5.png',
+  ];
+  const [count , setCount] = useState(0);
 
-  const handlePress = () => {
-    setmodalVisible(!modalVisible);
-  };
-  const drugReminder = new DrugReminderObj();
-  return (
-    <View style={styles.cardStyle}>
+  let output = [];
+
+  reminders.map((a,i) => {
+    output.push(
+      <View style={styles.cardStyle} key ={i} >
       <Card
-        featuredTitle={drugReminder.drug.dName}
+        featuredTitle={a.drugName}
         featuredTitleStyle={{
           marginHorizontal: 5,
           textShadowColor: '#00000f',
@@ -31,12 +37,11 @@ export default function Reminder() {
         }}>
         <View style={styles.d}>
           <View style={styles.drugDetails}>
-            <Text style={styles.header}>
-              {drugReminder.drug.dName.toUpperCase()}
-            </Text>
-            <Text style={styles.subText}>Drug Information</Text>
+            <Text style={styles.header}>{a.drugName}</Text>
+            <Text style={styles.subText}>{a.description}</Text>
           </View>
 
+{/* //generate a random image and then delete it from the list */}
           <Image
             style={styles.drugImg}
             source={require('../../../../../assets/images/drugs.jpg')}
@@ -44,12 +49,18 @@ export default function Reminder() {
         </View>
         <Divider style={styles.dividerStyle} />
         <View style={styles.drugInfo}>
-          <Text
-            style={styles.subText}>{`Start: ${drugReminder.startDate}`}</Text>
-          <Text style={styles.subText}>{`End: ${drugReminder.endDate}`}</Text>
+          <Text style={styles.subText}>{`Days:${a.days} `}</Text>
+          <Text style={styles.subText}>{`@${a.hour}:${a.minutes}`}</Text>
         </View>
       </Card>
     </View>
+
+    )})
+  
+  //const drugReminder = new DrugReminderObj();
+  return (
+    <ScrollView>{output}</ScrollView>
+    
   );
 }
 

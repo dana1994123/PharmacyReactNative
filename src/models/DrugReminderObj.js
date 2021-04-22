@@ -1,10 +1,15 @@
-import Drug from "./Drug";
+import Drug from './Drug';
+import User from './User';
 
 export default class DrugReminderObj {
   constructor() {
-    this.drug = new Drug();
-    this.startDate = "20-12-21";
-    this.endDate = "20-12-23";
-    this.time = "12:00";
+    this.hour = 0;
+    this.minutes = 0;
+    this.pm = 'pm';
+    this.drugName = 'Drug Name';
+    this.description = 'Drug Description';
+    this.days = [];
+    this.repeat = false;
+    this.userEmail = '';
   }
 }

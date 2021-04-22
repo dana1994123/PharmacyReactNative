@@ -140,6 +140,9 @@ export default class Clock extends Component {
             <Animated.View
               style={[styles.mediQuardan, {transform: [{scale: minScale}]}]}
             />
+            <Animated.View
+              style={[styles.smallQuardan, {transform: [{scale: secondScale}]}]}
+            ></Animated.View>
             <Animated.View style={[styles.mover, transformHours]}>
               <View style={[styles.hours]} />
             </Animated.View>
@@ -149,15 +152,13 @@ export default class Clock extends Component {
             <Animated.View style={[styles.mover, transformSeconds]}>
               <View style={[styles.second]} />
             </Animated.View>
-            <Animated.View
-              style={[styles.smallQuardan, {transform: [{scale: secondScale}]}]}
-            />
+            
           </View>
           {/* current time & date */}
-          <View style={styles.currentContainer}>
+          {/* <View style={styles.currentContainer}>
             <Text style={styles.timeStyle}>{this.state.time}</Text>
             <Text style={styles.dateStyle}>{this.state.date}</Text>
-          </View>
+          </View> */}
         </View>
         {/* drugReminder container */}
         <View style={styles.renderContainer}>
@@ -172,16 +173,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: R.colors.white,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginTop: 0,
   },
   clockContainer: {
     alignItems: 'center',
-    marginTop: 10,
   },
   renderContainer: {
-    marginTop: '60%',
+    marginTop: '80%',
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
@@ -203,14 +200,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   hours: {
-    backgroundColor: 'black',
-    height: '14%',
+    backgroundColor: R.colors.Grey,
+    height: '15%',
     marginTop: '35%',
     width: 4,
     borderRadius: 4,
   },
   minutes: {
-    backgroundColor: 'black',
+    backgroundColor: R.colors.Grey,
     height: '20%',
     marginTop: '30%',
     width: 3,
@@ -228,33 +225,23 @@ const styles = StyleSheet.create({
     width: SIZE * 0.5,
     height: 150,
     borderRadius: 60,
-    backgroundColor: R.colors.primary,
-    marginTop: 95,
+    backgroundColor: R.colors.lightSec,
+    marginTop: '21%',
   },
   mediQuardan: {
     width: SIZE * 0.2,
     height: SIZE * 0.2,
     borderRadius: SIZE * 0.25,
-    backgroundColor: R.colors.secondary,
+    backgroundColor: R.colors.orange,
     position: 'absolute',
-    marginTop: 140,
+    marginTop: '26%',
   },
   smallQuardan: {
     width: '3%',
     height: 10,
     borderRadius: 5,
-    backgroundColor: R.colors.primary,
+    backgroundColor: R.colors.lightSec,
     position: 'absolute',
-    marginTop: 170,
-  },
-  dateStyle: {
-    color: 'black',
-    fontSize: 10,
-    marginLeft: 10,
-  },
-  timeStyle: {
-    margin: 10,
-    color: 'black',
-    fontSize: 30,
+    marginTop: '30%',
   },
 });
