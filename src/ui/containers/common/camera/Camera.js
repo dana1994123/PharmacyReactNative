@@ -126,23 +126,40 @@ export default class Camera extends Component {
   renderProfilePicFileUri() {
     //we need to save the image in the firebase & pass it as a prop
     if (this.state.fileUri) {
-      return (
-        <View>
-          <Image source={{uri: this.state.fileUri}} style={cams.avatar} />
+      console.log('In camera' + this.state.id);
+      if (this.state.id === 'profile') {
+        return (
+          <View>
+            <Image source={{uri: this.state.fileUri}} style={cams.avatar} />
 
-          <IconButton
-            icon="camera"
-            color={R.colors.black}
-            size={30}
-            style={cams.icon}
-            onPress={() => this.chooseImage()}
-          />
-        </View>
-      );
+            <IconButton
+              icon="camera"
+              color={R.colors.black}
+              size={30}
+              style={cams.icon}
+              onPress={() => this.chooseImage()}
+            />
+          </View>
+        );
+      } else {
+        return (
+          <View>
+            <IconButton
+              icon="upload"
+              color={R.colors.black}
+              size={20}
+              style={this.props.camIcon}
+              onPress={() => this.chooseImage()}
+            />
+          </View>
+        );
+      }
     }
   }
 
   render() {
-    return <View style={cams.cont}>{this.renderProfilePicFileUri()}</View>;
+    return (
+      <View style={this.props.camWrap}>{this.renderProfilePicFileUri()}</View>
+    );
   }
 }
