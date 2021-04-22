@@ -5,6 +5,7 @@ import R from '../../../res/R';
 import DatePicker from 'react-native-modern-datepicker';
 import {form, layout, button, textstyle} from '../../../res/styles/global';
 import {firebase} from '../../../database/config';
+import PrescriptionOrder from '../../../models/PrescriptionOrder';
 
 export default function EnterOrder({route, navigation}) {
   const [selectedDate, setSelectedDate] = useState('');
@@ -15,6 +16,10 @@ export default function EnterOrder({route, navigation}) {
   const [modalVisible, setModalVisible] = useState('');
   const [modal2Visible, setModal2Visible] = useState('');
   const [orderConflict, setOrderConflict] = useState('');
+  const [quantError, setQuantError] = useState('');
+  const [medError, setMedError] = useState('');
+  const [durError, setDurError] = useState('');
+  const [errorFlag, setErrorFlag] = useState('');
 
   const {customer} = route.params;
 
@@ -40,6 +45,52 @@ export default function EnterOrder({route, navigation}) {
       });
   };
 
+  const validateQuantity = () => {
+    const reg = /^\d+$/;
+    if (quantity === '') {
+      setQuantError('Quanitity cannot be empty');
+      setErrorFlag(true);
+    } else if (reg.test(quantity) === false) {
+      setQuantError('Quantity format INVALID');
+      setErrorFlag(true);
+    } else {
+      setQuantError('');
+      setErrorFlag(false);
+    }
+  };
+
+  const validateMedName = () => {
+    if (medName === '') {
+      setMedError('Med Name cannot be empty');
+      setErrorFlag(true);
+    } else {
+      setMedError('');
+      setErrorFlag(false);
+    }
+  };
+
+  const validateDuration = () => {
+    if (selectedDate === '') {
+      setDurError('Duration cannot be empty');
+      setErrorFlag(true);
+    } else {
+      setDurError('');
+      setErrorFlag(false);
+    }
+  };
+
+  const confirmOrder = () => {
+    validateQuantity();
+    validateMedName();
+    validateDuration();
+    console.log('confirm order' + errorFlag);
+    if (errorFlag === false) {
+      setModalVisible(true);
+    } else {
+      setModalVisible(false);
+    }
+  };
+
   const addOrder = () => {
     const uid = customer.uid;
     const pharmID = '1111';
@@ -47,17 +98,20 @@ export default function EnterOrder({route, navigation}) {
       new Date(selectedDate),
     );
     checkOrder(Timestamp);
-    if (!orderConflict) {
+    if (!orderConflict && errorFlag) {
+      const order = new PrescriptionOrder(
+        uid,
+        pharmID,
+        medName,
+        quantity,
+        Timestamp,
+        refill,
+      );
       firebase
         .firestore()
         .collection('orders')
         .add({
-          uid,
-          pharmID,
-          medName,
-          quantity,
-          Timestamp,
-          refill,
+          order,
         })
         .then(docRef => {
           console.log('Document written with ID: ', docRef.id);
@@ -68,8 +122,7 @@ export default function EnterOrder({route, navigation}) {
       setModal();
       navigation.navigate('Home');
     }
-    console.log(orderConflict);
-    setModalVisible(true);
+    setModal(false);
   };
 
   const setToggle = () => {
@@ -92,11 +145,11 @@ export default function EnterOrder({route, navigation}) {
   return (
     <View style={layout.centeredFullScreen}>
       <View style={styles.box}>
-        <Text style={textstyle.h6}>Enter Prescription</Text>
-        <View style={form.staticinputGrey}>
+        <Text style={textstyle.h3bl}>Enter Prescription</Text>
+        <View style={form.staticinputBlue}>
           <Text>{'Name: ' + customer.name}</Text>
         </View>
-        <View style={form.staticinputGrey}>
+        <View style={form.staticinputBlue}>
           <Text>{'Card#: ' + customer.healthcard}</Text>
         </View>
         <TextInput
@@ -105,12 +158,14 @@ export default function EnterOrder({route, navigation}) {
           onChangeText={text => setMedName(text)}
           placeholder="Medicine Name"
         />
+        <Text style={textstyle.error2}>{medError}</Text>
         <TextInput
           style={form.inputGrey}
           selectionColor={R.colors.primary}
           onChangeText={text => setQuantity(text)}
           placeholder="Quantity"
         />
+        <Text style={textstyle.error2}>{quantError}</Text>
         {durationset ? (
           <AppButton
             title={selectedDate}
@@ -126,6 +181,7 @@ export default function EnterOrder({route, navigation}) {
             onPress={() => openModal2()}
           />
         )}
+        <Text style={textstyle.error2}>{durError}</Text>
         <View style={form.inputGrey}>
           <View style={layout.row}>
             <Text style={styles.Text}>Refillable</Text>
@@ -159,11 +215,12 @@ export default function EnterOrder({route, navigation}) {
           </AppButton>
         </View>
       </Modal>
+
       <AppButton
         title="Submit"
         buttonStyle={button.Wrap}
         textStyle={button.Text}
-        onPress={() => addOrder()}
+        onPress={() => confirmOrder()}
       />
 
       <Modal
@@ -198,12 +255,11 @@ export default function EnterOrder({route, navigation}) {
                 </View>
               </View>
             )}
-
             <AppButton
               title="Ok"
               buttonStyle={button.Wrap}
               textStyle={button.Text}
-              onPress={() => setModal()}
+              onPress={() => addOrder()}
             />
           </View>
         </View>
