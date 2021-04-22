@@ -1,4 +1,5 @@
 import firebase from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore';
 const firebaseConfig = {
   apiKey: 'AIzaSyA7iSdAJjwcJErmhuzSbDCZqkKQZI2fwfQ',
   authDomain: 'pharmacy-app-b935b.firebaseapp.com',

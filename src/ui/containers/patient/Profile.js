@@ -15,10 +15,13 @@ import UpdateProfile from './UpdateProfile';
 import Ppharmacy from './Ppharmacy';
 import AddPrescription from './AddPrescription';
 import Clock from './drug_reminder/Clock';
-import FamilyDr from './FamilyDr';
+import FamilyDr from './PresHistory';
 import HealthInsurance from './HealthInsurance';
 import {IconButton} from 'react-native-paper';
 import {AuthContext} from '../../../navigation/AuthProvider';
+import {layout} from '../../../res/styles/global';
+import {Pressable} from 'react-native';
+import PreHistory from './PresHistory';
 
 const Stack = createStackNavigator();
 
@@ -39,9 +42,8 @@ export default function Pprofile() {
       <Stack.Screen name={'Drug Reminder'} component={Clock} />
       <Stack.Screen name={'prescription'} component={AddPrescription} />
       <Stack.Screen name={'Pharmacy'} component={Ppharmacy} />
-      <Stack.Screen name={'FamilyDr'} component={FamilyDr} />
+      <Stack.Screen name={'PreHistory'} component={PreHistory} />
       <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
-      <Stack.Screen name={'HealthInsurance'} component={HealthInsurance} />
     </Stack.Navigator>
   );
 }
@@ -60,13 +62,11 @@ const Profile = ({navigation}) => {
       <ScrollView>
         <View style={styles.container}>
           {/* user picture and name */}
-          <View>
+          <View style={layout.row}>
             <Image
               style={styles.avatar}
               source={require('../../../../assets/images/default.png')}
             />
-            <Text style={styles.userName}>{currPatient.fullName}</Text>
-
             <IconButton
               icon="pencil"
               color={R.colors.secondary}
@@ -74,45 +74,51 @@ const Profile = ({navigation}) => {
               style={styles.icon}
               onPress={() => updateProfile()}
             />
-
-            <View style={styles.body}>
-              <View style={styles.col}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('prescription')}
+            <View>
+              <Text style={styles.userName}>ddddd</Text>
+              <Text style={styles.city}>Oakville Ontario</Text>
+            </View>
+          </View>
+          <View style={styles.body}>
+            <View style={styles.col}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('PreHistory')}
+                style={styles.buttonContainer}>
+                <Image
+                  style={styles.optionImg}
+                  source={require('../../../../assets/images/61122.png')}
+                />
+                <Text style={styles.optionTxt}>
+                  Perscription {'\n'} History
+                </Text>
+              </TouchableOpacity>
+              {/* pharmacy */}
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Pharmacy')}
+                style={styles.buttonContainer}>
+                <Image
+                  style={styles.optionImg}
+                  source={require('../../../../assets/images/pha.png')}
+                />
+                <Text style={styles.optionTxt}>
+                  {'       '}My {'\n'} Pharmacy{' '}
+                </Text>
+              </TouchableOpacity>
+              {/* Prescription history */}
+              {/* <TouchableOpacity
+                  onPress={() => navigation.navigate('PresHistory')}
                   style={styles.buttonContainer}>
                   <Image
                     style={styles.optionImg}
-                    source={require('../../../../assets/images/61122.png')}
+                    source={require('../../../../assets/images/pre.png')}
                   />
                   <Text style={styles.optionTxt}>
-                    Perscription {'\n'} History
+                    Prescription {'\n'} History
                   </Text>
-                </TouchableOpacity>
-                {/* pharmacy */}
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('Pharmacy')}
-                  style={styles.buttonContainer}>
-                  <Image
-                    style={styles.optionImg}
-                    source={require('../../../../assets/images/pha.png')}
-                  />
-                  <Text style={styles.optionTxt}>
-                    {'       '}My {'\n'} Pharmacy{' '}
-                  </Text>
-                </TouchableOpacity>
-                {/* update profile */}
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('FamilyDr')}
-                  style={styles.buttonContainer}>
-                  <Image
-                    style={styles.optionImg}
-                    source={require('../../../../assets/images/dr.jpg')}
-                  />
-                  <Text style={styles.optionTxt}>Family {'\n'} Doctor</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
-                {/* health insurance */}
-                <TouchableOpacity
+              {/* health insurance */}
+              {/* <TouchableOpacity
                   onPress={() => navigation.navigate('HealthInsurance')}
                   style={styles.buttonContainer}>
                   <Image
@@ -120,13 +126,12 @@ const Profile = ({navigation}) => {
                     source={require('../../../../assets/images/health.png')}
                   />
                   <Text style={styles.optionTxt}>Health {'\n'} Insurance</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => logout()}
-                  style={styles.buttonContainer}>
-                  <Text style={styles.optionTxt}>Logout</Text>
-                </TouchableOpacity>
-              </View>
+                </TouchableOpacity> */}
+              <TouchableOpacity
+                onPress={() => logout()}
+                style={styles.buttonContainer}>
+                <Text style={styles.optionTxt}>Logout</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -147,14 +152,14 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     position: 'absolute',
-    marginTop: 25,
+    marginTop: '10%',
     marginLeft: '70%',
   },
   optionTxt: {
-    marginLeft: '10%',
+    marginLeft: '5%',
     fontWeight: '600',
     fontSize: 18,
-    marginTop: '15%',
+    marginTop: '10%',
     color: R.colors.black,
   },
   sub: {
@@ -191,12 +196,18 @@ const styles = StyleSheet.create({
     marginBottom: '5%',
   },
   userName: {
-    marginRight: '10%',
     fontSize: 30,
     fontWeight: '600',
     color: R.colors.black,
-    alignSelf: 'flex-end',
-    marginTop: '10%',
+    alignSelf: 'center',
+    marginTop: '30%',
+    marginLeft: '40%',
+  },
+  city: {
+    marginTop: '7%',
+    fontSize: 20,
+    alignSelf: 'center',
+    marginLeft: '40%',
   },
   image2: {
     resizeMode: 'cover',
@@ -205,6 +216,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    marginTop: '10%',
+    marginTop: '25%',
+  },
+  body: {
+    marginTop: '20%',
   },
 });
