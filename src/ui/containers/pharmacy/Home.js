@@ -44,7 +44,7 @@ const HomeScreen = ({navigation}) => {
             source={require('../../../../assets/images/default.png')}
           />
           <Text style={header.userName}>
-            {'Welcome, ' + userInfo.fullName + '!'}
+            {'Welcome, ' + userInfo.fullname + '!'}
           </Text>
         </View>
       </View>

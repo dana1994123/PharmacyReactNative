@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   StyleSheet,
   ScrollView,
@@ -18,6 +18,7 @@ import Clock from './drug_reminder/Clock';
 import FamilyDr from './FamilyDr';
 import HealthInsurance from './HealthInsurance';
 import {IconButton} from 'react-native-paper';
+import {AuthContext} from '../../../navigation/AuthProvider';
 
 const Stack = createStackNavigator();
 
@@ -47,6 +48,7 @@ export default function Pprofile() {
 const Profile = ({navigation}) => {
   //get the patient information from the database and render it here
   const currPatient = new Patient();
+  const {logout} = useContext(AuthContext);
   const updateProfile = () => {
     //navigate to update profile page
     navigation.navigate('UpdateProfile');
@@ -118,6 +120,11 @@ const Profile = ({navigation}) => {
                     source={require('../../../../assets/images/health.png')}
                   />
                   <Text style={styles.optionTxt}>Health {'\n'} Insurance</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => logout()}
+                  style={styles.buttonContainer}>
+                  <Text style={styles.optionTxt}>Logout</Text>
                 </TouchableOpacity>
               </View>
             </View>

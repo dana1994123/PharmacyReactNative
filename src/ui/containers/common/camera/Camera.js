@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ImagePicker from 'react-native-image-picker';
-import {TouchableOpacity, View, Image} from 'react-native';
+import {View, Image} from 'react-native';
 import storage, {firebase} from '@react-native-firebase/storage';
 import {cams} from '../../../../res/styles/global';
 import {IconButton} from 'react-native-paper';

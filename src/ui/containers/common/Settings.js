@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {Text, View, Switch} from 'react-native';
 import R from '../../../res/R';
-import {form, layout, button, textstyle} from '../../../res/styles/global';
+import {layout, button, textstyle} from '../../../res/styles/global';
 import {Stepper} from '../../components/Stepper';
 import {AppButton} from '../../components/AppButton';
 import {AuthContext} from '../../../navigation/AuthProvider';

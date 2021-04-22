@@ -63,6 +63,17 @@ export const form = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
   },
+  staticinputBlue: {
+    width: 320,
+    height: 48,
+    borderRadius: 5,
+    overflow: 'hidden',
+    backgroundColor: R.colors.primary,
+    marginTop: 10,
+    paddingLeft: 16,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export const button = StyleSheet.create({
@@ -103,6 +114,11 @@ export const textstyle = StyleSheet.create({
     fontWeight: 'bold',
     color: R.colors.purple,
   },
+  h3bl: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: R.colors.black,
+  },
 
   h5: {
     color: R.colors.white,
@@ -119,6 +135,11 @@ export const textstyle = StyleSheet.create({
     color: R.colors.red,
     fontWeight: 'bold',
     marginStart: '10%',
+  },
+  error2: {
+    fontSize: 10,
+    color: R.colors.red,
+    fontWeight: 'bold',
   },
 });
 
@@ -278,7 +299,6 @@ export const cams = StyleSheet.create({
     marginTop: '100%',
     alignSelf: 'flex-start',
   },
-  
 });
 
 // const styles = StyleSheet.create({
