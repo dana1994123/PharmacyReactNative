@@ -3,6 +3,7 @@ import {db} from '../database/config';
 import PharmEntry from '../ui/containers/pharmacy/Entry';
 import PatientEntry from '../ui/containers/patient/PatientEntry';
 import {UserContext} from '../utilites/providers/UserProvider';
+import {userConverter} from '../utilites/firestoreConverters';
 
 export default function AuthStack({user}) {
   // const pharm = true;
@@ -15,7 +16,7 @@ export default function AuthStack({user}) {
       .get()
       .then(doc => {
         if (doc.exists) {
-          setUserData(doc.data());
+          setUserData(userConverter.fromFirestore(user.uid, doc.data()));
           setInitializing(false);
         } else {
           // doc.data() will be undefined in this case
@@ -32,7 +33,7 @@ export default function AuthStack({user}) {
   }
 
   if (userInfo.role !== 'patient') {
-    return <PharmEntry />;
+    return <PharmEntry user={userInfo} />;
   } else {
     return <PatientEntry />;
   }
