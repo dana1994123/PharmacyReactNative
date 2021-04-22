@@ -6,6 +6,7 @@ import DatePicker from 'react-native-modern-datepicker';
 import {form, layout, button, textstyle} from '../../../res/styles/global';
 import {firebase} from '../../../database/config';
 import PrescriptionOrder from '../../../models/PrescriptionOrder';
+import {orderCoverter} from '../../../utilites/firestoreConverters';
 
 export default function EnterOrder({route, navigation}) {
   const [selectedDate, setSelectedDate] = useState('');
@@ -110,9 +111,7 @@ export default function EnterOrder({route, navigation}) {
       firebase
         .firestore()
         .collection('orders')
-        .add({
-          order,
-        })
+        .add(orderCoverter.toFirestore(order))
         .then(docRef => {
           console.log('Document written with ID: ', docRef.id);
         })
