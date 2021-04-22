@@ -1,21 +1,60 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {StyleSheet, TextInput, View, Image, Text} from 'react-native';
-import {form, layout, button, header} from '../../../res/styles/global';
+import {
+  form,
+  layout,
+  button,
+  header,
+  textstyle,
+} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import Camera from '../common/camera/Camera';
 import defaultProfile from '../../../../assets/images/default.png';
 const defaultProfileUri = Image.resolveAssetSource(defaultProfile).uri;
+import {db} from '../../../database/config';
+import {UserContext} from '../../../utilites/providers/UserProvider';
 
 export default function EditProfile() {
   const [name, setName] = useState('');
-  const [userName, setUserName] = useState('');
   const [company, setCompany] = useState('');
   const [location, setLocation] = useState('');
   const [picUri, setPicUri] = useState(defaultProfileUri);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phErr, setPhErr] = useState('');
+  const [errorFlag, setErrorFlag] = useState('');
+
+  const {userInfo} = useContext(UserContext);
+
+  const validatePhone = () => {
+    const reg = /^\d+$/;
+    if (phoneNumber.length < 11) {
+      setPhErr('INVALID Phone Number');
+      setErrorFlag(true);
+    } else if (reg.test(phoneNumber) === false) {
+      setPhErr('Phone format INVALID');
+      setErrorFlag(true);
+    } else {
+      setPhErr('');
+      setErrorFlag(false);
+    }
+  };
 
   const saveProfile = () => {
-    console.log('Saved Profile');
+    validatePhone();
+    if (errorFlag !== true) {
+      db.collection('users')
+        .doc(userInfo.uid)
+        .set({
+          name,
+          phoneNumber,
+          company,
+          location,
+        })
+        .catch(error => {
+          console.log('Error getting documents: ', error);
+        });
+    }
   };
 
   return (
@@ -33,9 +72,10 @@ export default function EditProfile() {
         <TextInput
           style={form.inputGrey}
           selectionColor={R.colors.primary}
-          onChangeText={text => setUserName(text)}
-          placeholder="Username"
+          onChangeText={text => setPhoneNumber(text)}
+          placeholder="Phone Number"
         />
+        <Text style={textstyle.error2}>{phErr}</Text>
         <TextInput
           style={form.inputGrey}
           selectionColor={R.colors.primary}
