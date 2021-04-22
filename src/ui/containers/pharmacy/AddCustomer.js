@@ -24,9 +24,7 @@ export default function EnterOrder({navigation}) {
   const [date, setDate] = useState('');
 
   const addCustomer = () => {
-    firebase
-      .firestore()
-      .collection('Customers')
+    db.collection('Customers')
       .add({
         custName,
         healthCard,

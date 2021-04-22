@@ -4,6 +4,7 @@ import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import DatePicker from 'react-native-modern-datepicker';
 import {form, layout, button, textstyle} from '../../../res/styles/global';
+import {db} from '../../../database/config';
 import {firebase} from '../../../database/config';
 import PrescriptionOrder from '../../../models/PrescriptionOrder';
 import {orderCoverter} from '../../../utilites/firestoreConverters';
@@ -27,9 +28,7 @@ export default function EnterOrder({route, navigation}) {
   const checkOrder = Timestamp => {
     setOrderConflict(false);
     console.log('check orer called');
-    firebase
-      .firestore()
-      .collection('orders')
+    db.collection('orders')
       .where('uid', '==', customer.uid)
       .where('medName', '==', medName)
       .get()
@@ -108,9 +107,7 @@ export default function EnterOrder({route, navigation}) {
         Timestamp,
         refill,
       );
-      firebase
-        .firestore()
-        .collection('orders')
+      db.collection('orders')
         .add(orderCoverter.toFirestore(order))
         .then(docRef => {
           console.log('Document written with ID: ', docRef.id);

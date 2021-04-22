@@ -1,21 +1,34 @@
-import React, {useState} from 'react';
-import {StyleSheet, TextInput, View, Image, Text} from 'react-native';
+import React, {useState, useContext} from 'react';
+import {StyleSheet, TextInput, View, Image} from 'react-native';
 import {form, layout, button, header} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import Camera from '../common/camera/Camera';
 import defaultProfile from '../../../../assets/images/default.png';
 const defaultProfileUri = Image.resolveAssetSource(defaultProfile).uri;
+import {db} from '../../../database/config';
+import {UserContext} from '../../../utilites/providers/UserProvider';
 
 export default function EditProfile() {
   const [name, setName] = useState('');
-  const [userName, setUserName] = useState('');
   const [company, setCompany] = useState('');
   const [location, setLocation] = useState('');
   const [picUri, setPicUri] = useState(defaultProfileUri);
+  const [phoneNumber, setPhoneNumber] = useState(defaultProfileUri);
+  const {userInfo} = useContext(UserContext);
 
   const saveProfile = () => {
-    console.log('Saved Profile');
+    db.collection('users')
+      .doc(userInfo.uid)
+      .set({
+        name,
+        phoneNumber,
+        company,
+        location,
+      })
+      .catch(error => {
+        console.log('Error getting documents: ', error);
+      });
   };
 
   return (
@@ -33,8 +46,8 @@ export default function EditProfile() {
         <TextInput
           style={form.inputGrey}
           selectionColor={R.colors.primary}
-          onChangeText={text => setUserName(text)}
-          placeholder="Username"
+          onChangeText={text => setPhoneNumber(text)}
+          placeholder="Phone Number"
         />
         <TextInput
           style={form.inputGrey}
