@@ -126,7 +126,6 @@ export default class Camera extends Component {
   renderProfilePicFileUri() {
     //we need to save the image in the firebase & pass it as a prop
     if (this.state.fileUri) {
-      console.log('In camera' + this.state.id);
       if (this.state.id === 'profile') {
         return (
           <View>

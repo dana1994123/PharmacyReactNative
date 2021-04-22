@@ -1,41 +1,66 @@
 import React, {useState, useContext} from 'react';
-import {
-  StyleSheet,
-  Modal,
-  Text,
-  View,
-  TextInput,
-  Switch,
-  Image,
-} from 'react-native';
+import {StyleSheet, Text, View, TextInput, Switch, Image} from 'react-native';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import defaultProfile from '../../../../assets/images/default.png';
-import DatePicker from 'react-native-modern-datepicker';
 import {form, layout, button, textstyle} from '../../../res/styles/global';
-import storage, {firebase} from '@react-native-firebase/storage';
-import {IconButton} from 'react-native-paper';
 import Prescription from '../../../models/Prescription';
 import {UserContext} from '../../../utilites/providers/UserProvider';
-import ImagePicker from 'react-native-image-picker';
 import Camera from '../common/camera/Camera';
+import {db} from '../../../database/config';
 
 const defaultProfileUri = Image.resolveAssetSource(defaultProfile).uri;
 
 export default function AddPrescription() {
   const [refill, setRefill] = useState('');
   const [healthInsNum, setHealthInsNum] = useState('');
+  const [healthInsNumErr, setHealthInsNumErr] = useState('');
   const [fileUri, setFileUri] = useState(defaultProfileUri);
   const [filePath, setFilePath] = useState('');
+  const [errorFlag, setErrorFlag] = useState(defaultProfileUri);
 
   const {userInfo} = useContext(UserContext);
   const prescription = new Prescription();
   prescription.user = userInfo;
 
+  const validatehealthInsNum = () => {
+    const reg = /^\d+$/;
+    if (healthInsNum === '') {
+      setHealthInsNumErr('Health Card cannot be empty');
+      setErrorFlag(true);
+    } else if (healthInsNum.length !== 10) {
+      setHealthInsNumErr('INVALID Health Card Num');
+      setErrorFlag(true);
+    } else if (reg.test(healthInsNum) === false) {
+      setHealthInsNumErr('Health Card format INVALID');
+      setErrorFlag(true);
+    } else {
+      setHealthInsNumErr('');
+      setErrorFlag(false);
+    }
+  };
+
   const addPrescription = () => {
     //check if the user has filled the pharmacy information
     //check if the user choose file
     //check the health insuarnce number
+    validatehealthInsNum();
+
+    //user ID
+    //Pharm Phon
+    //PIC URI
+    db.collection('OrderRequests')
+      .add({
+        healthInsNum,
+        refill,
+        //file path????,
+      })
+      .then(docRef => {
+        console.log('Document written with ID: ', docRef.id);
+      })
+      .catch(error => {
+        console.error('Error adding document: ', error);
+      });
   };
   const setToggle = () => {
     setRefill(!refill);
@@ -51,7 +76,7 @@ export default function AddPrescription() {
           onChangeText={text => setHealthInsNum(text)}
           placeholder="Health Card Number"
         />
-
+        <Text style={textstyle.error}>{healthInsNumErr}</Text>
         <View style={form.inputGrey}>
           <View style={layout.row}>
             <Text style={styles.Text}>Refillable</Text>

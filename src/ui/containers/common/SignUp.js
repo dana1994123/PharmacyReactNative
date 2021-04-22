@@ -1,11 +1,10 @@
 import React, {useState, useContext} from 'react';
-import {Image, Text, TextInput, View, Switch} from 'react-native';
+import {Image, Text, TextInput, View} from 'react-native';
 import styles from '../common/commonstyle/styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {footer, button} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import {AuthContext} from '../../../navigation/AuthProvider';
-import R from '../../../res/R';
 import User from '../../../models/User';
 
 export default function SignUp({navigation}) {
