@@ -16,6 +16,7 @@ import Clock from './drug_reminder/Clock';
 import Patient from '../../../models/patient';
 import MediTest from './mediTest/MediTest';
 import {UserContext} from '../../../utilites/providers/UserProvider';
+import Support from './Support';
 const Stack = createStackNavigator();
 
 export default function Home() {
@@ -31,11 +32,12 @@ export default function Home() {
           fontSize: 30,
         },
       }}>
-      <Stack.Screen name={'PatientHome'} component={PatientHome} />
+      <Stack.Screen name={'PatientHome'} s component={PatientHome} />
       <Stack.Screen name={'Clock'} component={Clock} />
       <Stack.Screen name={'prescription'} component={AddPrescription} />
       <Stack.Screen name={'MediTest'} component={MediTest} />
       <Stack.Screen name={'News'} component={News} />
+      <Stack.Screen name={'Support'} component={Support} />
     </Stack.Navigator>
   );
 }

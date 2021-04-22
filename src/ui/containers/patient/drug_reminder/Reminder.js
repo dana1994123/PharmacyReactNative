@@ -20,11 +20,13 @@ export default function Reminder({reminders}) {
     'drugs4.png',
     'drugs5.png',
   ];
+  const [count , setCount] = useState(0);
+
   let output = [];
 
-  reminders.map(a => {
+  reminders.map((a,i) => {
     output.push(
-      <View style={styles.cardStyle} key={a.AuthorId}>
+      <View style={styles.cardStyle} key ={i} >
       <Card
         featuredTitle={a.drugName}
         featuredTitleStyle={{
