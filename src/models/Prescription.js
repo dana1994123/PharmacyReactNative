@@ -8,6 +8,7 @@ export default class Prescription {
     this.refillable = false;
     this.healthInsNum = 0;
     this.filePath = '';
+    this.patientEmail = '';
 
     //how to save the file as one property of the prescription
   }

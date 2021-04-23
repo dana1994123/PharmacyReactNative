@@ -53,32 +53,52 @@ export default function Pprofile() {
   }, [count]);
 
   return (
-    <PatientContext.Provider value={pat}>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: R.colors.primary,
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            fontSize: 30,
-          },
-        }}>
-        <Stack.Screen name={'Profile'} component={Profile} />
-        <Stack.Screen name={'Drug Reminder'} component={Clock} />
-        <Stack.Screen name={'prescription'} component={AddPrescription} />
-        <Stack.Screen name={'Pharmacy'} component={Ppharmacy} />
-        <Stack.Screen name={'PreHistory'} component={PreHistory} />
-        <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
-      </Stack.Navigator>
-    </PatientContext.Provider>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: R.colors.primary,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          fontSize: 30,
+        },
+      }}>
+      <Stack.Screen name={'Profile'} component={Profile} />
+      <Stack.Screen name={'Drug Reminder'} component={Clock} />
+      <Stack.Screen name={'prescription'} component={AddPrescription} />
+      <Stack.Screen name={'Pharmacy'} component={Ppharmacy} />
+      <Stack.Screen name={'PreHistory'} component={PreHistory} />
+      <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
+      <Stack.Screen name={'Ppharmacy'} component={Ppharmacy} />
+    </Stack.Navigator>
   );
 }
 const Profile = ({navigation}) => {
   //get the patient information from the database and render it here
+  const [p, setP] = useState(new Patient());
+  const [count, setCount] = useState(0);
+  const {userInfo} = useContext(UserContext);
+  p.user = userInfo;
+
+  useEffect(() => {
+    db.collection('patients')
+      .where('user.email', '==', userInfo.email)
+      .get()
+      .then(doc => {
+        if (doc.empty) {
+          console.log('we will add it now');
+          db.collection('patients').add(p);
+        } else {
+          console.log('doc here');
+          setP(doc.data());
+        }
+      })
+      .catch(d => {
+        console.log('not');
+      });
+  }, [count]);
   const {logout} = useContext(AuthContext);
-  const pat = useContext(PatientContext);
   const updateProfile = () => {
     //navigate to update profile page
     navigation.navigate('UpdateProfile');
@@ -103,8 +123,8 @@ const Profile = ({navigation}) => {
               onPress={() => updateProfile()}
             />
             <View>
-              <Text style={styles.userName}>{pat.fullName}</Text>
-              <Text style={styles.city}>{pat.location}</Text>
+              <Text style={styles.userName}>{p.user.fullName}</Text>
+              <Text style={styles.city}>{p.location}</Text>
             </View>
           </View>
           <View style={styles.body}>

@@ -2,8 +2,9 @@ import Location from './Location';
 export default class Pharmacy {
   constructor() {
     this.phaName = '';
-    this.phoneNumber = '';
-    this.location = '';
+    this.phphoneNumber = '';
+    this.phlocation = '';
     this.phEmail = '';
+    this.userEmail = '';
   }
 }

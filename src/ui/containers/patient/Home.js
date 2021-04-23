@@ -17,16 +17,20 @@ import Patient from '../../../models/patient';
 import MediTest from './mediTest/MediTest';
 import {UserContext} from '../../../utilites/providers/UserProvider';
 import Support from './Support';
-import {PatientContext} from '../../../utilites/providers/PatientProvider';
 import UpdateProfile from './UpdateProfile';
 import {db} from '../../../database/config';
 import Pprofile from './Profile';
 import Ppharmacy from './Ppharmacy';
+import {
+  PatientContext,
+  PatientProvider,
+} from '../../../utilites/providers/PatientProvider';
 const Stack = createStackNavigator();
 
 export default function Home() {
   //create patient context
 
+  //console.log(patientInfo.user.email);
   return (
     <Stack.Navigator
       screenOptions={{
@@ -55,7 +59,7 @@ const PatientHome = ({navigation}) => {
   const p = new Patient();
   const [count, setCount] = useState(0);
   const {userInfo} = useContext(UserContext);
-  //console.log(userInfo);
+  p.email = userInfo.email;
   useEffect(() => {
     db.collection('patients')
       .where('user.email', '==', userInfo.email)
@@ -64,10 +68,16 @@ const PatientHome = ({navigation}) => {
         if (doc.empty) {
           console.log('we will add it now');
           p.user = userInfo;
-          db.collection('patients').add(p);
+          db.collection('patients')
+            .add(p)
+            .then(doc => {
+              console.log('we will set it to the patient context');
+              setPatientInfo(doc.data());
+            });
         } else {
+          setPatientData(p);
           console.log('doc here');
-          console.log(userInfo.fullName);
+          setPatientInfo(doc.data());
         }
       })
       .catch(d => {
@@ -96,12 +106,12 @@ const PatientHome = ({navigation}) => {
         </View>
         <View style={styles.boxCon}>
           <View style={styles.txtCon}>
-            <Text style={styles.h3}>{'Hello ' + userInfo.email + '!'} </Text>
+            <Text style={styles.h3}>{'Hello ' + '!'} </Text>
           </View>
           {/* DrugReminder obj that will be render from the db */}
           <View style={styles.col}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('Clock')}
+              onPress={() => navigation.navigate('Clock', {p})}
               style={styles.box2}>
               <View style={styles.row}>
                 <View>
@@ -117,12 +127,11 @@ const PatientHome = ({navigation}) => {
                   style={styles.optionImg}
                   color={R.colors.white}
                   size={80}
-                  // onPress={addReminder}
                 />
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('prescription')}
+              onPress={() => navigation.navigate('prescription', {p})}
               style={styles.box}>
               <View style={styles.row}>
                 <Text style={styles.h6}>Request{'\n'} Prescription</Text>
@@ -136,7 +145,7 @@ const PatientHome = ({navigation}) => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('MediTest')}
+              onPress={() => navigation.navigate('MediTest', {p})}
               style={styles.box}>
               <View style={styles.row}>
                 <Text style={styles.h6}>Get Diagnosis</Text>

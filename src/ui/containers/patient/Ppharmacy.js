@@ -1,4 +1,4 @@
-import React, {Component, useContext, useState} from 'react';
+import React, {Component, useContext, useState, useEffect} from 'react';
 import {AppButton} from '../../components/AppButton';
 import {form, layout, button, header, footer} from '../../../res/styles/global';
 import {
@@ -15,143 +15,151 @@ import {IconButton} from 'react-native-paper';
 import {PatientContext} from '../../../utilites/providers/PatientProvider';
 import {db} from '../../../database/config';
 import {UserContext} from '../../../utilites/providers/UserProvider';
+import Patient from '../../../models/patient';
+import Pharmacy from '../../../models/Pharmacy';
 
-export default class Ppharmacy extends Component {
-  static contextType = PatientContext;
+export default function Ppharmacy() {
+  const [disabled, setdisabled] = useState(false);
+  const [phamName, setphamName] = useState('');
+  const [phaLoc, setphaLoc] = useState('');
+  const [phaEmail, setphaEmail] = useState('');
+  const [phaNum, setphaNum] = useState('');
+  const [count, setCount] = useState(0);
 
-  state = {
-    disabled: false,
-    txtColor: '#545454',
-    phamName: this.context.pharmacy.phaName,
-    phaLoc: this.context.pharmacy.location,
-    phaEmail: this.context.pharmacy.phEmail,
-    phaNum: this.context.pharmacy.phoneNumber,
+  const {userInfo} = useContext(UserContext);
+  const [pham, setPham] = useState(new Pharmacy());
+  pham.userEmail = userInfo.email;
+
+  const updatePharmacy = () => {
+    setdisabled(true);
+    setphamName(pham.phaName);
+    setphaLoc(pham.phlocation);
+    setphaEmail(pham.phEmails);
+    setphaNum(pham.phphoneNumber);
+  };
+  async function savePharmacyInfo() {
+    setdisabled(false);
+    //update the firebase with these information
+
+    db.collection('pharmacy')
+      .update({
+        phEmail: 'uyjhghj',
+        phaName: phamName,
+        phLocation: phaLoc,
+        phphoneNumber: phaNum,
+      })
+      .where('userEmail', '==', userInfo.email)
+      .then(() => {
+        console.log('Pharmacy updated!');
+      })
+      .catch(() => {
+        console.log('couldnt update pharmacy!');
+      });
+    alert('Pharmacy information been updated');
+  }
+
+  //check if user has pharmacy or not and added one
+  useEffect(() => {
+    db.collection('pharmacy')
+      .where('userEmail', '==', userInfo.email)
+      .get()
+      .then(doc => {
+        if (doc.empty) {
+          console.log('user doesnt have pharmacy profile');
+          db.collection('pharmacy')
+            .add(pham)
+            .then(doc => {
+              console.log('just added');
+            })
+            .catch(doc => {
+              console.log("couldn't add a new pham");
+            });
+        } else {
+          setPham(doc.data());
+          console.log('user has a pharmacy');
+        }
+      })
+      .catch(doc => {
+        console.log("couldn't be able to add a new pham");
+      });
+  }, [count]);
+
+  const clickDisable = () => {
+    alert('Click the pencil icon to start edditting');
   };
 
-  render() {
-    const updatePharmacy = () => {
-      this.setState({disabled: true});
-    };
-    savePharmacyInfo = () => {
-      this.setState({disabled: false});
-      //check if the pharmacy information been updated and then pop the are
-      //update the firebase with these information
-      db.collection('patients')
-        .where('user.email', '==', this.context.user.email)
-        .update({
-          pharmacy: 'sssss',
-        })
-        .then(() => {
-          console.log('User updated!');
-        });
-      alert('Pharmacy information been updated');
-    };
-    const clickDisable = () => {
-      alert('Click the pencil icon to start edditting');
-    };
-    return (
-      <View style={layout.fullScreen}>
-        <View style={styles.wheader}></View>
-        <View style={styles.header}>
-          <Image
-            style={styles.pham}
-            source={require('../../../../assets/images/pham2.jpg')}
+  return (
+    <View style={layout.fullScreen}>
+      <View style={styles.wheader}></View>
+      <View style={styles.header}>
+        <Image
+          style={styles.pham}
+          source={require('../../../../assets/images/pham2.jpg')}
+        />
+        <TouchableOpacity>
+          <IconButton
+            icon="pencil"
+            color={R.colors.secondary}
+            size={40}
+            style={styles.icon}
+            onPress={() => updatePharmacy()}
           />
-          <TouchableOpacity>
-            <IconButton
-              icon="pencil"
-              color={R.colors.secondary}
-              size={40}
-              style={styles.icon}
-              onPress={() => updatePharmacy()}
-            />
-          </TouchableOpacity>
-          <Text style={styles.te}>My Pharmacy </Text>
+        </TouchableOpacity>
+        <Text style={styles.te}>My Pharmacy </Text>
 
-          <Text style={styles.note}>fill & we will do the work for you</Text>
-          <View style={styles.boxInput}>
-            {!this.state.disabled ? (
-              <View>
-                <TextInput
-                  editable={this.state.disabled}
-                  style={styles.inputGrey}
-                  selectionColor={R.colors.primary}
-                  onChangeText={text => this.setState({phaNamec: text})}
-                  placeholder={this.state.phamName}
-                />
-                <TextInput
-                  editable={this.state.disabled}
-                  style={styles.inputGrey}
-                  selectionColor={R.colors.primary}
-                  onChangeText={text => this.setState({phaLoc: text})}
-                  placeholder={this.state.phaLoc}
-                />
-                <TextInput
-                  editable={this.state.disabled}
-                  style={styles.inputGrey}
-                  selectionColor={R.colors.primary}
-                  onChangeText={text => this.setState({phaLoc: text})}
-                  placeholder={this.state.phaLoc}
-                />
-                <TextInput
-                  style={styles.inputGrey}
-                  editable={this.state.disabled}
-                  selectionColor={R.colors.primary}
-                  onChangeText={text => this.setState({phaNum: text})}
-                  placeholder={this.state.phaNum}
-                />
-              </View>
-            ) : (
-              <View>
-                <TextInput
-                  editable={this.state.disabled}
-                  style={styles.inputGrey2}
-                  selectionColor={R.colors.primary}
-                  onChangeText={text => this.setState({phamName: text})}
-                  value={this.state.phamName}
-                />
-                <TextInput
-                  editable={this.state.disabled}
-                  style={styles.inputGrey2}
-                  selectionColor={R.colors.primary}
-                  onChangeText={text => this.setState({phaLoc: text})}
-                  value={this.state.phaLoc}
-                />
-                <TextInput
-                  editable={this.state.disabled}
-                  style={styles.inputGrey2}
-                  selectionColor={R.colors.primary}
-                  onChangeText={text => this.setState({phaEmail: text})}
-                  value={this.state.phaEmail}
-                />
-                <TextInput
-                  style={styles.inputGrey2}
-                  editable={this.state.disabled}
-                  selectionColor={R.colors.primary}
-                  onChangeText={text => this.setState({phaNum: text})}
-                  value={this.state.phaNum}
-                />
-              </View>
-            )}
+        <Text style={styles.note}>fill & we will do the work for you</Text>
+        <View style={styles.boxInput}>
+          <View>
+            <TextInput
+              editable={disabled}
+              style={styles.inputGrey}
+              selectionColor={R.colors.primary}
+              onChangeText={text => setphamName(text)}
+              placeholder="Pharmacy Name"
+              value={phamName}
+            />
+            <TextInput
+              editable={disabled}
+              style={styles.inputGrey}
+              selectionColor={R.colors.primary}
+              onChangeText={text => setphaLoc(text)}
+              placeholder="Pharmacy Location"
+              value={phaLoc}
+            />
+            <TextInput
+              editable={disabled}
+              style={styles.inputGrey}
+              selectionColor={R.colors.primary}
+              onChangeText={text => setphaEmail(text)}
+              placeholder="Pharmacy Email"
+              value={phaEmail}
+            />
+            <TextInput
+              style={styles.inputGrey}
+              editable={disabled}
+              selectionColor={R.colors.primary}
+              onChangeText={text => setphaNum(text)}
+              placeholder="Pharmacy Number"
+              value={phaNum}
+            />
           </View>
-          {!this.state.disabled ? (
-            <TouchableOpacity
-              style={styles.btn1}
-              onPress={() => clickDisable()}>
-              <Text style={styles.btnTxt}>Save</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              onPress={() => savePharmacyInfo()}
-              style={styles.btn2}>
-              <Text style={styles.btnTxt}>Save</Text>
-            </TouchableOpacity>
-          )}
         </View>
+        {!disabled ? (
+          <TouchableOpacity style={styles.btn1} onPress={() => clickDisable()}>
+            <Text style={styles.btnTxt}>Save</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() => savePharmacyInfo()}
+            style={styles.btn2}>
+            <Text style={styles.btnTxt}>Save</Text>
+          </TouchableOpacity>
+        )}
       </View>
-    );
-  }
+    </View>
+  );
 }
+
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',

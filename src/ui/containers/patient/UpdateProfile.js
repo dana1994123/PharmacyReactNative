@@ -1,5 +1,5 @@
 import React, {Component, useContext, useState} from 'react';
-import {StyleSheet, TextInput, View, Modal, Text} from 'react-native';
+import {StyleSheet, TextInput, View, Modal,Image, Text} from 'react-native';
 import {form, layout, button, header, cams} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
@@ -10,12 +10,15 @@ import defaultProfile from '../../../../assets/images/default.png';
 import Camera from '../common/camera/Camera';
 import {color} from 'react-native-reanimated';
 import {PatientContext} from '../../../utilites/providers/PatientProvider';
+import {UserContext} from '../../../utilites/providers/UserProvider';
+
 export default class UpdateProfile extends Component {
   //generate the user information into the ui using his information that has
   //been saved as a context for the app
-  static contextType = PatientContext;
+  static contextType = UserContext;
+  default = Image.resolveAssetSource(defaultProfile).uri;
   state = {
-    name: this.context.user.fullName,
+    name: this.context.fullName,
     userNumber: '',
     address: this.context.location,
     password: '',
@@ -23,8 +26,8 @@ export default class UpdateProfile extends Component {
     nPass: '',
     cnPass: '',
     picModal: false,
-    picUri: this.context.picUri,
-    uemail: this.context.user.email,
+    picUri: this.default,
+    uemail: this.context.email,
   };
   componentDidMount() {
     //get the user information from the firebase
@@ -80,7 +83,7 @@ export default class UpdateProfile extends Component {
         </View>
         <View style={styles.box}>
           <TextInput
-            style={[form.inputGrey , {backgroundColor : R.colors.lightYellow}]}
+            style={[form.inputGrey, {backgroundColor: R.colors.lightYellow}]}
             editable={false}
             placeholder="Email Address"
             value={this.state.uemail}
