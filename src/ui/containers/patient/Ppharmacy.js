@@ -37,40 +37,48 @@ export default function Ppharmacy() {
     setphaEmail(pham.phEmails);
     setphaNum(pham.phphoneNumber);
   };
-  async function savePharmacyInfo() {
+  savePharmacyInfo = () => {
     setdisabled(false);
     //update the firebase with these information
+
     db.collection('pharmacy')
-    .doc(userInfo.uid)
-    .set({
-      phaEmail,
-      phamName,
-      phaLoc,
-      phaNum,
-    })
-    .catch(error => {
-      console.log('Error getting documents: ', error);
-    });
-    db.collection('pharmacy')
-      .get()
       .where('userEmail', '==', userInfo.email)
-      .then(doc => {
-          doc(doc)
-          .update({
-            phEmail: phaEmail,
-            phaName: phamName,
-            phlocation: phaLoc,
-            phphoneNumber: phaNum,
-          })
-          .then(() => {
-            console.log('Pharmacy updated!');
-          });
-      })
-      .catch(() => {
-        console.log('couldnt update pharmacy!');
+      .get()
+      .then(data => {
+        data._data.push({
+          phEmail: phaEmail,
+          phaName: phamName,
+          phlocation: phaLoc,
+          phphoneNumber: phaNum,
+          email: 'jkhkj',
+        });
+        // phEmail = data._data.phaEmail;
+        // (phaName = data._data.phamName),
+        //   (phlocation = data._data.phaLoc),
+        //   (phphoneNumber = data._data.phaNum),
+        //   (email = 'jkhkj');
       });
+
+    // db.collection('pharmacy')
+
+    //   .where('userEmail', '==', userInfo.email)
+    //   // .then(doc => {
+    //   //   db.collection('pharmacy')
+
+    //   .update({
+    //     phEmail: phaEmail,
+    //     phaName: phamName,
+    //     phlocation: phaLoc,
+    //     phphoneNumber: phaNum,
+    //     email: 'jkhkj',
+    //   })
+
+    //   .catch(error => {
+    //     console.log('Error getting documents: ', error);
+    //   });
+
     alert('Pharmacy information been updated');
-  }
+  };
 
   //check if user has pharmacy or not and added one
   useEffect(() => {

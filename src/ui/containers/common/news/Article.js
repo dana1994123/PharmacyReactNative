@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Modal,
@@ -15,13 +15,35 @@ import R from '../../../../res/R';
 export default function Article({articles, showModal}) {
   const [modalVisible, setModalVisible] = useState(showModal);
   let output = [];
+  const [ind, setInd] = useState(0);
+  const [currentA, setCurrentA] = useState();
 
   const closeModal = () => {
     setModalVisible(false);
   };
+  useEffect(() => {
+    setCurrentA();
+    articles.map((a, i) => {
+      if (i === ind) {
+        setCurrentA(a);
+      }
+    });
+    console.log('ind');
+  }, [ind]);
+
+  const currentArticle = index => {
+    setModalVisible(!modalVisible);
+    setInd(index);
+    articles.map((a, i) => {
+      if (i === ind) {
+        setCurrentA(a);
+      }
+    });
+  };
+
   articles.map((a, i) => {
     output.push(
-      <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} key={i}>
+      <TouchableOpacity onPress={() => currentArticle(i)} key={i}>
         <Card
           featuredTitle={a.title}
           featuredTitleStyle={{
@@ -58,16 +80,55 @@ export default function Article({articles, showModal}) {
             </Text>
           </View>
         </Card>
+
         <Modal
+          key={i}
           animationType="fade"
-          transparent={true}
+          transparent={false}
           visible={modalVisible}
+          style={styles.modalView}
           onRequestClose={() => setModalVisible(!modalVisible)}>
-          <View style={styles.modalView}>
-            {/* render the clickable article in this Model based on the key of the article */}
-            <Text>render the specific article that has been clicked</Text>
+          <View>
+            <Text style={styles.h}>{currentA.title}</Text>
+            <Card
+              featuredTitle={currentA.title}
+              featuredTitleStyle={{
+                marginHorizontal: 5,
+                textShadowColor: R.colors.secondary,
+                textShadowOffset: {width: 3, height: 3},
+                textShadowRadius: 3,
+              }}
+              style={styles.modalView}>
+              <Image
+                style={styles.bigImg}
+                source={{
+                  uri: currentA.urlToImage,
+                }}
+              />
+              <Text style={{marginBottom: 10}}>
+                {currentA.description || 'Read more...'}
+              </Text>
+              <Divider style={{backgroundColor: R.colors.secondary}} />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  color: R.colors.orange,
+                }}>
+                <Text
+                  style={{
+                    margin: 5,
+                    fontStyle: 'italic',
+                    color: R.colors.orange,
+
+                    fontSize: 10,
+                  }}>
+                  {currentA.source.name.toUpperCase()}
+                </Text>
+              </View>
+            </Card>
             <TouchableOpacity style={styles.btn} onPress={() => closeModal()}>
-              <Text>Close Me</Text>
+              <Text>Close</Text>
             </TouchableOpacity>
           </View>
         </Modal>
@@ -99,8 +160,8 @@ const styles = StyleSheet.create({
   modalView: {
     flex: 1,
     margin: 10,
-    marginTop: 95,
-    marginBottom: 10,
+    marginTop: 10,
+    marginBottom: 50,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
@@ -124,11 +185,25 @@ const styles = StyleSheet.create({
     color: R.colors.primary,
   },
   btn: {
-    width: 200,
+    width: 100,
     elevation: 8,
     backgroundColor: R.colors.primary,
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
+    alignItems: 'center',
+    marginTop: '5%',
+    marginLeft: '38%',
+  },
+  bigImg: {
+    width: 300,
+    height: 200,
+    marginBottom: '20%',
+  },
+  h: {
+    marginTop: '40%',
+    fontSize: 15,
+    marginLeft: '5%',
+    marginBottom: '10%',
   },
 });
