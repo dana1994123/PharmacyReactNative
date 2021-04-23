@@ -20,7 +20,7 @@ export default function EditProfile() {
   const [fullName1, setFullName1] = useState('');
   const [company1, setCompany1] = useState('');
   const [location1, setLocation1] = useState('');
-  const [picUri, setPicUri] = useState(defaultProfileUri);
+  const [picUri1, setPicUri1] = useState(defaultProfileUri);
   const [phoneNumber1, setPhoneNumber1] = useState('');
   const [phErr, setPhErr] = useState('');
   const [errorFlag, setErrorFlag] = useState('');
@@ -40,10 +40,11 @@ export default function EditProfile() {
   };
 
   const saveProfile = () => {
-    var picURI = null;
-    if (picUri !== defaultProfileUri) {
-      picURI = picUri;
+    var picURI = userInfo.profileURI;
+    if (picUri1 !== picURI) {
+      picURI = picUri1;
     }
+
     var company = userInfo.company;
     if (company1.length > 0) {
       company = company1;
@@ -79,7 +80,7 @@ export default function EditProfile() {
   };
 
   const addFileHandler = URI => {
-    setPicUri(URI);
+    setPicUri1(URI);
   };
   console.log(userInfo.profileURI);
   return (
@@ -87,7 +88,7 @@ export default function EditProfile() {
       <View style={header.bk}>
         <Camera
           id="profile"
-          picUri={userInfo.profileURI === null ? picUri : userInfo.profileURI}
+          picUri={userInfo.profileURI === null ? picUri1 : userInfo.profileURI}
           onAddFile={addFileHandler}
         />
       </View>
