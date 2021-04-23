@@ -1,5 +1,5 @@
-import React, {Component, useState} from 'react';
-import {StyleSheet, TextInput, View, Modal, Image, Text} from 'react-native';
+import React, {Component, useContext, useState} from 'react';
+import {StyleSheet, TextInput, View, Modal,Image, Text} from 'react-native';
 import {form, layout, button, header, cams} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
@@ -9,20 +9,25 @@ import Dialog from 'react-native-dialog';
 import defaultProfile from '../../../../assets/images/default.png';
 import Camera from '../common/camera/Camera';
 import {color} from 'react-native-reanimated';
-const defaultProfileUri = Image.resolveAssetSource(defaultProfile).uri;
+import {PatientContext} from '../../../utilites/providers/PatientProvider';
+import {UserContext} from '../../../utilites/providers/UserProvider';
+
 export default class UpdateProfile extends Component {
   //generate the user information into the ui using his information that has
   //been saved as a context for the app
+  static contextType = UserContext;
+  default = Image.resolveAssetSource(defaultProfile).uri;
   state = {
-    name: '',
+    name: this.context.fullName,
     userNumber: '',
-    address: '',
+    address: this.context.location,
     password: '',
     upassword: false,
     nPass: '',
     cnPass: '',
     picModal: false,
-    picUri: defaultProfileUri,
+    picUri: this.default,
+    uemail: this.context.email,
   };
   componentDidMount() {
     //get the user information from the firebase
@@ -44,6 +49,7 @@ export default class UpdateProfile extends Component {
     };
     const saveProfile = () => {
       console.log('Saved Profile');
+      //updated the user
     };
     // retreiveProfileImage = () => {
     //   const {imageName} = this.state;
@@ -62,7 +68,6 @@ export default class UpdateProfile extends Component {
       this.setState({upassword: true});
     };
     const handleCancel = () => {
-      componentDidMount();
       this.setState({upassword: false});
     };
 
@@ -78,29 +83,41 @@ export default class UpdateProfile extends Component {
         </View>
         <View style={styles.box}>
           <TextInput
+            style={[form.inputGrey, {backgroundColor: R.colors.lightYellow}]}
+            editable={false}
+            placeholder="Email Address"
+            value={this.state.uemail}
+          />
+          <TextInput
             style={form.inputGrey}
             selectionColor={R.colors.primary}
             onChangeText={text => this.setState({name: text})}
             placeholder="Full Name"
+            value={this.state.name}
+          />
+          <TextInput
+            style={form.inputGrey}
+            selectionColor={R.colors.primary}
+            onChangeText={text => this.setState({healthIns: text})}
+            placeholder="Health Insurance"
+            value={this.state.healthIns}
+            secureTextEntry={true}
           />
           <TextInput
             style={form.inputGrey}
             selectionColor={R.colors.primary}
             onChangeText={text => this.setState({userNumber: text})}
             placeholder="Number"
+            value={this.state.userNumber}
           />
           <TextInput
             style={form.inputGrey}
             selectionColor={R.colors.primary}
             onChangeText={text => this.setState({address: text})}
             placeholder="Address"
+            value={this.state.address}
           />
-          <TextInput
-            style={form.inputGrey}
-            selectionColor={R.colors.primary}
-            onChangeText={text => this.setState({upassword: text})}
-            placeholder="Password"
-          />
+
           <TouchableOpacity
             style={styles.fotor}
             onPress={() => changePassRequest()}>
@@ -125,12 +142,14 @@ export default class UpdateProfile extends Component {
               style={styles.inputGrey}
               label="New Password"
               onChangeText={text => this.setState({nPass: text})}
-              value={this.state.nPass}></Dialog.Input>
+              value={this.state.nPass}
+              secureTextEntry={true}></Dialog.Input>
             <Dialog.Input
               style={styles.inputGrey}
               onChangeText={text => this.setState({cnPass: text})}
               label="Confirm Password"
-              value={this.state.cnPass}></Dialog.Input>
+              value={this.state.cnPass}
+              secureTextEntry={true}></Dialog.Input>
             <Dialog.Button label="Cancel" onPress={() => handleCancel()} />
             <Dialog.Button label="Save" onPress={() => handleSave()} />
           </Dialog.Container>

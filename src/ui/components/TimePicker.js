@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function ({hour, minutes, onChange = () => null}) {
-  const [showPicker, setShowPicker] = useState(false);
+  const [showPicker, setShowPicker] = useState();
 
   const [a, setA] = useState(null);
   componentDidMount = () => {

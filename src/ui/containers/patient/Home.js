@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -17,9 +17,20 @@ import Patient from '../../../models/patient';
 import MediTest from './mediTest/MediTest';
 import {UserContext} from '../../../utilites/providers/UserProvider';
 import Support from './Support';
+import UpdateProfile from './UpdateProfile';
+import {db} from '../../../database/config';
+import Pprofile from './Profile';
+import Ppharmacy from './Ppharmacy';
+import {
+  PatientContext,
+  PatientProvider,
+} from '../../../utilites/providers/PatientProvider';
 const Stack = createStackNavigator();
 
 export default function Home() {
+  //create patient context
+
+  //console.log(patientInfo.user.email);
   return (
     <Stack.Navigator
       screenOptions={{
@@ -32,18 +43,47 @@ export default function Home() {
           fontSize: 30,
         },
       }}>
-      <Stack.Screen name={'PatientHome'} s component={PatientHome} />
+      <Stack.Screen name={'PatientHome'} component={PatientHome} />
       <Stack.Screen name={'Clock'} component={Clock} />
       <Stack.Screen name={'prescription'} component={AddPrescription} />
       <Stack.Screen name={'MediTest'} component={MediTest} />
       <Stack.Screen name={'News'} component={News} />
       <Stack.Screen name={'Support'} component={Support} />
+      <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
+      <Stack.Screen name={'Profile'} component={Pprofile} />
+      <Stack.Screen name={'Pharmacy'} component={Ppharmacy} />
     </Stack.Navigator>
   );
 }
 const PatientHome = ({navigation}) => {
-  const {userInfo} = useContext(UserContext);
   const p = new Patient();
+  const [count, setCount] = useState(0);
+  const {userInfo} = useContext(UserContext);
+  p.email = userInfo.email;
+  useEffect(() => {
+    db.collection('patients')
+      .where('user.email', '==', userInfo.email)
+      .get()
+      .then(doc => {
+        if (doc.empty) {
+          console.log('we will add it now');
+          p.user = userInfo;
+          db.collection('patients')
+            .add(p)
+            .then(doc => {
+              console.log('we will set it to the patient context');
+              setPatientInfo(doc.data());
+            });
+        } else {
+          setPatientData(p);
+          console.log('doc here');
+          setPatientInfo(doc.data());
+        }
+      })
+      .catch(d => {
+        console.log('not');
+      });
+  }, [count]);
   return (
     <View>
       <ScrollView>
@@ -69,7 +109,7 @@ const PatientHome = ({navigation}) => {
         <View style={styles.boxCon}>
           <View style={styles.col}>
             <TouchableOpacity
-              onPress={() => navigation.navigate('Clock')}
+              onPress={() => navigation.navigate('Clock', {p})}
               style={styles.box2}>
               <View style={styles.row}>
                 <View>
@@ -85,12 +125,11 @@ const PatientHome = ({navigation}) => {
                   style={styles.optionImg}
                   color={R.colors.white}
                   size={80}
-                  // onPress={addReminder}
                 />
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('prescription')}
+              onPress={() => navigation.navigate('prescription', {p})}
               style={styles.box}>
               <View style={styles.row}>
                 <Text style={styles.h6}>Request{'\n'}Prescription</Text>
@@ -104,7 +143,7 @@ const PatientHome = ({navigation}) => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('MediTest')}
+              onPress={() => navigation.navigate('MediTest', {p})}
               style={styles.box}>
               <View style={styles.row}>
                 <Text style={styles.h6}>Get Diagnosis</Text>

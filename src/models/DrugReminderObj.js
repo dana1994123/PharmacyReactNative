@@ -6,8 +6,8 @@ export default class DrugReminderObj {
     this.hour = 0;
     this.minutes = 0;
     this.pm = 'pm';
-    this.drugName = 'Drug Name';
-    this.description = 'Drug Description';
+    this.drugName = '';
+    this.description = '';
     this.days = [];
     this.repeat = false;
     this.userEmail = '';

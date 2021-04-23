@@ -1,7 +1,6 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   StyleSheet,
-  ScrollView,
   Text,
   View,
   Image,
@@ -11,19 +10,47 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 import Patient from '../../../models/patient';
 import R from '../../../res/R';
-import {layout} from '../../../res/styles/global';
 import UpdateProfile from './UpdateProfile';
 import Ppharmacy from './Ppharmacy';
 import AddPrescription from './AddPrescription';
 import Clock from './drug_reminder/Clock';
-import FamilyDr from './FamilyDr';
+import FamilyDr from './PresHistory';
 import HealthInsurance from './HealthInsurance';
 import {IconButton} from 'react-native-paper';
 import {AuthContext} from '../../../navigation/AuthProvider';
+import {layout} from '../../../res/styles/global';
+import {Pressable} from 'react-native';
+import PreHistory from './PresHistory';
+import {PatientContext} from '../../../utilites/providers/PatientProvider';
+import {UserContext} from '../../../utilites/providers/UserProvider';
+import {db} from '../../../database/config';
 
 const Stack = createStackNavigator();
 
 export default function Pprofile() {
+  const {userInfo} = useContext(UserContext);
+  const [pat, setPat] = useState(new Patient());
+  const [count, setCount] = useState();
+
+  //get it from the firebase
+  useEffect(() => {
+    db.collection('patients')
+      .where('user.email', '==', userInfo.email)
+      .get()
+      .then(doc => {
+        if (doc.empty) {
+          console.log('we will add it now');
+          db.collection('patients').add(pat);
+        } else {
+          setPat(doc.data());
+          console.log('doc here');
+        }
+      })
+      .catch(d => {
+        console.log('not');
+      });
+  }, [pat, userInfo.email, count]);
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -40,15 +67,36 @@ export default function Pprofile() {
       <Stack.Screen name={'Drug Reminder'} component={Clock} />
       <Stack.Screen name={'prescription'} component={AddPrescription} />
       <Stack.Screen name={'Pharmacy'} component={Ppharmacy} />
-      <Stack.Screen name={'FamilyDr'} component={FamilyDr} />
+      <Stack.Screen name={'PreHistory'} component={PreHistory} />
       <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
-      <Stack.Screen name={'HealthInsurance'} component={HealthInsurance} />
+      <Stack.Screen name={'Ppharmacy'} component={Ppharmacy} />
     </Stack.Navigator>
   );
 }
 const Profile = ({navigation}) => {
   //get the patient information from the database and render it here
-  const currPatient = new Patient();
+  const [p, setP] = useState(new Patient());
+  const [count, setCount] = useState(0);
+  const {userInfo} = useContext(UserContext);
+  p.user = userInfo;
+
+  useEffect(() => {
+    db.collection('patients')
+      .where('user.email', '==', userInfo.email)
+      .get()
+      .then(doc => {
+        if (doc.empty) {
+          console.log('we will add it now');
+          db.collection('patients').add(p);
+        } else {
+          console.log('doc here');
+          setP(doc.data());
+        }
+      })
+      .catch(d => {
+        console.log('not');
+      });
+  }, [p, userInfo.email, count]);
   const {logout} = useContext(AuthContext);
   const updateProfile = () => {
     //navigate to update profile page
@@ -72,7 +120,7 @@ const Profile = ({navigation}) => {
             style={styles.icon}
             onPress={() => updateProfile()}
           />
-          <Text style={styles.userName}>{currPatient.fullName}</Text>
+          <Text style={styles.userName}>{userInfo.fullName}</Text>
         </View>
 
         <View style={styles.body}>
@@ -141,14 +189,14 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     position: 'absolute',
-    marginTop: 25,
+    marginTop: '10%',
     marginLeft: '70%',
   },
   optionTxt: {
-    marginLeft: '10%',
+    marginLeft: '5%',
     fontWeight: '600',
     fontSize: 18,
-    marginTop: '15%',
+    marginTop: '10%',
     color: R.colors.black,
   },
   sub: {
@@ -189,11 +237,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
   },
   userName: {
-    marginRight: '10%',
+    marginLeft: '20%',
     fontSize: 25,
     fontWeight: '600',
     color: R.colors.black,
-    alignSelf: 'flex-end',
+    alignSelf: 'flex-start',
+  },
+  city: {
+    marginTop: '7%',
+    fontSize: 20,
+    alignSelf: 'center',
+    marginLeft: '40%',
   },
   image2: {
     resizeMode: 'cover',

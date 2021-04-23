@@ -1,9 +1,10 @@
-import Location from "./Location";
+import Location from './Location';
 export default class Pharmacy {
   constructor() {
-    this.phaName = "Shoppers Drug Mart";
-    this.phoneNumber = 0;
-    this.location = new Location();
-    this.phEmail = "Shopper@drug.ca";
+    this.phaName = '';
+    this.phphoneNumber = '';
+    this.phlocation = '';
+    this.phEmail = '';
+    this.userEmail = '';
   }
 }

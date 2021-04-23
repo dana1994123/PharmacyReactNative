@@ -12,7 +12,7 @@ export default function SignUp({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [darte, setDate] = useState('2030-05-15');
+  const [date, setDate] = useState('2030-05-15');
   const [nError, setnError] = useState('');
   const [pError, setpError] = useState('');
   const [cError, setcError] = useState('');

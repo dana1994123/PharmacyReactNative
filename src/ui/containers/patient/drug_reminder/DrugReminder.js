@@ -21,13 +21,14 @@ export default function RenderdrugReminder() {
   const [drugName, setDrugName] = useState('');
   const [drugDisc, setDrugDisc] = useState('');
   const [startH, setstartH] = useState(moment().format('LT'));
-  const [startM, setstartM] = useState('');
+  const [eError, seteError] = useState('');
   const [repeat, setRepeat] = useState(false);
   const [alarm, setAlarm] = useState(new DrugReminderObj());
   const [mode, setMode] = useState('CREATE');
   const {userInfo} = useContext(UserContext);
   const [listReminder, setListReminders] = useState([]);
   const [count, setCount] = useState(0);
+  const [pm, setPm] = useState('pm');
 
   useEffect(() => {
     fetchReminders();
@@ -55,15 +56,40 @@ export default function RenderdrugReminder() {
     setmodalVisible(!modalVisible);
   };
 
-
   function update(updates) {
     const a = Object.assign({}, alarm);
     for (let u of updates) {
+      console.log(u);
       a[u[0]] = u[1];
     }
     setAlarm(a);
   }
 
+  const setToggle = () => {
+    setRepeat(!repeat);
+  };
+
+  const validationReminder = () => {
+    //check the drug name
+    if (drugName === '') {
+      seteError('Please insert Drug Name');
+    } else if (drugDisc === '') {
+      seteError('Please insert Drug Disc');
+    } else {
+      seteError('');
+      onSave();
+    }
+    //check the drug Description
+    //then call the save method
+  };
+
+  resetFeild = () => {
+    setDrugName('');
+    setDrugDisc('');
+    setstartH(moment().format('LT'));
+    seteError('');
+    setRepeat(false);
+  };
   async function onSave() {
     console.log(alarm.hour);
     console.log(alarm.minutes);
@@ -74,6 +100,12 @@ export default function RenderdrugReminder() {
     setmodalVisible(!modalVisible);
     if (mode === 'CREATE') {
       //save the reminder to this user
+      alarm.drugName = drugName;
+      alarm.description = drugDisc;
+      alarm.repeat = repeat;
+      alarm.userEmail = userInfo.email;
+      alarm.pm = pm;
+
       db.collection('Reminders')
         .add(alarm)
         .then(() => {
@@ -81,6 +113,7 @@ export default function RenderdrugReminder() {
         });
       //add it to the list
       listReminder.push(alarm);
+      resetFeild();
     }
     //setListReminders([]);
     //fetchReminders();
@@ -101,7 +134,7 @@ export default function RenderdrugReminder() {
             onPress={() => addReminder()}
           />
         </View>
-        <View style={layout.centered }>
+        <View style={layout.centered}>
           {listReminder.length != 0 ? (
             //send the list of reminder and render it
             <Reminder reminders={listReminder} />
@@ -131,21 +164,25 @@ export default function RenderdrugReminder() {
               <TextInputAlarm
                 description={'Drug Name'}
                 style={styles.textInput}
-                onChangeText={v => update([['title', v]])}
-                value={alarm.title}
+                onChangeText={v => setDrugName(v)}
+                value={drugName}
               />
+
               <TextInputAlarm
                 description={'Description'}
                 style={styles.textInput}
-                onChangeText={v => update([['description', v]])}
-                value={alarm.description}
+                onChangeText={v => setDrugDisc(v)}
+                value={drugDisc}
               />
+
               <SwitcherInput
+                trackColor={{false: R.colors.Grey, true: R.colors.secondary}}
+                thumbColor={repeat ? R.colors.white : R.colors.lightGrey}
                 description={'Repeat'}
-                value={'5'}
-                onChange={v => update([['repeat', v]])}
+                value={repeat}
+                onChange={() => setToggle()}
               />
-              {alarm.repeat && (
+              {repeat && (
                 //show it if we only change the repeat status
                 <DayPicker
                   onChange={v => update([['days', v]])}
@@ -155,8 +192,9 @@ export default function RenderdrugReminder() {
             </View>
             <View style={styles.buttonContainer}>
               <Button onPress={onCancel} title={'Cancel'} />
-              <Button fill={true} onPress={onSave} title={'Save'} />
+              <Button fill={true} onPress={validationReminder} title={'Save'} />
             </View>
+            <Text style={styles.error}>{eError}</Text>
           </View>
         </Modal>
       </ScrollView>
@@ -200,9 +238,9 @@ const styles = StyleSheet.create({
   },
   modalView: {
     flex: 1,
-    margin: 10,
-    marginTop: 95,
-    marginBottom: 10,
+    margin: '3%',
+    marginTop: '10%',
+    marginBottom: '10%',
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
@@ -215,7 +253,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 4,
   },
   txtHeader: {
     marginTop: '10%',
@@ -265,5 +303,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
+  },
+  error: {
+    color: R.colors.red,
   },
 });
