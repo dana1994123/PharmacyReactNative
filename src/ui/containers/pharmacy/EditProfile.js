@@ -16,22 +16,21 @@ import {db} from '../../../database/config';
 import {UserContext} from '../../../utilites/providers/UserProvider';
 
 export default function EditProfile() {
-  const [name, setName] = useState('');
-  const [company, setCompany] = useState('');
-  const [location, setLocation] = useState('');
+  const {userInfo} = useContext(UserContext);
+  const [fullName1, setFullName1] = useState('');
+  const [company1, setCompany1] = useState('');
+  const [location1, setLocation1] = useState('');
   const [picUri, setPicUri] = useState(defaultProfileUri);
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber1, setPhoneNumber1] = useState('');
   const [phErr, setPhErr] = useState('');
   const [errorFlag, setErrorFlag] = useState('');
 
-  const {userInfo} = useContext(UserContext);
-
   const validatePhone = () => {
     const reg = /^\d+$/;
-    if (phoneNumber.length < 11) {
+    if (phoneNumber1.length < 11) {
       setPhErr('INVALID Phone Number');
       setErrorFlag(true);
-    } else if (reg.test(phoneNumber) === false) {
+    } else if (reg.test(phoneNumber1) === false) {
       setPhErr('Phone format INVALID');
       setErrorFlag(true);
     } else {
@@ -41,15 +40,37 @@ export default function EditProfile() {
   };
 
   const saveProfile = () => {
-    validatePhone();
+    var picURI = null;
+    if (picUri !== defaultProfileUri) {
+      picURI = picUri;
+    }
+    var company = userInfo.company;
+    if (company1.length > 0) {
+      company = company1;
+    }
+    var phoneNumber = userInfo.phoneNumber;
+    if (phoneNumber1.length > 0) {
+      validatePhone();
+      phoneNumber = phoneNumber1;
+    }
+    var location = userInfo.address;
+    if (location1.length > 0) {
+      location = location1;
+    }
+    var fullName = userInfo.fullName;
+    if (fullName1.length > 0) {
+      fullName = fullName1;
+    }
+
     if (errorFlag !== true) {
       db.collection('users')
         .doc(userInfo.uid)
-        .set({
-          name,
+        .update({
+          fullName,
           phoneNumber,
           company,
           location,
+          picURI,
         })
         .catch(error => {
           console.log('Error getting documents: ', error);
@@ -57,36 +78,46 @@ export default function EditProfile() {
     }
   };
 
+  const addFileHandler = URI => {
+    setPicUri(URI);
+  };
+  console.log(userInfo.profileURI);
   return (
     <View style={layout.fullScreen}>
       <View style={header.bk}>
-        <Camera id="profile" picUri={picUri} />
+        <Camera
+          id="profile"
+          picUri={userInfo.profileURI === null ? picUri : userInfo.profileURI}
+          onAddFile={addFileHandler}
+        />
       </View>
       <View style={styles.box}>
         <TextInput
           style={form.inputGrey}
           selectionColor={R.colors.primary}
-          onChangeText={text => setName(text)}
-          placeholder="Name"
+          onChangeText={text => setFullName1(text)}
+          placeholder={userInfo.fullName !== '' ? userInfo.fullName : 'Name'}
         />
         <TextInput
           style={form.inputGrey}
           selectionColor={R.colors.primary}
-          onChangeText={text => setPhoneNumber(text)}
-          placeholder="Phone Number"
+          onChangeText={text => setPhoneNumber1(text)}
+          placeholder={
+            userInfo.phoneNumber !== '' ? userInfo.phoneNumber : 'Phone Number'
+          }
         />
-        <Text style={textstyle.error2}>{phErr}</Text>
+        <Text style={textstyle.error}>{phErr}</Text>
         <TextInput
           style={form.inputGrey}
           selectionColor={R.colors.primary}
-          onChangeText={text => setCompany(text)}
-          placeholder="Company"
+          onChangeText={text => setCompany1(text)}
+          placeholder={userInfo.company !== '' ? userInfo.company : 'Company'}
         />
         <TextInput
           style={form.inputGrey}
           selectionColor={R.colors.primary}
-          onChangeText={text => setLocation(text)}
-          placeholder="Location"
+          onChangeText={text => setLocation1(text)}
+          placeholder={userInfo.address !== '' ? userInfo.address : 'Address'}
         />
       </View>
 

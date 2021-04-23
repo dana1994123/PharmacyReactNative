@@ -18,6 +18,9 @@ export const userConverter = {
       user.role,
       user.phoneNumber,
       uid,
+      user.location,
+      user.picURI,
+      user.company,
     );
   },
 };
@@ -40,7 +43,7 @@ export const userConverter = {
 //   },
 //   fromFirestore: function (email, patient): Patient {
 //     return new Patient(
-          //user.fullName,
+//user.fullName,
 //       patient.user.email,
 //       patient.user.role,
 //       patient.user.phoneNumber,
@@ -50,7 +53,7 @@ export const userConverter = {
 //      patient.pharmacy.phEmail,
 //       patient.pharmacy.phaName,
 //       patient.pharmacy.phphoneNumber,
-      
+
 //     );
 //   },
 // };

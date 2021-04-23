@@ -85,6 +85,7 @@ export default function AddProfile() {
               userInfo.role,
               phoneNumber,
               userInfo.uid,
+              location,
             ),
           ),
         )
@@ -94,10 +95,15 @@ export default function AddProfile() {
     }
   };
 
+  const addGoalHandler = goalTitle => {
+    // code for updating state
+    console.log(goalTitle);
+  };
+
   return (
     <View style={layout.fullScreen}>
       <View style={header.bk}>
-        <Camera id="profile" picUri={picUri} />
+        <Camera id="profile" picUri={picUri} onAddGoal={addGoalHandler} />
       </View>
       <View style={styles.box}>
         <TextInput

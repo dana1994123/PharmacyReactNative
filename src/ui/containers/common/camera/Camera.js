@@ -60,6 +60,9 @@ export default class Camera extends Component {
     console.log(`i'm refrence ${reference}`);
     const pathToFile = `${this.state.fileUri}`;
     console.log(`this is the path ${pathToFile} `);
+
+    this.props.onAddFile(pathToFile);
+
     // uploads file
     await reference.putFile(pathToFile);
   }

@@ -44,7 +44,11 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.box1}>
           <Image
             style={header.avatar}
-            source={require('../../../../assets/images/default.png')}
+            source={
+              userInfo.picUri == null
+                ? require('../../../../assets/images/default.png')
+                : userInfo.picUri
+            }
           />
           <Text style={header.userName}>
             {'Welcome, ' + userInfo.fullName + '!'}
