@@ -8,7 +8,7 @@ import Prescription from '../../../models/Prescription';
 import {UserContext} from '../../../utilites/providers/UserProvider';
 import Camera from '../common/camera/Camera';
 import {db} from '../../../database/config';
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const defaultProfileUri = Image.resolveAssetSource(defaultProfile).uri;
 
 export default function AddPrescription() {
@@ -67,50 +67,52 @@ export default function AddPrescription() {
   };
 
   return (
-    <View style={layout.centeredFullScreen}>
-      <View style={styles.box}>
-        <Text style={textstyle.h6}>Enter Prescription</Text>
-        <TextInput
-          style={form.inputGrey}
-          selectionColor={R.colors.primary}
-          onChangeText={text => setHealthInsNum(text)}
-          placeholder="Health Card Number"
+    <KeyboardAwareScrollView>
+      <View style={layout.centeredFullScreen}>
+        <View style={styles.box}>
+          <Text style={textstyle.h6}>Enter Prescription</Text>
+          <TextInput
+            style={form.inputGrey}
+            selectionColor={R.colors.primary}
+            onChangeText={text => setHealthInsNum(text)}
+            placeholder="Health Card Number"
+          />
+          <Text style={textstyle.error2}>{healthInsNumErr}</Text>
+          <View style={form.inputGrey}>
+            <View style={layout.row}>
+              <Text style={styles.Text}>Refillable</Text>
+              <Switch
+                trackColor={{false: R.colors.Grey, true: R.colors.secondary}}
+                thumbColor={refill ? R.colors.white : R.colors.lightGrey}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={() => setToggle()}
+                value={refill}
+                style={{marginTop: '2.5%'}}
+              />
+            </View>
+          </View>
+
+          <View style={form.inputGrey}>
+            <View style={layout.row}>
+              <Text style={styles.Text2}>Upload your Prescription</Text>
+              <Camera
+                id="order"
+                picUri={fileUri}
+                camWrap={styles.cont}
+                camIcon={styles.icon}
+              />
+            </View>
+          </View>
+        </View>
+
+        <AppButton
+          title="Submit"
+          buttonStyle={button.Wrap}
+          textStyle={button.Text}
+          onPress={() => addPrescription()}
         />
-        <Text style={textstyle.error}>{healthInsNumErr}</Text>
-        <View style={form.inputGrey}>
-          <View style={layout.row}>
-            <Text style={styles.Text}>Refillable</Text>
-            <Switch
-              trackColor={{false: R.colors.Grey, true: R.colors.secondary}}
-              thumbColor={refill ? R.colors.white : R.colors.lightGrey}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={() => setToggle()}
-              value={refill}
-              style={{marginTop: '2.5%'}}
-            />
-          </View>
-        </View>
-
-        <View style={form.inputGrey}>
-          <View style={layout.row}>
-            <Text style={styles.Text2}>Upload your Prescription</Text>
-            <Camera
-              id="order"
-              picUri={fileUri}
-              camWrap={styles.cont}
-              camIcon={styles.icon}
-            />
-          </View>
-        </View>
       </View>
-
-      <AppButton
-        title="Submit"
-        buttonStyle={button.Wrap}
-        textStyle={button.Text}
-        onPress={() => addPrescription()}
-      />
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 
@@ -130,11 +132,12 @@ const styles = StyleSheet.create({
   box: {
     marginLeft: 10,
     marginRight: 10,
+    marginTop: 80,
     padding: 20,
     backgroundColor: R.colors.white,
     elevation: 8,
     borderRadius: 10,
-    height: '50%',
+    // height: '50%',
   },
   avatar: {
     width: 100,
