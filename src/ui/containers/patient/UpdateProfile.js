@@ -1,6 +1,6 @@
 import React, {Component, useContext, useState} from 'react';
 import {StyleSheet, TextInput, View, Modal, Image, Text} from 'react-native';
-import {form, layout, button, header} from '../../../res/styles/global';
+import {form, layout, button, header, cams} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import {TouchableOpacity} from 'react-native';
@@ -71,7 +71,12 @@ export default class UpdateProfile extends Component {
     return (
       <View style={layout.fullScreen}>
         <View style={styles.header}>
-          <Camera id="profile" picUri={this.state.picUri} />
+          <Camera
+            id="profile"
+            picUri={this.state.picUri}
+            camWrap={cams.cont}
+            camIcon={cams.icon}
+          />
         </View>
         <View style={styles.box}>
           <TextInput

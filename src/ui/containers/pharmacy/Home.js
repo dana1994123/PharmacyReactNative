@@ -9,6 +9,7 @@ import Settings from '../common/Settings';
 import {UserContext} from '../../../utilites/providers/UserProvider';
 import PromoteUser from './PromoteUser';
 import Orders from './Orders';
+import {AuthContext} from '../../../navigation/AuthProvider';
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,7 @@ export default function Home() {
 
 const HomeScreen = ({navigation}) => {
   const {userInfo} = useContext(UserContext);
+  const {logout} = useContext(AuthContext);
   return (
     <View style={layout.fullScreen}>
       <View style={header.bk}>
@@ -44,7 +46,7 @@ const HomeScreen = ({navigation}) => {
             source={require('../../../../assets/images/default.png')}
           />
           <Text style={header.userName}>
-            {'Welcome, ' + userInfo.fullname + '!'}
+            {'Welcome, ' + userInfo.fullName + '!'}
           </Text>
         </View>
       </View>
@@ -71,10 +73,10 @@ const HomeScreen = ({navigation}) => {
             onPress={() => navigation.navigate('EditProfile')}
           />
           <AppButton
-            title="Settings"
+            title="Orders"
             buttonStyle={styles.buttonContainer}
             textStyle={styles.optionTxt}
-            onPress={() => navigation.navigate('Settings')}
+            onPress={() => navigation.navigate('Orders')}
           />
         </View>
         <View style={styles.row}>
@@ -85,10 +87,10 @@ const HomeScreen = ({navigation}) => {
             onPress={() => navigation.navigate('PromoteUser')}
           />
           <AppButton
-            title="Orders"
+            title="Log Out"
             buttonStyle={styles.buttonContainer}
             textStyle={styles.optionTxt}
-            onPress={() => navigation.navigate('Orders')}
+            onPress={() => logout()}
           />
         </View>
       </View>

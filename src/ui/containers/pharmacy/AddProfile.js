@@ -14,21 +14,27 @@ import defaultProfile from '../../../../assets/images/default.png';
 const defaultProfileUri = Image.resolveAssetSource(defaultProfile).uri;
 import {db} from '../../../database/config';
 import {UserContext} from '../../../utilites/providers/UserProvider';
+import User from '../../../models/User';
 
-export default function EditProfile() {
-  const [name, setName] = useState('');
+export default function AddProfile() {
   const [company, setCompany] = useState('');
   const [location, setLocation] = useState('');
   const [picUri, setPicUri] = useState(defaultProfileUri);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [phErr, setPhErr] = useState('');
+  const [compError, setCompError] = useState('');
+  const [locationError, setLocationError] = useState('');
+
   const [errorFlag, setErrorFlag] = useState('');
 
-  const {userInfo} = useContext(UserContext);
+  const {userInfo, setUserData} = useContext(UserContext);
 
   const validatePhone = () => {
     const reg = /^\d+$/;
-    if (phoneNumber.length < 11) {
+    if (phoneNumber === '') {
+      setPhErr('Phone Number cannot be empty');
+      setErrorFlag(true);
+    } else if (phoneNumber.length < 11) {
       setPhErr('INVALID Phone Number');
       setErrorFlag(true);
     } else if (reg.test(phoneNumber) === false) {
@@ -40,17 +46,48 @@ export default function EditProfile() {
     }
   };
 
+  const validateCompany = () => {
+    if (company === '') {
+      setCompError('Name cannot be empty');
+      setErrorFlag(true);
+    } else {
+      setCompError('');
+      setErrorFlag(false);
+    }
+  };
+  const validateLocation = () => {
+    if (location === '') {
+      setLocationError('Name cannot be empty');
+      setErrorFlag(true);
+    } else {
+      setLocationError('');
+      setErrorFlag(false);
+    }
+  };
   const saveProfile = () => {
     validatePhone();
+    validateCompany();
+    validateLocation();
     if (errorFlag !== true) {
       db.collection('users')
         .doc(userInfo.uid)
-        .set({
-          name,
+        .update({
           phoneNumber,
           company,
           location,
         })
+        .then(
+          setUserData(
+            new User(
+              userInfo.fullName,
+              userInfo.email,
+              userInfo.password,
+              userInfo.role,
+              phoneNumber,
+              userInfo.uid,
+            ),
+          ),
+        )
         .catch(error => {
           console.log('Error getting documents: ', error);
         });
@@ -66,8 +103,7 @@ export default function EditProfile() {
         <TextInput
           style={form.inputGrey}
           selectionColor={R.colors.primary}
-          onChangeText={text => setName(text)}
-          placeholder="Name"
+          placeholder={userInfo.fullName}
         />
         <TextInput
           style={form.inputGrey}
@@ -75,23 +111,25 @@ export default function EditProfile() {
           onChangeText={text => setPhoneNumber(text)}
           placeholder="Phone Number"
         />
-        <Text style={textstyle.error2}>{phErr}</Text>
+        <Text style={textstyle.error}>{phErr}</Text>
         <TextInput
           style={form.inputGrey}
           selectionColor={R.colors.primary}
           onChangeText={text => setCompany(text)}
           placeholder="Company"
         />
+        <Text style={textstyle.error}>{compError}</Text>
         <TextInput
           style={form.inputGrey}
           selectionColor={R.colors.primary}
           onChangeText={text => setLocation(text)}
           placeholder="Location"
         />
+        <Text style={textstyle.error}>{locationError}</Text>
       </View>
 
       <AppButton
-        title="Update Profile"
+        title="Add Profile"
         buttonStyle={button.Wrap}
         textStyle={button.Text}
         onPress={() => saveProfile()}

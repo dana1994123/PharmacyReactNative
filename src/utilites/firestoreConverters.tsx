@@ -11,8 +11,15 @@ export const userConverter = {
       role: user.role,
     };
   },
-  fromFirestore: function (data): User {
-    return new User(data.fullName, data.email, data.password, data.role);
+  fromFirestore: function (uid, user): User {
+    return new User(
+      user.fullname,
+      user.email,
+      user.password,
+      user.role,
+      user.phoneNumber,
+      uid,
+    );
   },
 };
 
