@@ -7,15 +7,16 @@ import DrugReminder from './DrugReminderObj';
 import DOB from './DOB';
 import Pharmacy from './Pharmacy';
 import User from './User';
+import defaultProfile from '../../assets/images/default.png';
+import {Image} from 'react-native';
 
 export default class Patient {
   constructor() {
-    this.user = new User();
     this.dateOfBirth = new DOB();
     this.location = 'Oakville, ON';
-    this.healthInsurance = new HealthInsurance();
-    this.listOfPrescription = new Prescription();
-    this.drugReminder = new DrugReminder();
+    this.healthInsurance = '';
     this.pharmacy = new Pharmacy();
+    this.user = new User();
+    this.picUri = Image.resolveAssetSource(defaultProfile).uri;
   }
 }

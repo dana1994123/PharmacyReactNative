@@ -21,26 +21,33 @@ import {PatientContext} from '../../../utilites/providers/PatientProvider';
 import UpdateProfile from './UpdateProfile';
 import {db} from '../../../database/config';
 import Pprofile from './Profile';
+import Ppharmacy from './Ppharmacy';
 const Stack = createStackNavigator();
 
 export default function Home() {
   //create patient context
+
   const p = new Patient();
   const [count, setCount] = useState(0);
   const {userInfo} = useContext(UserContext);
   p.user = userInfo;
+  p.email = userInfo.email;
+
   useEffect(() => {
     db.collection('patients')
       .where('user.email', '==', userInfo.email)
       .get()
       .then(doc => {
-        if (doc) {
-          console.log('patient is already there');
-        } else {
-          console.log('doc is not here ');
+        if (doc.empty) {
+          console.log('we will add it now');
           db.collection('patients').add(p);
-          console.log('we add it correctly ');
+        } else {
+          console.log('doc here');
+          console.log(userInfo.fullName);
         }
+      })
+      .catch(d => {
+        console.log('not');
       });
   }, [count]);
   return (
@@ -64,12 +71,15 @@ export default function Home() {
         <Stack.Screen name={'Support'} component={Support} />
         <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
         <Stack.Screen name={'Profile'} component={Pprofile} />
+        <Stack.Screen name={'Pharmacy'} component={Ppharmacy} />
       </Stack.Navigator>
     </PatientContext.Provider>
   );
 }
 const PatientHome = ({navigation}) => {
-  const pat = useContext(PatientContext);
+  const {userInfo} = useContext(UserContext);
+  //const pat = useContext(PatientContext);
+  //console.log(userInfo)
   return (
     <View>
       <ScrollView>
@@ -92,7 +102,7 @@ const PatientHome = ({navigation}) => {
         </View>
         <View style={styles.boxCon}>
           <View style={styles.txtCon}>
-            <Text style={styles.h3}>{'Hello ' + pat.user.fullName + '!'} </Text>
+            <Text style={styles.h3}>{'Hello ' + userInfo.fullName + '!'} </Text>
           </View>
           {/* DrugReminder obj that will be render from the db */}
           <View style={styles.col}>

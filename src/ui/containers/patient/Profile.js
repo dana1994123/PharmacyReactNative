@@ -32,18 +32,24 @@ export default function Pprofile() {
   const {userInfo} = useContext(UserContext);
   const [pat, setPat] = useState(new Patient());
   const [count, setCount] = useState();
+
   //get it from the firebase
   useEffect(() => {
     db.collection('patients')
       .where('user.email', '==', userInfo.email)
       .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
+      .then(doc => {
+        if (doc.empty) {
+          console.log('we will add it now');
+          db.collection('patients').add(p);
+        } else {
           setPat(doc.data());
-          console.log(doc.data());
-        });
+          console.log('doc here');
+        }
       })
-      .catch(console.log('there is an error occur'));
+      .catch(d => {
+        console.log('not');
+      });
   }, [count]);
 
   return (
@@ -73,7 +79,6 @@ const Profile = ({navigation}) => {
   //get the patient information from the database and render it here
   const {logout} = useContext(AuthContext);
   const pat = useContext(PatientContext);
-  console.log(pat.user.email);
   const updateProfile = () => {
     //navigate to update profile page
     navigation.navigate('UpdateProfile');
@@ -98,8 +103,8 @@ const Profile = ({navigation}) => {
               onPress={() => updateProfile()}
             />
             <View>
-              <Text style={styles.userName}></Text>
-              <Text style={styles.city}></Text>
+              <Text style={styles.userName}>{pat.fullName}</Text>
+              <Text style={styles.city}>{pat.location}</Text>
             </View>
           </View>
           <View style={styles.body}>
