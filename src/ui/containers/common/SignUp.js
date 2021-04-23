@@ -80,8 +80,8 @@ export default function SignUp({navigation}) {
       validatePass();
       if (errorStatus === false) {
         //there is no error in the validation and you should save this obj in data base
-        const user = new User(fullName, email, password, 'patient');
-        register(user);
+        const user = new User(fullName, email, 'patient');
+        register(user, password);
         //save the user as a context and then check the role render the matching home
       } else {
         alert('Please fix the issues to continue!');
