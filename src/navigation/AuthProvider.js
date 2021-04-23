@@ -22,11 +22,11 @@ export const AuthProvider = ({children}) => {
           }
         },
 
-        register: async newUser => {
+        register: async (newUser, password) => {
           try {
             await firebase
               .auth()
-              .createUserWithEmailAndPassword(newUser.email, newUser.pass)
+              .createUserWithEmailAndPassword(newUser.email, password)
               .then(response => {
                 const uid = response.user.uid;
                 db.collection('users')

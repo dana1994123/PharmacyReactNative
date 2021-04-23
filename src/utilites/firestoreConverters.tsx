@@ -7,7 +7,6 @@ export const userConverter = {
     return {
       fullName: user.fullName,
       email: user.email,
-      password: user.pass,
       role: user.role,
     };
   },
@@ -15,7 +14,6 @@ export const userConverter = {
     return new User(
       user.fullname,
       user.email,
-      user.password,
       user.role,
       user.phoneNumber,
       uid,
