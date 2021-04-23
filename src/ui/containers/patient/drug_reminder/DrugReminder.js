@@ -21,7 +21,7 @@ export default function RenderdrugReminder() {
   const [drugName, setDrugName] = useState('');
   const [drugDisc, setDrugDisc] = useState('');
   const [startH, setstartH] = useState(moment().format('LT'));
-  const [eError, seteError] = useState("");
+  const [eError, seteError] = useState('');
   const [repeat, setRepeat] = useState(false);
   const [alarm, setAlarm] = useState(new DrugReminderObj());
   const [mode, setMode] = useState('CREATE');
@@ -71,7 +71,11 @@ export default function RenderdrugReminder() {
   const validationReminder = () => {
     //check the drug name
     if (alarm.drugName === '') {
-      seteError("Please insert reminder title")
+      seteError('Please insert Drug Name');
+    } else if (alarm.drugDisc === '') {
+      seteError('Please insert Drug Disc');
+    } else {
+      onSave();
     }
     //check the drug Description
     //then call the save method
@@ -145,7 +149,7 @@ export default function RenderdrugReminder() {
                 description={'Drug Name'}
                 style={styles.textInput}
                 onChangeText={v => update([['title', v]])}
-                value={alarm.title}
+                value={alarm.drugName}
               />
               <TextInputAlarm
                 description={'Description'}
@@ -171,7 +175,7 @@ export default function RenderdrugReminder() {
             </View>
             <View style={styles.buttonContainer}>
               <Button onPress={onCancel} title={'Cancel'} />
-              <Button fill={true} onPress={onSave} title={'Save'} />
+              <Button fill={true} onPress={validationReminder} title={'Save'} />
             </View>
           </View>
         </Modal>

@@ -12,10 +12,8 @@ export default class Patient {
   constructor() {
     this.user = new User();
     this.dateOfBirth = new DOB();
-    this.location = new Location();
+    this.location = 'Oakville, ON';
     this.healthInsurance = new HealthInsurance();
-    this.familyDoctor = new FamilyDoctor();
-    this.familyMemberList = new FamilyMember();
     this.listOfPrescription = new Prescription();
     this.drugReminder = new DrugReminder();
     this.pharmacy = new Pharmacy();

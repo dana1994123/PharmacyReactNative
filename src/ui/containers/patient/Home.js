@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -17,33 +17,59 @@ import Patient from '../../../models/patient';
 import MediTest from './mediTest/MediTest';
 import {UserContext} from '../../../utilites/providers/UserProvider';
 import Support from './Support';
+import {PatientContext} from '../../../utilites/providers/PatientProvider';
+import UpdateProfile from './UpdateProfile';
+import {db} from '../../../database/config';
+import Pprofile from './Profile';
 const Stack = createStackNavigator();
 
 export default function Home() {
+  //create patient context
+  const p = new Patient();
+  const [count, setCount] = useState(0);
+  const {userInfo} = useContext(UserContext);
+  p.user = userInfo;
+  useEffect(() => {
+    db.collection('patients')
+      .where('user.email', '==', userInfo.email)
+      .get()
+      .then(doc => {
+        if (doc) {
+          console.log('patient is already there');
+        } else {
+          console.log('doc is not here ');
+          db.collection('patients').add(p);
+          console.log('we add it correctly ');
+        }
+      });
+  }, [count]);
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: R.colors.primary,
-        },
-        headerTintColor: R.colors.white,
-        headerTitleStyle: {
-          fontWeight: 'bold',
-          fontSize: 30,
-        },
-      }}>
-      <Stack.Screen name={'PatientHome'} s component={PatientHome} />
-      <Stack.Screen name={'Clock'} component={Clock} />
-      <Stack.Screen name={'prescription'} component={AddPrescription} />
-      <Stack.Screen name={'MediTest'} component={MediTest} />
-      <Stack.Screen name={'News'} component={News} />
-      <Stack.Screen name={'Support'} component={Support} />
-    </Stack.Navigator>
+    <PatientContext.Provider value={p}>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: R.colors.primary,
+          },
+          headerTintColor: R.colors.white,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 30,
+          },
+        }}>
+        <Stack.Screen name={'PatientHome'} component={PatientHome} />
+        <Stack.Screen name={'Clock'} component={Clock} />
+        <Stack.Screen name={'prescription'} component={AddPrescription} />
+        <Stack.Screen name={'MediTest'} component={MediTest} />
+        <Stack.Screen name={'News'} component={News} />
+        <Stack.Screen name={'Support'} component={Support} />
+        <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
+        <Stack.Screen name={'Profile'} component={Pprofile} />
+      </Stack.Navigator>
+    </PatientContext.Provider>
   );
 }
 const PatientHome = ({navigation}) => {
-  const {userInfo} = useContext(UserContext);
-  const p = new Patient();
+  const pat = useContext(PatientContext);
   return (
     <View>
       <ScrollView>
@@ -66,7 +92,7 @@ const PatientHome = ({navigation}) => {
         </View>
         <View style={styles.boxCon}>
           <View style={styles.txtCon}>
-            <Text style={styles.h3}>{'Hello ' + userInfo.fullName + '!'} </Text>
+            <Text style={styles.h3}>{'Hello ' + pat.user.fullName + '!'} </Text>
           </View>
           {/* DrugReminder obj that will be render from the db */}
           <View style={styles.col}>

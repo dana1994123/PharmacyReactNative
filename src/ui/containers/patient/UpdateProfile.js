@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useContext, useState} from 'react';
 import {StyleSheet, TextInput, View, Modal, Image, Text} from 'react-native';
 import {form, layout, button, header} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
@@ -9,6 +9,7 @@ import Dialog from 'react-native-dialog';
 import defaultProfile from '../../../../assets/images/default.png';
 import Camera from '../common/camera/Camera';
 import {color} from 'react-native-reanimated';
+import {PatientContext} from '../../../utilites/providers/PatientProvider';
 const defaultProfileUri = Image.resolveAssetSource(defaultProfile).uri;
 export default class UpdateProfile extends Component {
   //generate the user information into the ui using his information that has
@@ -57,6 +58,7 @@ export default class UpdateProfile extends Component {
     //     .catch(e => console.log('getting downloadURL of image error => ', e));
     // };
 
+    
     const changePassRequest = () => {
       //open a dialog to change the password in
       this.setState({upassword: true});

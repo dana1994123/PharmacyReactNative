@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   StyleSheet,
   ScrollView,
@@ -22,35 +22,58 @@ import {AuthContext} from '../../../navigation/AuthProvider';
 import {layout} from '../../../res/styles/global';
 import {Pressable} from 'react-native';
 import PreHistory from './PresHistory';
+import {PatientContext} from '../../../utilites/providers/PatientProvider';
+import {UserContext} from '../../../utilites/providers/UserProvider';
+import {db} from '../../../database/config';
 
 const Stack = createStackNavigator();
 
 export default function Pprofile() {
+  const {userInfo} = useContext(UserContext);
+  const [pat, setPat] = useState(new Patient());
+  const [count, setCount] = useState();
+  //get it from the firebase
+  useEffect(() => {
+    db.collection('patients')
+      .where('user.email', '==', userInfo.email)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          setPat(doc.data());
+          console.log(doc.data());
+        });
+      })
+      .catch(console.log('there is an error occur'));
+  }, [count]);
+
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: R.colors.primary,
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-          fontSize: 30,
-        },
-      }}>
-      <Stack.Screen name={'Profile'} component={Profile} />
-      <Stack.Screen name={'Drug Reminder'} component={Clock} />
-      <Stack.Screen name={'prescription'} component={AddPrescription} />
-      <Stack.Screen name={'Pharmacy'} component={Ppharmacy} />
-      <Stack.Screen name={'PreHistory'} component={PreHistory} />
-      <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
-    </Stack.Navigator>
+    <PatientContext.Provider value={pat}>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: R.colors.primary,
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 30,
+          },
+        }}>
+        <Stack.Screen name={'Profile'} component={Profile} />
+        <Stack.Screen name={'Drug Reminder'} component={Clock} />
+        <Stack.Screen name={'prescription'} component={AddPrescription} />
+        <Stack.Screen name={'Pharmacy'} component={Ppharmacy} />
+        <Stack.Screen name={'PreHistory'} component={PreHistory} />
+        <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
+      </Stack.Navigator>
+    </PatientContext.Provider>
   );
 }
 const Profile = ({navigation}) => {
   //get the patient information from the database and render it here
-  const currPatient = new Patient();
   const {logout} = useContext(AuthContext);
+  const pat = useContext(PatientContext);
+  console.log(pat.user.email);
   const updateProfile = () => {
     //navigate to update profile page
     navigation.navigate('UpdateProfile');
@@ -75,8 +98,8 @@ const Profile = ({navigation}) => {
               onPress={() => updateProfile()}
             />
             <View>
-              <Text style={styles.userName}>ddddd</Text>
-              <Text style={styles.city}>Oakville Ontario</Text>
+              <Text style={styles.userName}></Text>
+              <Text style={styles.city}></Text>
             </View>
           </View>
           <View style={styles.body}>

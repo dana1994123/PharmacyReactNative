@@ -3,6 +3,8 @@ import {db} from '../database/config';
 import PharmEntry from '../ui/containers/pharmacy/Entry';
 import PatientEntry from '../ui/containers/patient/PatientEntry';
 import {UserContext} from '../utilites/providers/UserProvider';
+import SignUp from '../ui/containers/common/SignUp';
+import User from '../models/User';
 
 export default function AuthStack({user}) {
   // const pharm = true;
