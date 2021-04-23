@@ -21,7 +21,6 @@ export default function AuthStack({user}) {
           setInitializing(false);
         } else {
           // doc.data() will be undefined in this case
-
           console.log('App Stack: No such document!');
         }
       })
