@@ -40,17 +40,31 @@ export default function Ppharmacy() {
   async function savePharmacyInfo() {
     setdisabled(false);
     //update the firebase with these information
-
     db.collection('pharmacy')
-      .update({
-        phEmail: 'uyjhghj',
-        phaName: phamName,
-        phLocation: phaLoc,
-        phphoneNumber: phaNum,
-      })
+    .doc(userInfo.uid)
+    .set({
+      phaEmail,
+      phamName,
+      phaLoc,
+      phaNum,
+    })
+    .catch(error => {
+      console.log('Error getting documents: ', error);
+    });
+    db.collection('pharmacy')
+      .get()
       .where('userEmail', '==', userInfo.email)
-      .then(() => {
-        console.log('Pharmacy updated!');
+      .then(doc => {
+          doc(doc)
+          .update({
+            phEmail: phaEmail,
+            phaName: phamName,
+            phlocation: phaLoc,
+            phphoneNumber: phaNum,
+          })
+          .then(() => {
+            console.log('Pharmacy updated!');
+          });
       })
       .catch(() => {
         console.log('couldnt update pharmacy!');
