@@ -83,7 +83,7 @@ const PatientHome = ({navigation}) => {
       .catch(d => {
         console.log('not');
       });
-  }, [count]);
+  }, [p, count, userInfo]);
   return (
     <View>
       <ScrollView>
