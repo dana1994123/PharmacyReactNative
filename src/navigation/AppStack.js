@@ -17,10 +17,11 @@ export default function AuthStack({user}) {
       .then(doc => {
         if (doc.exists) {
           setUserData(userConverter.fromFirestore(user.uid, doc.data()));
+
           setInitializing(false);
         } else {
           // doc.data() will be undefined in this case
-          console.log(userInfo);
+
           console.log('App Stack: No such document!');
         }
       })

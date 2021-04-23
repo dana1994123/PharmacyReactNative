@@ -37,6 +37,7 @@ export default function Home() {
 const HomeScreen = ({navigation}) => {
   const {userInfo} = useContext(UserContext);
   const {logout} = useContext(AuthContext);
+
   return (
     <View style={layout.fullScreen}>
       <View style={header.bk}>

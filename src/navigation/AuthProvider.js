@@ -14,7 +14,6 @@ export const AuthProvider = ({children}) => {
         user,
         setUser,
         login: async (email, password) => {
-          console.log('login IS called');
           try {
             await firebase.auth().signInWithEmailAndPassword(email, password);
           } catch (e) {
