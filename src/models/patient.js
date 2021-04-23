@@ -13,7 +13,7 @@ import {Image} from 'react-native';
 export default class Patient {
   constructor() {
     this.dateOfBirth = new DOB();
-    this.location = 'Oakville, ON';
+    this.location = '';
     this.healthInsurance = '';
     this.pharmacy = new Pharmacy();
     this.user = new User();

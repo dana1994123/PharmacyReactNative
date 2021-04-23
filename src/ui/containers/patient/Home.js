@@ -27,12 +27,35 @@ const Stack = createStackNavigator();
 export default function Home() {
   //create patient context
 
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: R.colors.primary,
+        },
+        headerTintColor: R.colors.white,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          fontSize: 30,
+        },
+      }}>
+      <Stack.Screen name={'PatientHome'} component={PatientHome} />
+      <Stack.Screen name={'Clock'} component={Clock} />
+      <Stack.Screen name={'prescription'} component={AddPrescription} />
+      <Stack.Screen name={'MediTest'} component={MediTest} />
+      <Stack.Screen name={'News'} component={News} />
+      <Stack.Screen name={'Support'} component={Support} />
+      <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
+      <Stack.Screen name={'Profile'} component={Pprofile} />
+      <Stack.Screen name={'Pharmacy'} component={Ppharmacy} />
+    </Stack.Navigator>
+  );
+}
+const PatientHome = ({navigation}) => {
   const p = new Patient();
   const [count, setCount] = useState(0);
   const {userInfo} = useContext(UserContext);
-  p.user = userInfo;
-  p.email = userInfo.email;
-
+  //console.log(userInfo);
   useEffect(() => {
     db.collection('patients')
       .where('user.email', '==', userInfo.email)
@@ -40,6 +63,7 @@ export default function Home() {
       .then(doc => {
         if (doc.empty) {
           console.log('we will add it now');
+          p.user = userInfo;
           db.collection('patients').add(p);
         } else {
           console.log('doc here');
@@ -50,36 +74,6 @@ export default function Home() {
         console.log('not');
       });
   }, [count]);
-  return (
-    <PatientContext.Provider value={p}>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: R.colors.primary,
-          },
-          headerTintColor: R.colors.white,
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            fontSize: 30,
-          },
-        }}>
-        <Stack.Screen name={'PatientHome'} component={PatientHome} />
-        <Stack.Screen name={'Clock'} component={Clock} />
-        <Stack.Screen name={'prescription'} component={AddPrescription} />
-        <Stack.Screen name={'MediTest'} component={MediTest} />
-        <Stack.Screen name={'News'} component={News} />
-        <Stack.Screen name={'Support'} component={Support} />
-        <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
-        <Stack.Screen name={'Profile'} component={Pprofile} />
-        <Stack.Screen name={'Pharmacy'} component={Ppharmacy} />
-      </Stack.Navigator>
-    </PatientContext.Provider>
-  );
-}
-const PatientHome = ({navigation}) => {
-  const {userInfo} = useContext(UserContext);
-  //const pat = useContext(PatientContext);
-  //console.log(userInfo)
   return (
     <View>
       <ScrollView>
@@ -102,7 +96,7 @@ const PatientHome = ({navigation}) => {
         </View>
         <View style={styles.boxCon}>
           <View style={styles.txtCon}>
-            <Text style={styles.h3}>{'Hello ' + userInfo.fullName + '!'} </Text>
+            <Text style={styles.h3}>{'Hello ' + userInfo.email + '!'} </Text>
           </View>
           {/* DrugReminder obj that will be render from the db */}
           <View style={styles.col}>
