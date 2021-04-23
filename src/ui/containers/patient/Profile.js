@@ -28,28 +28,28 @@ import {db} from '../../../database/config';
 const Stack = createStackNavigator();
 
 export default function Pprofile() {
-  const {userInfo} = useContext(UserContext);
-  const [pat, setPat] = useState(new Patient());
-  const [count, setCount] = useState();
+  // const {userInfo} = useContext(UserContext);
+  // const [pat, setPat] = useState(new Patient());
+  // const [count, setCount] = useState();
 
-  //get it from the firebase
-  useEffect(() => {
-    db.collection('patients')
-      .where('user.email', '==', userInfo.email)
-      .get()
-      .then(doc => {
-        if (doc.empty) {
-          console.log('we will add it now');
-          db.collection('patients').add(pat);
-        } else {
-          setPat(doc.data());
-          console.log('doc here');
-        }
-      })
-      .catch(d => {
-        console.log('not');
-      });
-  }, [pat, userInfo.email, count]);
+  // //get it from the firebase
+  // useEffect(() => {
+  //   db.collection('patients')
+  //     .where('user.email', '==', userInfo.email)
+  //     .get()
+  //     .then(doc => {
+  //       if (doc.empty) {
+  //         console.log('we will add it now');
+  //         db.collection('patients').add(pat);
+  //       } else {
+  //         setPat(doc.data());
+  //         console.log('doc here');
+  //       }
+  //     })
+  //     .catch(d => {
+  //       console.log('not');
+  //     });
+  // }, [pat, userInfo.email, count]);
 
   return (
     <Stack.Navigator
@@ -75,28 +75,7 @@ export default function Pprofile() {
 }
 const Profile = ({navigation}) => {
   //get the patient information from the database and render it here
-  const [p, setP] = useState(new Patient());
-  const [count, setCount] = useState(0);
   const {userInfo} = useContext(UserContext);
-  p.user = userInfo;
-
-  useEffect(() => {
-    db.collection('patients')
-      .where('user.email', '==', userInfo.email)
-      .get()
-      .then(doc => {
-        if (doc.empty) {
-          console.log('we will add it now');
-          db.collection('patients').add(p);
-        } else {
-          console.log('doc here');
-          setP(doc.data());
-        }
-      })
-      .catch(d => {
-        console.log('not');
-      });
-  }, [p, userInfo.email, count]);
   const {logout} = useContext(AuthContext);
   const updateProfile = () => {
     //navigate to update profile page
@@ -121,6 +100,7 @@ const Profile = ({navigation}) => {
             onPress={() => updateProfile()}
           />
           <Text style={styles.userName}>{userInfo.fullName}</Text>
+          <Text style={styles.note}>{userInfo.email}</Text>
         </View>
 
         <View style={styles.body}>
@@ -144,27 +124,7 @@ const Profile = ({navigation}) => {
               />
               <Text style={styles.optionTxt}>My {'\n'}Pharmacy </Text>
             </TouchableOpacity>
-            {/* update profile */}
-            <TouchableOpacity
-              onPress={() => navigation.navigate('FamilyDr')}
-              style={styles.buttonContainer}>
-              <Image
-                style={styles.optionImg}
-                source={require('../../../../assets/images/dr.jpg')}
-              />
-              <Text style={styles.optionTxt}>Family {'\n'}Doctor</Text>
-            </TouchableOpacity>
 
-            {/* health insurance */}
-            <TouchableOpacity
-              onPress={() => navigation.navigate('HealthInsurance')}
-              style={styles.buttonContainer}>
-              <Image
-                style={styles.optionImg}
-                source={require('../../../../assets/images/health.png')}
-              />
-              <Text style={styles.optionTxt}>Health {'\n'}Insurance</Text>
-            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => logout()}
               style={styles.buttonContainer}>
@@ -215,14 +175,14 @@ const styles = StyleSheet.create({
   },
   avatar: {
     width: 100,
-    height: 80,
+    height: 97,
     borderRadius: 70,
     borderWidth: 4,
     borderColor: R.colors.orange,
     alignSelf: 'flex-start',
     position: 'absolute',
     marginTop: '12%',
-    marginLeft: '5%',
+    marginLeft: '17%',
   },
 
   buttonContainer: {
@@ -235,13 +195,13 @@ const styles = StyleSheet.create({
     marginRight: '5%',
     marginBottom: '5%',
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    marginTop: '15%',
   },
   userName: {
-    marginLeft: '20%',
     fontSize: 25,
     fontWeight: '600',
     color: R.colors.black,
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
   },
   city: {
     marginTop: '7%',
@@ -265,5 +225,11 @@ const styles = StyleSheet.create({
   },
   col1: {
     width: '50%',
+  },
+  note: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: R.colors.black,
+    alignSelf: 'center',
   },
 });
