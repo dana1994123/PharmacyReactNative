@@ -21,7 +21,7 @@ export default function RenderdrugReminder() {
   const [drugName, setDrugName] = useState('');
   const [drugDisc, setDrugDisc] = useState('');
   const [startH, setstartH] = useState(moment().format('LT'));
-  const [startM, setstartM] = useState('');
+  const [eError, seteError] = useState("");
   const [repeat, setRepeat] = useState(false);
   const [alarm, setAlarm] = useState(new DrugReminderObj());
   const [mode, setMode] = useState('CREATE');
@@ -55,14 +55,27 @@ export default function RenderdrugReminder() {
     setmodalVisible(!modalVisible);
   };
 
-
   function update(updates) {
     const a = Object.assign({}, alarm);
     for (let u of updates) {
+      console.log(u);
       a[u[0]] = u[1];
     }
     setAlarm(a);
   }
+
+  const setToggle = () => {
+    setRepeat(!repeat);
+  };
+
+  const validationReminder = () => {
+    //check the drug name
+    if (alarm.drugName === '') {
+      seteError("Please insert reminder title")
+    }
+    //check the drug Description
+    //then call the save method
+  };
 
   async function onSave() {
     console.log(alarm.hour);
@@ -101,7 +114,7 @@ export default function RenderdrugReminder() {
             onPress={() => addReminder()}
           />
         </View>
-        <View style={layout.centered }>
+        <View style={layout.centered}>
           {listReminder.length != 0 ? (
             //send the list of reminder and render it
             <Reminder reminders={listReminder} />
@@ -140,12 +153,15 @@ export default function RenderdrugReminder() {
                 onChangeText={v => update([['description', v]])}
                 value={alarm.description}
               />
+
               <SwitcherInput
+                trackColor={{false: R.colors.Grey, true: R.colors.secondary}}
+                thumbColor={repeat ? R.colors.white : R.colors.lightGrey}
                 description={'Repeat'}
-                value={'5'}
-                onChange={v => update([['repeat', v]])}
+                value={repeat}
+                onChange={() => setToggle()}
               />
-              {alarm.repeat && (
+              {repeat && (
                 //show it if we only change the repeat status
                 <DayPicker
                   onChange={v => update([['days', v]])}
@@ -200,9 +216,9 @@ const styles = StyleSheet.create({
   },
   modalView: {
     flex: 1,
-    margin: 10,
-    marginTop: 95,
-    marginBottom: 10,
+    margin: '3%',
+    marginTop: '10%',
+    marginBottom: '10%',
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
@@ -215,7 +231,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 4,
   },
   txtHeader: {
     marginTop: '10%',
