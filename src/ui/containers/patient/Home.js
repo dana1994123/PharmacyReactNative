@@ -50,11 +50,13 @@ const PatientHome = ({navigation}) => {
         <View style={styles.header}>
           <View style={styles.wheader}>
             <View style={styles.row}>
-              <View>
+              <View style={styles.col}>
                 <Text style={styles.txtHeader}>
                   {' '}
-                  How {'\n'} are you {'\n'} feeling {'\n'} today?
+                  {'Hello ' + userInfo.fullName + '!'}
+                  {'\n '}
                 </Text>
+                <Text style={styles.subText}>How are you feeling today?</Text>
               </View>
 
               <Image
@@ -65,17 +67,13 @@ const PatientHome = ({navigation}) => {
           </View>
         </View>
         <View style={styles.boxCon}>
-          <View style={styles.txtCon}>
-            <Text style={styles.h3}>{'Hello ' + userInfo.fullName + '!'} </Text>
-          </View>
-          {/* DrugReminder obj that will be render from the db */}
           <View style={styles.col}>
             <TouchableOpacity
               onPress={() => navigation.navigate('Clock')}
               style={styles.box2}>
               <View style={styles.row}>
                 <View>
-                  <Text style={styles.h2}> Drug Reminder</Text>
+                  <Text style={styles.h2}>Drug Reminder</Text>
                   <Text style={styles.h5}>
                     {' '}
                     Be in control of your meds{'\n'}
@@ -95,7 +93,7 @@ const PatientHome = ({navigation}) => {
               onPress={() => navigation.navigate('prescription')}
               style={styles.box}>
               <View style={styles.row}>
-                <Text style={styles.h6}>Request{'\n'} Prescription</Text>
+                <Text style={styles.h6}>Request{'\n'}Prescription</Text>
                 <IconButton
                   icon="plus"
                   style={styles.optionImg}
@@ -139,14 +137,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   txtHeader: {
-    marginLeft: '15%',
     marginTop: '10%',
-    fontSize: 32,
-    alignSelf: 'flex-start',
+    fontSize: 28,
+    alignSelf: 'center',
     color: R.colors.orange,
   },
   row: {
     flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+  col: {
+    flex: 0.6,
+    flexDirection: 'column',
     justifyContent: 'space-evenly',
   },
   wheader: {
@@ -160,6 +162,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   phamImg: {
+    flex: 1,
     height: 248,
     width: 300,
     alignSelf: 'flex-end',
@@ -182,7 +185,7 @@ const styles = StyleSheet.create({
   },
   box: {
     alignSelf: 'center',
-    height: '27%',
+    height: '30%',
     width: '95%',
     backgroundColor: R.colors.lightGrey,
     borderRadius: 20,
@@ -199,7 +202,7 @@ const styles = StyleSheet.create({
   },
   box2: {
     alignSelf: 'center',
-    height: '27%',
+    height: '30%',
     width: '95%',
     backgroundColor: R.colors.lightSec,
     borderRadius: 20,
@@ -245,5 +248,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     height: '20%',
     width: '80%',
+  },
+  subText: {
+    fontSize: 20,
+    alignSelf: 'center',
+    color: R.colors.orange,
+    textAlign: 'center',
+    marginTop: '-60%',
   },
 });

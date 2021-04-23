@@ -12,7 +12,7 @@ export const userConverter = {
   },
   fromFirestore: function (uid, user): User {
     return new User(
-      user.fullname,
+      user.fullName,
       user.email,
       user.role,
       user.phoneNumber,
