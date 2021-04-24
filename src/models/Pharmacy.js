@@ -6,5 +6,6 @@ export default class Pharmacy {
     this.phlocation = '';
     this.phEmail = '';
     this.userEmail = '';
+    this.docID = '';
   }
 }
