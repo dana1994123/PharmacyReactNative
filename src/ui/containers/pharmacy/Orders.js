@@ -1,10 +1,9 @@
-import React, {useState, useContext, useEffect, useCallback} from 'react';
+import React, {useState, useContext, useCallback} from 'react';
 import {View, Text, Modal, StyleSheet, Image} from 'react-native';
-import {layout, button, textstyle, header} from '../../../res/styles/global';
+import {layout, button, textstyle} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import {db} from '../../../database/config';
-import {userConverter} from '../../../utilites/firestoreConverters';
 import {UserContext} from '../../../utilites/providers/UserProvider';
 import {ScrollView} from 'react-native-gesture-handler';
 
@@ -62,14 +61,14 @@ export default function Orders() {
     outputOrders.push(
       <View style={layout.row} key={index}>
         <View style={layout.centered}>
-          <Text>{'Name: ' + item.id}</Text>
+          <Text style={styles.rowtext}>{'ID: ' + item.id}</Text>
         </View>
 
         <AppButton
           title={'Show Order'}
           onPress={() => showOrder(item)}
-          buttonStyle={button.Wrap}
-          textStyle={button.Text}
+          buttonStyle={styles.Wrap}
+          textStyle={styles.BText}
         />
       </View>,
     );
@@ -77,11 +76,16 @@ export default function Orders() {
 
   return (
     <View style={layout.fullScreen}>
-      <View style={layout.centeredFullScreen}>
-        <View>
+      <View style={layout.fullScreen}>
+        <View style={styles.wide}>
           <View>
+            <AppButton
+              title="Fetch Order"
+              onPress={() => fetchOrders()}
+              buttonStyle={button.Wrap}
+              textStyle={button.Text}
+            />
             <Text style={textstyle.h6}>Orders:</Text>
-            <AppButton title="Fetch Order" onPress={() => fetchOrders()} />
             <ScrollView>{outputOrders}</ScrollView>
           </View>
         </View>
@@ -101,7 +105,10 @@ export default function Orders() {
                 <Text style={styles.Text}>ID:</Text>
                 <Text style={styles.Text}>{item.id}</Text>
               </View>
-              <Image style={styles.avatar} source={{uri: item.order.fileUri}} />
+              <Image
+                style={styles.avatar}
+                source={{uri: item.order.filePath}}
+              />
             </View>
             <AppButton
               title="Mark Complete"
@@ -237,5 +244,34 @@ const styles = StyleSheet.create({
     borderColor: R.colors.white,
     alignSelf: 'center',
     marginTop: '5%',
+  },
+  Wrap: {
+    backgroundColor: R.colors.primary,
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 20,
+    height: 48,
+    elevation: 8,
+    width: '25%',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  BText: {
+    fontSize: 10,
+    color: R.colors.white,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
+  },
+  rowtext: {
+    fontSize: 15,
+    width: 200,
+  },
+  wide: {
+    flex: 1,
+    alignItems: 'center',
+    width: '100%',
   },
 });

@@ -10,6 +10,7 @@ import {UserContext} from '../../../utilites/providers/UserProvider';
 import PromoteUser from './PromoteUser';
 import Orders from './Orders';
 import {AuthContext} from '../../../navigation/AuthProvider';
+import AddCustomer from './AddCustomer';
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,7 @@ export default function Home() {
       <Stack.Screen name={'Settings'} component={Settings} />
       <Stack.Screen name={'PromoteUser'} component={PromoteUser} />
       <Stack.Screen name={'Orders'} component={Orders} />
+      <Stack.Screen name={'AddCustomer'} component={AddCustomer} />
     </Stack.Navigator>
   );
 }
@@ -61,7 +63,7 @@ const HomeScreen = ({navigation}) => {
             title="Fill Order"
             buttonStyle={styles.buttonContainer}
             textStyle={styles.optionTxt}
-            onPress={() => navigation.navigate('EnterOrder')}
+            onPress={() => navigation.navigate('FillOrder')}
           />
           <AppButton
             title="Add Patient"

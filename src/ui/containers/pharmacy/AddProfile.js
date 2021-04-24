@@ -24,6 +24,7 @@ export default function AddProfile() {
   const [phErr, setPhErr] = useState('');
   const [compError, setCompError] = useState('');
   const [locationError, setLocationError] = useState('');
+  const [picUri1, setPicUri1] = useState(defaultProfileUri);
 
   const [errorFlag, setErrorFlag] = useState('');
 
@@ -68,6 +69,7 @@ export default function AddProfile() {
     validatePhone();
     validateCompany();
     validateLocation();
+    const picURI = picUri1;
     if (errorFlag !== true) {
       db.collection('users')
         .doc(userInfo.uid)
@@ -75,6 +77,7 @@ export default function AddProfile() {
           phoneNumber,
           company,
           location,
+          picURI,
         })
         .then(
           setUserData(
@@ -95,15 +98,14 @@ export default function AddProfile() {
     }
   };
 
-  const addGoalHandler = goalTitle => {
-    // code for updating state
-    console.log(goalTitle);
+  const addFileHandler = URI => {
+    setPicUri1(URI);
   };
 
   return (
     <View style={layout.fullScreen}>
       <View style={header.bk}>
-        <Camera id="profile" picUri={picUri} onAddGoal={addGoalHandler} />
+        <Camera id="profile" picUri={picUri} onAddFile={addFileHandler} />
       </View>
       <View style={styles.box}>
         <TextInput
