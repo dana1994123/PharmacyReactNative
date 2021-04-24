@@ -3,7 +3,7 @@ import {StyleSheet, TextInput, View, Text} from 'react-native';
 import {form, layout, button, textstyle} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
-import {firebase} from '../../../database/config';
+import {db} from '../../../database/config';
 import Customer from '../../../models/Customer';
 
 export default function PatientSearch({navigation}) {
@@ -20,16 +20,11 @@ export default function PatientSearch({navigation}) {
   const search = () => {
     setIsFound(false);
     setNotFound(true);
-    console.log('Search is Called');
-    firebase
-      .firestore()
-      .collection('Customers')
+    db.collection('Customers')
       .where('healthCard', '==', healthCard)
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, ' => ', doc.data());
           const data = doc.data();
           setIsFound(true);
           setNotFound(false);
@@ -39,15 +34,12 @@ export default function PatientSearch({navigation}) {
             date: data.date,
             uid: doc.id,
           });
-          console.log('Data' + data.custName);
-          console.log('CUST' + cust.name);
         });
       })
       .catch(error => {
         console.log('Error getting documents: ', error);
       });
-    //call the database
-    //setIsFound(true);
+
     if (isFound !== true) {
       setNotFound(true);
       setIsFound(false);
@@ -142,7 +134,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   box1: {
-    //backgroundColor: R.colors.blue,
     height: '80%',
     margin: 30,
   },

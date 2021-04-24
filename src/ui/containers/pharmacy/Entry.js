@@ -1,11 +1,10 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import Home from './Home';
 import R from '../../../res/R';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import FillOrderFlow from './FillOrderFlow';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AddProfile from './AddProfile';
-import {UserContext} from '../../../utilites/providers/UserProvider';
 
 const Tab = createMaterialBottomTabNavigator();
 
