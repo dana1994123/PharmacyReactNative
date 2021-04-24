@@ -61,7 +61,6 @@ export default function Pprofile() {
       <Stack.Screen name={'Drug Reminder'} component={Clock} />
       <Stack.Screen name={'prescription'} component={AddPrescription} />
       <Stack.Screen name={'Pharmacy'} component={Ppharmacy} />
-      <Stack.Screen name={'PreHistory'} component={PreHistory} />
       <Stack.Screen name={'UpdateProfile'} component={UpdateProfile} />
       <Stack.Screen name={'Ppharmacy'} component={Ppharmacy} />
     </Stack.Navigator>
