@@ -1,5 +1,5 @@
-# PharmacyReactNative
+# PharmacyReactNative   
 
-#To sign into Pharmacy:
-Email: john@gmail.com
+To sign into Pharmacy:  
+Email: john@gmail.com. 
 Password: 1234@test
