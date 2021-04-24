@@ -1,6 +1,6 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext, useEffect, useCallback} from 'react';
 import {View, Text, Modal, StyleSheet, Image} from 'react-native';
-import {layout, button, textstyle} from '../../../res/styles/global';
+import {layout, button, textstyle, header} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import {db} from '../../../database/config';
@@ -14,50 +14,47 @@ export default function Orders() {
   const {userInfo} = useContext(UserContext);
 
   const [fileUri, setFileUri] = useState('');
+  const [insUri, setInsUri] = useState('');
 
-  const fetchOrders = () => {
+  const fetchOrders = useCallback(() => {
     setOrders([]);
-    db.collection('orders')
-      .where('phoneNumber', '==', userInfo.phoneNumber)
+    db.collection('OrderRequests')
+      .where('phone', '==', userInfo.phoneNumber)
       .get()
       .then(querySnapshot => {
+        let data = [];
         querySnapshot.forEach(doc => {
           // doc.data() is never undefined for query doc snapshots
           console.log(doc.id, ' => ', doc.data());
-          const data = userConverter.fromFirestore(doc.id, doc.data());
-          setOrders([
-            ...orders,
-            {
-              index: orders.length,
-              id: doc.id,
-              order: data,
-            },
-          ]);
+          //const data = userConverter.fromFirestore(doc.id, doc.data());
+          const obj = {index: orders.length, id: doc.id, order: doc.data()};
+          data = [...data, obj];
         });
+        setOrders(data);
+        console.log(data);
       })
       .catch(error => {
         console.log('Error getting documents: ', error);
       });
-  };
+    console.log(orders);
+  }, [orders, userInfo.phoneNumber]);
 
   const deleteOrder = () => {
     //delete an Order here
   };
 
-  useEffect(() => {
-    // fetchOrders();
-  });
-
-  const showOrder = () => {};
+  const showOrder = item => {
+    setFileUri(item.order.filePath);
+    setInsUri(item.order.healthInsNum);
+    setModalVisible(true);
+  };
 
   let outputOrders = [];
   orders.forEach((item, index) => {
     outputOrders.push(
       <View style={layout.row} key={index}>
         <View style={layout.centered}>
-          <Text>
-            {'Name: ' + item.user.fullName + ' ' + 'Email: ' + item.user.email}
-          </Text>
+          <Text>{'Name: ' + item.order.healthInsNum}</Text>
         </View>
 
         <AppButton
@@ -69,12 +66,14 @@ export default function Orders() {
       </View>,
     );
   });
+
   return (
     <View style={layout.fullScreen}>
       <View style={layout.centeredFullScreen}>
         <View>
           <View>
             <Text style={textstyle.h6}>Orders:</Text>
+            <AppButton title="Fetch Order" onPress={() => fetchOrders()} />
             <ScrollView>{outputOrders}</ScrollView>
           </View>
         </View>
@@ -84,28 +83,23 @@ export default function Orders() {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          () => setModalVisible();
+          () => setModalVisible(false);
         }}>
         <View style={styles.modalViewSM}>
           <View style={styles.modalCenter}>
-            <Text style={styles.okText}>Submitted</Text>
-            <View style={styles.row_modal}>
-              <Text style={styles.Text}>Medicine:</Text>
-              {/* <Text style={styles.Text}>{medName}</Text> */}
-              <Image source={{uri: fileUri}} style={styles.image} />
+            <View>
+              <Text style={styles.okText}>Submitted</Text>
+              <View style={styles.row_modal}>
+                <Text style={styles.Text}>Medicine:</Text>
+                <Text style={styles.Text}>{insUri}</Text>
+              </View>
+              <Image style={styles.avatar} source={{uri: fileUri}} />
             </View>
-            )}
             <AppButton
               title="Ok"
               buttonStyle={button.Wrap}
               textStyle={button.Text}
               onPress={() => setModalVisible(false)}
-            />
-            <AppButton
-              title="Delete"
-              buttonStyle={button.Wrap}
-              textStyle={button.Text}
-              onPress={() => deleteOrder()}
             />
           </View>
         </View>
@@ -162,4 +156,72 @@ const styles = StyleSheet.create({
     margin: 30,
   },
   image: {},
+  row_modal: {
+    width: 200,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    margin: 5,
+  },
+  modalView: {
+    flex: 1,
+    // margin: 30,
+    marginTop: 100,
+    marginBottom: 100,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalViewSM: {
+    flex: 1,
+    backgroundColor: '#66555533',
+
+    padding: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  Text: {
+    color: '#999999',
+    fontSize: 15,
+    marginTop: 15,
+  },
+  okText: {
+    fontSize: 40,
+    color: R.colors.primary,
+  },
+  modalCenter: {
+    marginLeft: 10,
+    marginRight: 10,
+    padding: 50,
+    backgroundColor: R.colors.white,
+    elevation: 8,
+    borderRadius: 10,
+    width: '110%',
+  },
+  avatar: {
+    width: 300,
+    height: 300,
+    borderWidth: 4,
+    borderColor: R.colors.white,
+    alignSelf: 'center',
+    marginTop: '5%',
+  },
 });

@@ -82,7 +82,7 @@ export default function EditProfile() {
   const addFileHandler = URI => {
     setPicUri1(URI);
   };
-  console.log(userInfo.profileURI);
+
   return (
     <View style={layout.fullScreen}>
       <View style={header.bk}>

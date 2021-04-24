@@ -53,7 +53,7 @@ export default function AddPrescription() {
       .add({
         healthInsNum,
         refill,
-        //file path????,
+        filePath,
       })
       .then(docRef => {
         console.log('Document written with ID: ', docRef.id);
@@ -64,6 +64,10 @@ export default function AddPrescription() {
   };
   const setToggle = () => {
     setRefill(!refill);
+  };
+
+  const addFileHandler = URI => {
+    setFilePath(URI);
   };
 
   return (
@@ -100,6 +104,7 @@ export default function AddPrescription() {
                 picUri={fileUri}
                 camWrap={styles.cont}
                 camIcon={styles.icon}
+                onAddFile={addFileHandler}
               />
             </View>
           </View>
