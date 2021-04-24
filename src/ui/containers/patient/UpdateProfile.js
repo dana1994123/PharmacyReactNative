@@ -17,7 +17,7 @@ export default function UpdateProfile() {
   //generate the user information into the ui using his information that has
   //been saved as a context for the app
   const {userInfo} = useContext(UserContext);
-  const [de, setdefault] = useState('');
+  const [de, setdefault] = useState(userInfo.healthIns);
   const [name, setname] = useState(userInfo.fullName);
   const [userNumber, setuserNumber] = useState(userInfo.phoneNumber);
   const [address, setaddress] = useState(userInfo.location);
@@ -63,31 +63,6 @@ export default function UpdateProfile() {
       .catch(error => {
         console.log('Error getting documents: ', error);
       });
-
-    //updated the user
-    // var picURI = this.context.profileURI;
-    // if (this.state.picUri !== picURI) {
-    //   picURI = this.state.picUri;
-    // }
-
-    // var email;
-    // if (uemail.length > 0) {
-    //   email = this.state.uemail;
-    // }
-    // var location = this.context.location;
-    // if (this.state.address.length > 0) {
-    //   location = this.state.address;
-    // }
-    // var fullName = this.context.fullName;
-    // if (this.state.fullName.length > 0) {
-    //   fullName = this.state.fullName;
-    // }
-    // if (
-    //   this.state.fullName.length > 0 ||
-    //   this.state.address.length > 0 ||
-    //   this.state.uemail.length > 0 ||
-    //   this.state.picUri.length
-    // ) {
   };
 
   const changePassRequest = () => {
@@ -149,14 +124,14 @@ export default function UpdateProfile() {
           value={address}
         />
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.fotor}
           onPress={() => changePassRequest()}>
           <Text style={footer.footerText}>
             {'          '}Change your Password{' '}
             <Text style={(footer.footerLink, styles.colorO)}>Update</Text>
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       <TouchableOpacity onPress={() => saveProfile()} style={styles.btn2}>
