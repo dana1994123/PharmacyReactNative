@@ -17,13 +17,10 @@ export default function UpdateProfile() {
   //generate the user information into the ui using his information that has
   //been saved as a context for the app
   const {userInfo} = useContext(UserContext);
-
   const [de, setdefault] = useState('');
   const [name, setname] = useState(userInfo.fullName);
   const [userNumber, setuserNumber] = useState(userInfo.phoneNumber);
-
   const [address, setaddress] = useState(userInfo.location);
-
   const [picModal, setpicModal] = useState(false);
   const [uemail, setuemail] = useState(userInfo.email);
   const [count, setCount] = useState(0);
@@ -48,6 +45,25 @@ export default function UpdateProfile() {
   };
   const saveProfile = () => {
     console.log('in save profile');
+    userInfo.fullName = name;
+    userInfo.phoneNumber = userNumber;
+    userInfo.location = address;
+    userInfo.healthIns = healthIns;
+    userInfo.picUri = picUri;
+    db.collection('users')
+      .doc(userInfo.uid)
+      .update({
+        email: userInfo.email,
+        fullName: userInfo.fullName,
+        location: userInfo.location,
+        phoneNumber: userInfo.phoneNumber,
+        picUri: userInfo.picUri,
+        role: userInfo.role,
+      })
+      .catch(error => {
+        console.log('Error getting documents: ', error);
+      });
+
     //updated the user
     // var picURI = this.context.profileURI;
     // if (this.state.picUri !== picURI) {
@@ -72,19 +88,6 @@ export default function UpdateProfile() {
     //   this.state.uemail.length > 0 ||
     //   this.state.picUri.length
     // ) {
-    db.collection('users')
-      .doc(userInfo.uid)
-      .update({
-        email: userInfo.email,
-        fullName: userInfo.fullName,
-        location: userInfo.location,
-        phoneNumber: userInfo.phoneNumber,
-        picUri: userInfo.picUri,
-        role: userInfo.role,
-      })
-      .catch(error => {
-        console.log('Error getting documents: ', error);
-      });
   };
 
   const changePassRequest = () => {
@@ -156,15 +159,13 @@ export default function UpdateProfile() {
         </TouchableOpacity>
       </View>
 
-      <AppButton
-        title="Update Profile"
-        buttonStyle={button.Wrap}
-        textStyle={button.Text}
-        onpress={() => saveProfile()}
-      />
+      <TouchableOpacity onPress={() => saveProfile()} style={styles.btn2}>
+        <Text style={styles.btnTxt}>Save</Text>
+      </TouchableOpacity>
+
       <View>
         {/* dialog to update the password */}
-        <Dialog.Container visible={false}>
+        {/* <Dialog.Container visible={false}>
           <Dialog.Title>Change your password</Dialog.Title>
           <Dialog.Input
             style={styles.inputGrey}
@@ -180,7 +181,7 @@ export default function UpdateProfile() {
             secureTextEntry={true}></Dialog.Input>
           <Dialog.Button label="Cancel" onPress={() => handleCancel()} />
           <Dialog.Button label="Save" onPress={() => handleSave()} />
-        </Dialog.Container>
+        </Dialog.Container> */}
       </View>
       {/* navigate to camera modal */}
     </View>
@@ -251,5 +252,18 @@ const styles = StyleSheet.create({
   },
   colorO: {
     color: R.colors.orange,
+  },
+  btn2: {
+    backgroundColor: R.colors.orange,
+    marginTop: '10%',
+    width: '60%',
+    height: '7%',
+    borderRadius: 20,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnTxt: {
+    fontSize: 19,
   },
 });
