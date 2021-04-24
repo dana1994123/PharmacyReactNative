@@ -60,30 +60,30 @@ const PatientHome = ({navigation}) => {
   const [count, setCount] = useState(0);
   const {userInfo} = useContext(UserContext);
   p.email = userInfo.email;
-  useEffect(() => {
-    db.collection('patients')
-      .where('user.email', '==', userInfo.email)
-      .get()
-      .then(doc => {
-        if (doc.empty) {
-          console.log('we will add it now');
-          p.user = userInfo;
-          db.collection('patients')
-            .add(p)
-            .then(doc => {
-              console.log('we will set it to the patient context');
-              setPatientInfo(doc.data());
-            });
-        } else {
-          setPatientData(p);
-          console.log('doc here');
-          setPatientInfo(doc.data());
-        }
-      })
-      .catch(d => {
-        console.log('not');
-      });
-  }, [count]);
+  // useEffect(() => {
+  //   db.collection('patients')
+  //     .where('user.email', '==', userInfo.email)
+  //     .get()
+  //     .then(doc => {
+  //       if (doc.empty) {
+  //         console.log('we will add it now');
+  //         p.user = userInfo;
+  //         db.collection('patients')
+  //           .add(p)
+  //           .then(doc => {
+  //             console.log('we will set it to the patient context');
+  //             setPatientInfo(doc.data());
+  //           });
+  //       } else {
+  //         setPatientData(p);
+  //         console.log('doc here');
+  //         setPatientInfo(doc.data());
+  //       }
+  //     })
+  //     .catch(d => {
+  //       console.log('not');
+  //     });
+  // }, [p, count, userInfo]);
   return (
     <View>
       <ScrollView>

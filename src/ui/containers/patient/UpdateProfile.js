@@ -11,6 +11,7 @@ import Camera from '../common/camera/Camera';
 import {color} from 'react-native-reanimated';
 import {PatientContext} from '../../../utilites/providers/PatientProvider';
 import {UserContext} from '../../../utilites/providers/UserProvider';
+import {db} from '../../../database/config';
 
 export default class UpdateProfile extends Component {
   //generate the user information into the ui using his information that has
@@ -48,20 +49,45 @@ export default class UpdateProfile extends Component {
       //update the password
     };
     const saveProfile = () => {
-      console.log('Saved Profile');
+      console.log('in save profile');
       //updated the user
+      var picURI = this.context.profileURI;
+      if (this.state.picUri !== picURI) {
+        picURI = this.state.picUri;
+      }
+
+      var email = this.context.email;
+      if (this.state.uemail.length > 0) {
+        email = this.state.uemail;
+      }
+      var location = this.context.location;
+      if (this.state.address.length > 0) {
+        location = this.state.address;
+      }
+      var fullName = this.context.fullName;
+      if (this.state.fullName.length > 0) {
+        fullName = this.state.fullName;
+      }
+
+      if (
+        this.state.fullName.length > 0 ||
+        this.state.address.length > 0 ||
+        this.state.uemail.length > 0 ||
+        this.state.picUri.length
+      ) {
+        db.collection('users')
+          .doc(this.context.uid)
+          .update({
+            fullName,
+            email,
+            location,
+            picURI,
+          })
+          .catch(error => {
+            console.log('Error getting documents: ', error);
+          });
+      }
     };
-    // retreiveProfileImage = () => {
-    //   const {imageName} = this.state;
-    //   let imageRef = firebase.storage().ref('/' + imageName);
-    //   imageRef
-    //     .getDownloadURL()
-    //     .then(url => {
-    //       //from url you can fetched the uploaded image easily
-    //       this.setState({profileImageUrl: url});
-    //     })
-    //     .catch(e => console.log('getting downloadURL of image error => ', e));
-    // };
 
     const changePassRequest = () => {
       //open a dialog to change the password in
@@ -69,6 +95,10 @@ export default class UpdateProfile extends Component {
     };
     const handleCancel = () => {
       this.setState({upassword: false});
+    };
+
+    const addFileHandler = URI => {
+      this.setState({picUri: URI});
     };
 
     return (
@@ -79,6 +109,7 @@ export default class UpdateProfile extends Component {
             picUri={this.state.picUri}
             camWrap={cams.cont}
             camIcon={cams.icon}
+            onAddFile={addFileHandler}
           />
         </View>
         <View style={styles.box}>
