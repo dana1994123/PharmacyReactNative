@@ -195,6 +195,7 @@ export const forms = StyleSheet.create({
   boxContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    
   },
   flex7: {
     flex: 7,
@@ -219,7 +220,7 @@ export const forms = StyleSheet.create({
   },
   searchBlock: {
     backgroundColor: 'white',
-    height: 90,
+    height: 200,
   },
   tagsBlock: {
     flex: 6,
@@ -247,7 +248,7 @@ export const forms = StyleSheet.create({
     lineHeight: 20,
   },
   tag: {
-    // backgroundColor: 'transparent',
+    backgroundColor: 'transparent',
     backgroundColor: R.colors.orange,
     borderRadius: 5,
     borderWidth: 1,
