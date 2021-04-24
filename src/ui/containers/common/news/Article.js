@@ -22,11 +22,8 @@ export default function Article({articles, showModal}) {
     setModalVisible(false);
   };
   useEffect(() => {
-    setCurrentA();
     articles.map((a, i) => {
-      if (i === ind) {
-        setCurrentA(a);
-      }
+      if (i === ind) setCurrentA(a);
     });
     console.log('ind');
   }, [ind]);
@@ -34,11 +31,11 @@ export default function Article({articles, showModal}) {
   const currentArticle = index => {
     setModalVisible(!modalVisible);
     setInd(index);
-    articles.map((a, i) => {
-      if (i === ind) {
-        setCurrentA(a);
-      }
-    });
+    // articles.map((a, i) => {
+    //   if (i === ind) {
+    //     setCurrentA(a);
+    //   }
+    // });
   };
 
   articles.map((a, i) => {
@@ -89,9 +86,9 @@ export default function Article({articles, showModal}) {
           style={styles.modalView}
           onRequestClose={() => setModalVisible(!modalVisible)}>
           <View>
-            <Text style={styles.h}>{currentA.title}</Text>
+            <Text style={styles.h}>{currentA ? currentA.title : 'title'}</Text>
             <Card
-              featuredTitle={currentA.title}
+              featuredTitle="xxx"
               featuredTitleStyle={{
                 marginHorizontal: 5,
                 textShadowColor: R.colors.secondary,
@@ -99,14 +96,24 @@ export default function Article({articles, showModal}) {
                 textShadowRadius: 3,
               }}
               style={styles.modalView}>
-              <Image
-                style={styles.bigImg}
-                source={{
-                  uri: currentA.urlToImage,
-                }}
-              />
+              {currentA ? (
+                <Image
+                  style={styles.bigImg}
+                  source={{
+                    uri: currentA.urlToImage,
+                  }}
+                />
+              ) : (
+                <Image
+                  style={styles.bigImg}
+                  source={{
+                    uri: a.urlToImage,
+                  }}
+                />
+              )}
+
               <Text style={{marginBottom: 10}}>
-                {currentA.description || 'Read more...'}
+                {currentA ? currentA.description : 'Read more...'}
               </Text>
               <Divider style={{backgroundColor: R.colors.secondary}} />
               <View
@@ -123,7 +130,7 @@ export default function Article({articles, showModal}) {
 
                     fontSize: 10,
                   }}>
-                  {currentA.source.name.toUpperCase()}
+                  {currentA ? currentA.source.name.toUpperCase() : 'source'}
                 </Text>
               </View>
             </Card>

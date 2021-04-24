@@ -1,5 +1,5 @@
 import React, {Component, useContext, useState} from 'react';
-import {StyleSheet, TextInput, View, Modal,Image, Text} from 'react-native';
+import {StyleSheet, TextInput, View, Modal, Image, Text} from 'react-native';
 import {form, layout, button, header, cams} from '../../../res/styles/global';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';

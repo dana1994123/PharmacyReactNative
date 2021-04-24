@@ -15,6 +15,8 @@ export default class Patient {
     this.location = 'ON, Canada';
     this.healthInsurance = '';
     this.userEmail = '';
+    this.age = '';
+    this.gender = '';
     // this.picUri = Image.resolveAssetSource(defaultProfile).uri;
   }
 }
