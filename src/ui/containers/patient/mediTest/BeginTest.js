@@ -139,7 +139,7 @@ import {Text} from 'react-native';
 
 import React from 'react';
 import {Alert, View, StyleSheet} from 'react-native';
-import ajax, { getDiagnosis } from '../../../../api/sumChecker/request';
+import ajax, {getDiagnosis} from '../../../../api/sumChecker/request';
 
 import filter from '../../../../utilites/filter';
 import deleteFromArray from '../../../../utilites/deleteFromArray';
@@ -156,6 +156,7 @@ export default class BeginTest extends React.Component {
       symptoms: [],
       filteredSymptoms: [],
       selectedSymptoms: [],
+      error: '',
     };
   }
 
@@ -163,31 +164,33 @@ export default class BeginTest extends React.Component {
     // this.onSearchSymptoms('');
     // console.log(`first symdana ${this.state.symptoms}`);
     const sym = await ajax.getSymptoms();
+    this.state.symptoms.map(sym => {
+      console.log(sym.Name);
+      this.setState({
+        filteredSymptoms: this.state.symptoms.concat(sym),
+      });
+    });
     this.setState({
       symptoms: this.state.symptoms.concat(sym),
     });
+
     console.log(`second symdana ${this.state.symptoms.Name}`);
     this.onSearchSymptoms();
   }
 
   onSearchSymptoms(search) {
-    //this.props.dispatch(symptomsFieldChangedAction('search', search));
-    setTimeout(() => {
-      this.state.symptoms.map(sym => {
-        console.log(sym.Name);
-        if (sym.Name.toLowerCase().indexOf(search) !== -1) {
-          this.setState({
-            filteredSymptoms: this.state.symptoms.concat(sym),
-          });
-        }
+    this.state.symptoms.map(sym => {
+      console.log(sym.Name);
+      this.setState({
+        filteredSymptoms: this.state.symptoms.concat(sym),
       });
-    }, 0);
+    });
   }
 
   async getDiagnosis() {
+    console.log(`the selected diagnoises are ${this.state.selectedSymptoms}`);
     const diagnosis = await getDiagnosis(this.state.selectedSymptoms);
-
-    // console.log(diagnosis);
+    console.log(`the selected diagnoises are ${diagnosis}`);
     Alert.alert(
       'Possible diagnosis',
       diagnosis.reduce((sum, cur) => {
@@ -198,18 +201,20 @@ export default class BeginTest extends React.Component {
 
   selectSymptom(symptom) {
     let selected = this.state.selectedSymptoms;
-
-    this.setState({
-      selectedSymptoms:
-        selected.length < 6 && selected.indexOf(symptom) === -1
-          ? selected.concat(symptom)
-          : selected,
-    });
+    if (selected.length < 6 && selected.indexOf(symptom) === -1) {
+      this.setState({
+        selectedSymptoms: selected.concat(symptom),
+      });
+    } else {
+      this.setState({
+        selectedSymptoms: selected,
+      });
+      alert('you can choose only 6 different symptom');
+    }
   }
 
   deleteSymptom(symptom) {
     let selected = this.state.selectedSymptoms;
-
     this.setState({
       selectedSymptoms: deleteFromArray(selected, symptom, true),
     });

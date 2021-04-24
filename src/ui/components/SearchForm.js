@@ -28,7 +28,7 @@ export default class SearchForm extends React.Component {
               labelExtractor={symptom => {
                 return symptom.Name;
               }}
-              text={props.search}
+              text="Choose Symptom"
               onChange={props.updateSelectedTags}
               onChangeText={props.onSearch}
             />
@@ -55,6 +55,7 @@ export default class SearchForm extends React.Component {
             </View>
           </View>
           <View style={forms.btnS}>
+            <Text>{props.error}</Text>
             <AppButton
               onPress={props.searchAction}
               title="Get Daignoise"
