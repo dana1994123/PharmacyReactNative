@@ -25,13 +25,14 @@ export default function Ppharmacy() {
   const [phaEmail, setphaEmail] = useState('');
   const [phaNum, setphaNum] = useState('');
   const [count, setCount] = useState(0);
-
   const {userInfo} = useContext(UserContext);
   const [pham, setPham] = useState(new Pharmacy());
   pham.userEmail = userInfo.email;
 
   const updatePharmacy = () => {
     setdisabled(true);
+    setCount(2);
+    console.log(pham.phaName);
     setphamName(pham.phaName);
     setphaLoc(pham.phlocation);
     setphaEmail(pham.phEmails);
@@ -40,42 +41,19 @@ export default function Ppharmacy() {
   savePharmacyInfo = () => {
     setdisabled(false);
     //update the firebase with these information
-
     db.collection('pharmacy')
-      .where('userEmail', '==', userInfo.email)
-      .get()
-      .then(data => {
-        data._data.push({
-          phEmail: phaEmail,
-          phaName: phamName,
-          phlocation: phaLoc,
-          phphoneNumber: phaNum,
-          email: 'jkhkj',
-        });
-        // phEmail = data._data.phaEmail;
-        // (phaName = data._data.phamName),
-        //   (phlocation = data._data.phaLoc),
-        //   (phphoneNumber = data._data.phaNum),
-        //   (email = 'jkhkj');
+      .doc(userInfo.email)
+      .update({
+        docID: pham.docID,
+        phEmail: phaEmail,
+        phaName: phamName,
+        phlocation: phaLoc,
+        phphoneNumber: phaNum,
+        userEmail: userInfo.email,
+      })
+      .catch(() => {
+        console.log('catch it');
       });
-
-    // db.collection('pharmacy')
-
-    //   .where('userEmail', '==', userInfo.email)
-    //   // .then(doc => {
-    //   //   db.collection('pharmacy')
-
-    //   .update({
-    //     phEmail: phaEmail,
-    //     phaName: phamName,
-    //     phlocation: phaLoc,
-    //     phphoneNumber: phaNum,
-    //     email: 'jkhkj',
-    //   })
-
-    //   .catch(error => {
-    //     console.log('Error getting documents: ', error);
-    //   });
 
     alert('Pharmacy information been updated');
   };
@@ -89,20 +67,26 @@ export default function Ppharmacy() {
         if (doc.empty) {
           console.log('user doesnt have pharmacy profile');
           db.collection('pharmacy')
-            .add(pham)
+            .doc(userInfo.email)
+            .set(pham)
             .then(doc => {
+              pham.docID = doc.id;
+              setPham(doc.data());
+              console.log(doc.id);
               console.log('just added');
             })
-            .catch(doc => {
-              console.log("couldn't add a new pham");
+            .catch(() => {
+              console.log('jjk');
             });
         } else {
+          pham.docID = doc.id;
           setPham(doc.data());
           console.log('user has a pharmacy');
         }
       })
-      .catch(doc => {
-        console.log("couldn't be able to add a new pham");
+      .catch(d => {
+        console.log('no pham');
+        console.log(pham.docID);
       });
   }, [count]);
 
