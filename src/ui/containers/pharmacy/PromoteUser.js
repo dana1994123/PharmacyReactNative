@@ -18,8 +18,6 @@ export default function PromoteUser() {
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, ' => ', doc.data());
           const data = userConverter.fromFirestore(doc.data());
           setUsers([
             ...users,
@@ -37,7 +35,6 @@ export default function PromoteUser() {
   };
 
   const Promote = item => {
-    console.log(item);
     db.collection('users').doc(item.id).update({
       role: 'pharmacist',
     });

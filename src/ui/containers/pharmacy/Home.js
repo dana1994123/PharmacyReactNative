@@ -47,7 +47,7 @@ const HomeScreen = ({navigation}) => {
           <Image
             style={header.avatar}
             source={
-              userInfo.profileURI === null
+              userInfo.profileURI === ''
                 ? require('../../../../assets/images/default.png')
                 : {uri: userInfo.profileURI}
             }
