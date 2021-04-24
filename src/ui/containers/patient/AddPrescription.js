@@ -1,5 +1,13 @@
 import React, {useState, useContext} from 'react';
-import {StyleSheet, Text, View, TextInput, Switch, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Switch,
+  Image,
+  Alert,
+} from 'react-native';
 import {AppButton} from '../../components/AppButton';
 import R from '../../../res/R';
 import defaultProfile from '../../../../assets/images/default.png';
@@ -17,8 +25,9 @@ export default function AddPrescription() {
   const [healthInsNumErr, setHealthInsNumErr] = useState('');
   const [fileUri, setFileUri] = useState(defaultProfileUri);
   const [filePath, setFilePath] = useState('');
+  const [pharmPhone, setPharmPhone] = useState('');
   const [errorFlag, setErrorFlag] = useState(defaultProfileUri);
-
+  const [submitted, setSubmitted] = useState('');
   const {userInfo} = useContext(UserContext);
   const prescription = new Prescription();
   prescription.user = userInfo;
@@ -40,27 +49,50 @@ export default function AddPrescription() {
     }
   };
 
+  const getPharmacyPhone = () => {
+    db.collection('OrderRequests')
+      .where('userEmail', '==', userInfo.email)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          const data = doc.data();
+          setPharmPhone(data.phphoneNumber);
+        });
+      })
+      .catch(error => {
+        console.error('Error adding document: ', error);
+      });
+  };
+
   const addPrescription = () => {
     //check if the user has filled the pharmacy information
     //check if the user choose file
     //check the health insuarnce number
     validatehealthInsNum();
-
+    getPharmacyPhone();
     //user ID
     //Pharm Phon
     //PIC URI
-    db.collection('OrderRequests')
-      .add({
-        healthInsNum,
-        refill,
-        filePath,
-      })
-      .then(docRef => {
-        console.log('Document written with ID: ', docRef.id);
-      })
-      .catch(error => {
-        console.error('Error adding document: ', error);
-      });
+    const filled = false;
+    if (!errorFlag) {
+      const phone = pharmPhone;
+      db.collection('OrderRequests')
+        .add({
+          healthInsNum,
+          refill,
+          filePath,
+          phone,
+          filled,
+        })
+        .then(docRef => {
+          setSubmitted(true);
+          setHealthInsNum('');
+          console.log('Document written with ID: ', docRef.id);
+        })
+        .catch(error => {
+          console.error('Error adding document: ', error);
+        });
+    }
   };
   const setToggle = () => {
     setRefill(!refill);
@@ -80,6 +112,7 @@ export default function AddPrescription() {
             selectionColor={R.colors.primary}
             onChangeText={text => setHealthInsNum(text)}
             placeholder="Health Card Number"
+            value={healthInsNum}
           />
           <Text style={textstyle.error2}>{healthInsNumErr}</Text>
           <View style={form.inputGrey}>

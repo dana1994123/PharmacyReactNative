@@ -13,13 +13,14 @@ export default function Orders() {
   const [modalVisible, setModalVisible] = useState('');
   const {userInfo} = useContext(UserContext);
 
-  const [fileUri, setFileUri] = useState('');
-  const [insUri, setInsUri] = useState('');
+  const [item, setItem] = useState({id: 1, order: {fileUri: ''}});
 
   const fetchOrders = useCallback(() => {
+    console.log(userInfo.phoneNumber);
     setOrders([]);
     db.collection('OrderRequests')
       .where('phone', '==', userInfo.phoneNumber)
+      .where('filled', '!=', 'true')
       .get()
       .then(querySnapshot => {
         let data = [];
@@ -39,13 +40,20 @@ export default function Orders() {
     console.log(orders);
   }, [orders, userInfo.phoneNumber]);
 
-  const deleteOrder = () => {
-    //delete an Order here
+  const markComplete = () => {
+    const filled = true;
+    db.collection('OrderRequests')
+      .doc(item.id)
+      .update({
+        filled,
+      })
+      .catch(error => {
+        console.log('Error getting documents: ', error);
+      });
   };
 
   const showOrder = item => {
-    setFileUri(item.order.filePath);
-    setInsUri(item.order.healthInsNum);
+    setItem(item);
     setModalVisible(true);
   };
 
@@ -54,7 +62,7 @@ export default function Orders() {
     outputOrders.push(
       <View style={layout.row} key={index}>
         <View style={layout.centered}>
-          <Text>{'Name: ' + item.order.healthInsNum}</Text>
+          <Text>{'Name: ' + item.id}</Text>
         </View>
 
         <AppButton
@@ -90,11 +98,17 @@ export default function Orders() {
             <View>
               <Text style={styles.okText}>Submitted</Text>
               <View style={styles.row_modal}>
-                <Text style={styles.Text}>Medicine:</Text>
-                <Text style={styles.Text}>{insUri}</Text>
+                <Text style={styles.Text}>ID:</Text>
+                <Text style={styles.Text}>{item.id}</Text>
               </View>
-              <Image style={styles.avatar} source={{uri: fileUri}} />
+              <Image style={styles.avatar} source={{uri: item.order.fileUri}} />
             </View>
+            <AppButton
+              title="Mark Complete"
+              buttonStyle={button.Wrap}
+              textStyle={button.Text}
+              onPress={() => markComplete()}
+            />
             <AppButton
               title="Ok"
               buttonStyle={button.Wrap}
