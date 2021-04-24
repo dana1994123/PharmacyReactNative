@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,21 +8,15 @@ import {
   ImageBackground,
 } from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import Patient from '../../../models/patient';
 import R from '../../../res/R';
 import UpdateProfile from './UpdateProfile';
 import Ppharmacy from './Ppharmacy';
 import AddPrescription from './AddPrescription';
-import FamilyDr from './PresHistory';
-import HealthInsurance from './HealthInsurance';
+
 import {IconButton} from 'react-native-paper';
 import {AuthContext} from '../../../navigation/AuthProvider';
-import {layout} from '../../../res/styles/global';
-import {Pressable} from 'react-native';
-import PreHistory from './PresHistory';
-import {PatientContext} from '../../../utilites/providers/PatientProvider';
+
 import {UserContext} from '../../../utilites/providers/UserProvider';
-import {db} from '../../../database/config';
 import {Clock} from 'react-native-reanimated';
 
 const Stack = createStackNavigator();

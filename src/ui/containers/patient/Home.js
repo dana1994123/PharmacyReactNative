@@ -21,10 +21,7 @@ import UpdateProfile from './UpdateProfile';
 import {db} from '../../../database/config';
 import Pprofile from './Profile';
 import Ppharmacy from './Ppharmacy';
-import {
-  PatientContext,
-  PatientProvider,
-} from '../../../utilites/providers/PatientProvider';
+
 const Stack = createStackNavigator();
 
 export default function Home() {

@@ -1,5 +1,4 @@
 import React, {Component, useContext, useState, useEffect} from 'react';
-import {AppButton} from '../../components/AppButton';
 import {form, layout, button, header, footer} from '../../../res/styles/global';
 import {
   StyleSheet,

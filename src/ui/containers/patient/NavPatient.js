@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Text, View, StyleSheet, Dimensions } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { Text, View} from "react-native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import R from "../../../res/R";
 
