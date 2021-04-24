@@ -13,7 +13,6 @@ import R from '../../../res/R';
 import UpdateProfile from './UpdateProfile';
 import Ppharmacy from './Ppharmacy';
 import AddPrescription from './AddPrescription';
-import Clock from './drug_reminder/Clock';
 import FamilyDr from './PresHistory';
 import HealthInsurance from './HealthInsurance';
 import {IconButton} from 'react-native-paper';
@@ -24,6 +23,7 @@ import PreHistory from './PresHistory';
 import {PatientContext} from '../../../utilites/providers/PatientProvider';
 import {UserContext} from '../../../utilites/providers/UserProvider';
 import {db} from '../../../database/config';
+import {Clock} from 'react-native-reanimated';
 
 const Stack = createStackNavigator();
 
@@ -112,7 +112,7 @@ const Profile = ({navigation}) => {
                 style={styles.optionImg}
                 source={require('../../../../assets/images/61122.png')}
               />
-              <Text style={styles.optionTxt}>Prescription {'\n'}History</Text>
+              <Text style={styles.optionTxt}>Request{'\n'}Prescription </Text>
             </TouchableOpacity>
             {/* pharmacy */}
             <TouchableOpacity
