@@ -18,24 +18,6 @@ This app is primary designed for pharmacists.  It is designed as a tool enable t
 - Elegant coloring & Design 
 - Eye Catching App 
 
-<h2>Users</h2>
-Our app aim to help patient & the pharmasist: 
-<br>
-<h4>Patient</h4>
-- Are you worried about your health? 
-- Don't have time to go to the doctor?
-- Forget taking you medication? 
-- Tired of the fake news out there?
-- What about waiting in line to get your prescription?
-<h4>Phancy got you covered No Pain after today</h4>
-<br>
-<h4>Pharmacy</h4>
-- Quickly search the database for a customer
-- Fill an order and submit to the central database in moments
-- Instantly see orders coming in from customers 
-- Add a customer to quickly recall later
-
-
 <h2>Technology </h2>
 
 - Cross Platform App: React Native
