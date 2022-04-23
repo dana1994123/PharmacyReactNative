@@ -1,5 +1,6 @@
 <h1>Phancy</h1>
 pharmacy in your pocket
+<img width="468" alt="Screen Shot 2022-04-23 at 6 00 26 AM" src="https://user-images.githubusercontent.com/68449449/164889833-12843228-8b26-4ba5-833b-6036e90ca237.png">
 
 
 <h2>About</h2>
