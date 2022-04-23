@@ -36,6 +36,7 @@ This app is primary designed for pharmacists.  It is designed as a tool enable t
  Phancy was built iteratively focusing on the primary goals first.  Both sides of the app were built at the same time allowing for tight integration of the features. Phancy leverages the power of Firebase as a scalable back end for the for the iOS and Android applications built using React Native.  The project was developed remotely with tools such as GitHub for version control, Notion for planning, as well as Visual Studio Code, Android Studio, and XCode for development.  
 
 
+<h2>Login Information</h2>
 To sign into Pharmacy:  
 Email: john@gmail.com   
 Password: 1234@test
