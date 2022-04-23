@@ -27,7 +27,7 @@ Our app aim to help patient & the pharmasist:
 - Forget taking you medication? 
 - Tired of the fake news out there?
 - What about waiting in line to get your prescription?
-<h2>Phancy got you covered No Pain after today</h2>
+<h4>Phancy got you covered No Pain after today</h4>
 <br>
 <h4>Pharmacy</h4>
 - Quickly search the database for a customer
